@@ -1,0 +1,32 @@
+{
+  "source": "https://research.nvidia.com/labs/toronto-ai/AlignYourSteps/howto.html",
+  "note": "Published schedule values; no solver adaptation applied.",
+  "sdxl": {
+    "noise_levels": [
+      14.615,
+      6.315,
+      3.771,
+      2.181,
+      1.342,
+      0.862,
+      0.555,
+      0.38,
+      0.234,
+      0.113,
+      0.029
+    ],
+    "timestep_indices": [
+      999,
+      845,
+      730,
+      587,
+      443,
+      310,
+      193,
+      116,
+      53,
+      13,
+      0
+    ]
+  }
+}

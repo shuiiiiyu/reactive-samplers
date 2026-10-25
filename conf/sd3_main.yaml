@@ -1,0 +1,29 @@
+# Required experiment settings are intentionally unresolved until the environment is chosen.
+mode: ???                         # default | explore | evaluate
+model_path: models/sd3-medium  # downloaded local Diffusers checkpoint
+device: ???
+dtype: ???
+height: ???
+width: ???
+guidance_scale: ???
+max_sequence_length: ???
+reference_steps: ???
+max_nfe: ???
+prompts: ???                      # JSONL: {id, prompt, seed, source}
+expected_count: ???               # initial plan: 10 explore / 40 evaluate
+output_dir: ???                   # fresh directory; never silently resume/overwrite
+policy: null                      # required frozen directory in evaluate mode
+agent:
+  backend: command
+  command: []                     # trusted bridge argv; {request}, {workspace} placeholders
+  schedule: every_step            # every_step | checkpoints
+  checkpoints: []                 # zero-based executed-step indices
+metrics:
+  names: []                       # explicitly enable hps_v2_1 and/or clip_score for quality experiments
+  clip_model: null
+hydra:
+  job:
+    chdir: false
+  output_subdir: null
+  run:
+    dir: .

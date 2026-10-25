@@ -1,0 +1,21 @@
+[submodule "tpdm"]
+	path = baselines/tpdm/source
+	url = https://github.com/maple-research-lab/TPDM.git
+[submodule "hpsv2"]
+	path = benchmarks/hps/source
+	url = https://github.com/tgxs002/HPSv2.git
+[submodule "geneval"]
+	path = benchmarks/geneval/source
+	url = https://github.com/djghosh13/geneval.git
+[submodule "mmdetection"]
+	path = benchmarks/geneval/dependencies/mmdetection
+	url = https://github.com/open-mmlab/mmdetection.git
+[submodule "clip"]
+	path = metrics/clip/source
+	url = https://github.com/openai/CLIP.git
+[submodule "clipscore"]
+	path = metrics/clipscore/source
+	url = https://github.com/jmhessel/clipscore.git
+[submodule "pytorch-fid"]
+	path = metrics/fid/source
+	url = https://github.com/mseitzer/pytorch-fid.git
