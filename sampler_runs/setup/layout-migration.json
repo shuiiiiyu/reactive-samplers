@@ -1,0 +1,123 @@
+{
+  "moves": [
+    {
+      "old": "artifacts/models/sd3-medium",
+      "new": "models/sd3-medium"
+    },
+    {
+      "old": "artifacts/models/sdxl-base-1.0",
+      "new": "models/sdxl-base-1.0"
+    },
+    {
+      "old": "artifacts/models/download-status.json",
+      "new": "models/download-status.json"
+    },
+    {
+      "old": "preliminary_code/TPDM",
+      "new": "baselines/tpdm/source"
+    },
+    {
+      "old": "artifacts/models/tpdm",
+      "new": "baselines/tpdm/checkpoints"
+    },
+    {
+      "old": "preliminary_code/AYS",
+      "new": "baselines/ays"
+    },
+    {
+      "old": "preliminary_code/OYS",
+      "new": "baselines/oys"
+    },
+    {
+      "old": "preliminary_code/HPSv2",
+      "new": "benchmarks/hps/source"
+    },
+    {
+      "old": "artifacts/datasets/hpdv2",
+      "new": "benchmarks/hps/data"
+    },
+    {
+      "old": "artifacts/datasets/hpdv2_training",
+      "new": "benchmarks/hps/training_data"
+    },
+    {
+      "old": "artifacts/models/hpsv2",
+      "new": "benchmarks/hps/checkpoints/hpsv2"
+    },
+    {
+      "old": "artifacts/models/hps_clip_base",
+      "new": "benchmarks/hps/checkpoints/base_clip"
+    },
+    {
+      "old": "artifacts/datasets/coco2017",
+      "new": "benchmarks/coco/data"
+    },
+    {
+      "old": "preliminary_code/GenEval",
+      "new": "benchmarks/geneval/source"
+    },
+    {
+      "old": "preliminary_code/mmdetection",
+      "new": "benchmarks/geneval/dependencies/mmdetection"
+    },
+    {
+      "old": "artifacts/models/geneval",
+      "new": "benchmarks/geneval/checkpoints"
+    },
+    {
+      "old": "preliminary_code/CLIP",
+      "new": "metrics/clip/source"
+    },
+    {
+      "old": "artifacts/models/clip",
+      "new": "metrics/clip/checkpoints"
+    },
+    {
+      "old": "preliminary_code/CLIPScore",
+      "new": "metrics/clipscore/source"
+    },
+    {
+      "old": "preliminary_code/pytorch-fid",
+      "new": "metrics/fid/source"
+    },
+    {
+      "old": "artifacts/models/fid",
+      "new": "metrics/fid/checkpoints"
+    },
+    {
+      "old": "artifacts/smoke_generation",
+      "new": "sampler_runs/smoke_generation"
+    },
+    {
+      "old": "artifacts/smoke_generation_sd3",
+      "new": "sampler_runs/smoke_generation_sd3"
+    },
+    {
+      "old": "artifacts/logs",
+      "new": "sampler_runs/setup/logs"
+    },
+    {
+      "old": "artifacts/research-assets.json",
+      "new": "sampler_runs/setup/research-assets.json"
+    },
+    {
+      "old": "reactive_samplers/defaults/analysis.py",
+      "new": "reactive_samplers/prompts/analysis.py"
+    },
+    {
+      "old": "reactive_samplers/defaults/updater.py",
+      "new": "reactive_samplers/prompts/updater.py"
+    },
+    {
+      "old": "SCALE_UP.md",
+      "new": "sampler_runs/setup/legacy/SCALE_UP.md"
+    },
+    {
+      "old": "preliminary_latex",
+      "new": "sampler_runs/setup/legacy/preliminary_latex"
+    }
+  ],
+  "complete": true,
+  "source_backup": "sampler_runs/setup/source-before-layout.tar.gz",
+  "bytecode_archive": "sampler_runs/setup/legacy/defaults-bytecode"
+}

@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/tmp/prepare_reactive_github.py", line 110, in <module>
+    git("diff", "--cached", "--check")
+  File "/tmp/prepare_reactive_github.py", line 13, in git
+    return subprocess.check_output(["git", "-C", str(ROOT), *args], text=True).strip()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', '-C', '/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers', 'diff', '--cached', '--check']' returned non-zero exit status 2.

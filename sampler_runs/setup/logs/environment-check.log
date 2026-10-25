@@ -1,0 +1,54 @@
+Resolved 93 packages in 10ms
+Audited 6 packages in 45ms
+usage: reactive-samplers [-h] {freeze,inspect,report} ...
+
+Reactive Samplers framework utilities
+
+positional arguments:
+  {freeze,inspect,report}
+    freeze              Export a complete immutable-by-hash strategy
+    inspect             Run edited analysis against a paused trusted state
+                        snapshot
+    report              Print existing recorded results; makes no model calls
+
+options:
+  -h, --help            show this help message and exit
+mode: ???
+model_path: models/sd3-medium
+device: ???
+dtype: ???
+height: ???
+width: ???
+guidance_scale: ???
+max_sequence_length: ???
+reference_steps: ???
+max_nfe: ???
+prompts: ???
+expected_count: ???
+output_dir: ???
+policy: null
+agent:
+  backend: command
+  command: []
+  schedule: every_step
+  checkpoints: []
+metrics:
+  names: []
+  clip_model: null
+Scheduler test dependencies: 2.8.0+cu128 0.35.1
+test_action_boundaries_and_final_budget (test_core.CoreTests.test_action_boundaries_and_final_budget) ... ok
+test_agent_modifies_current_image_and_repeated_diagnostics (test_core.CoreTests.test_agent_modifies_current_image_and_repeated_diagnostics) ... ok
+test_both_agent_schedules (test_core.CoreTests.test_both_agent_schedules) ... ok
+test_changed_updater_is_called_once (test_core.CoreTests.test_changed_updater_is_called_once) ... ok
+test_default_rule_and_per_image_reset (test_core.CoreTests.test_default_rule_and_per_image_reset) ... ok
+test_freeze_verification_and_no_agent_replay (test_core.CoreTests.test_freeze_verification_and_no_agent_replay) ... ok
+test_illegal_candidate_action_rejected_before_update (test_core.CoreTests.test_illegal_candidate_action_rejected_before_update) ... ok
+test_invalid_edit_restores_old_program (test_core.CoreTests.test_invalid_edit_restores_old_program) ... ok
+test_prompt_manifest_validation (test_core.CoreTests.test_prompt_manifest_validation) ... ok
+test_relative_helpers_reloaded_and_scratch_excluded (test_core.CoreTests.test_relative_helpers_reloaded_and_scratch_excluded) ... ok
+test_stock_euler_and_dynamic_adapter_match (test_sd3_scheduler.SchedulerParity.test_stock_euler_and_dynamic_adapter_match) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 6.879s
+
+OK

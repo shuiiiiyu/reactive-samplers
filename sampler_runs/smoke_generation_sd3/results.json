@@ -1,0 +1,32 @@
+{
+  "prompt": "A red panda wearing a blue scarf, sitting on a wooden bench in a sunlit park, detailed photography.",
+  "seed": 42,
+  "environment": {
+    "torch": "2.8.0+cu128",
+    "diffusers": "0.35.1",
+    "transformers": "4.44.2",
+    "gpu": "NVIDIA RTX 2000 Ada Generation"
+  },
+  "images": {
+    "sd3": {
+      "status": "complete",
+      "checkpoint": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/models/sd3-medium",
+      "dtype": "torch.bfloat16",
+      "steps": 28,
+      "guidance_scale": 7.0,
+      "height": 1024,
+      "width": 1024,
+      "cpu_offload": true,
+      "local_files_only": true,
+      "load_seconds": 60.63347007299308,
+      "inference_seconds": 31.012389897950925,
+      "image": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/sampler_runs/smoke_generation_sd3/sd3.png",
+      "nfe": 28,
+      "executed_steps": 28,
+      "pixel_std": 82.71185395111577,
+      "pixel_min": 0,
+      "pixel_max": 255,
+      "peak_gpu_allocated_bytes": 10939232256
+    }
+  }
+}

@@ -3,7 +3,6 @@
 *.pyc
 *.egg-info/
 .env
-/sampler_runs/
 /models/
 /baselines/*/source/
 /baselines/*/checkpoints/

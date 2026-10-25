@@ -1,0 +1,187 @@
+{
+  "TPDM_source": {
+    "status": "complete",
+    "url": "https://github.com/maple-research-lab/TPDM.git",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/baselines/tpdm/source",
+    "revision": "ee7ebfd316098011211fd3e5c0849509fdea0553",
+    "read_only_reference": true
+  },
+  "HPSv2_source": {
+    "status": "complete",
+    "url": "https://github.com/tgxs002/HPSv2.git",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/benchmarks/hps/source",
+    "revision": "866735ecaae999fa714bd9edfa05aa2672669ee3",
+    "read_only_reference": true
+  },
+  "GenEval_source": {
+    "status": "complete",
+    "url": "https://github.com/djghosh13/geneval.git",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/benchmarks/geneval/source",
+    "revision": "af4902f24d3ca90ebbb446dd9891a59e0f82725f",
+    "read_only_reference": true
+  },
+  "mmdetection_source": {
+    "status": "complete",
+    "url": "https://github.com/open-mmlab/mmdetection.git",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/benchmarks/geneval/dependencies/mmdetection",
+    "revision": "e9cae2d0787cd5c2fc6165a6061f92fa09e48fb1",
+    "read_only_reference": true
+  },
+  "CLIPScore_source": {
+    "status": "complete",
+    "url": "https://github.com/jmhessel/clipscore.git",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/metrics/clipscore/source",
+    "revision": "1036465276513621f77f1c2208d742e4a430781f",
+    "read_only_reference": true
+  },
+  "CLIP_source": {
+    "status": "complete",
+    "url": "https://github.com/openai/CLIP.git",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/metrics/clip/source",
+    "revision": "d05afc436d78f1c48dc0dbf8e5980a9d471f35f6",
+    "read_only_reference": true
+  },
+  "FID_source": {
+    "status": "complete",
+    "url": "https://github.com/mseitzer/pytorch-fid.git",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/metrics/fid/source",
+    "revision": "b9c18118d082cbd263c1b8963fc4221dc1cbb659",
+    "read_only_reference": true
+  },
+  "AYS": {
+    "status": "complete",
+    "url": "https://research.nvidia.com/labs/toronto-ai/AlignYourSteps/howto.html",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/baselines/ays/official_quickstart.html",
+    "bytes": 18057,
+    "sha256": "693aab8d03d46bab71fad532cbd07d32d336d1aede58f38f90b9070b60e60e3b",
+    "implementation_scope": "Official quickstart source and published SDXL schedule, not a separately released optimizer repository"
+  },
+  "OYS": {
+    "status": "official_code_not_found",
+    "url": "https://arxiv.org/html/2608.18040v1",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/baselines/oys/paper.html",
+    "bytes": 274230,
+    "sha256": "b73db3d5c9a67bd39764652e2c5ac373bf3f631398a5add31cdcd7918d41b96e",
+    "paper_downloaded": true
+  },
+  "TPDM_SD3_weights": {
+    "status": "complete",
+    "repo_id": "MAPLE-WestLake-AIGC/TPDM",
+    "repo_type": "model",
+    "revision": "b49235b7b62bc461b4f23c8557ea4faab202eb79",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/baselines/tpdm/checkpoints",
+    "files": [
+      "sd3/model.safetensors"
+    ],
+    "bytes": 8195452
+  },
+  "HPS_benchmark_and_HPD_metadata": {
+    "status": "complete",
+    "repo_id": "zhwang/HPDv2",
+    "repo_type": "dataset",
+    "revision": "b9517430f34b1080d4f741118d2a440155a165cd",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/benchmarks/hps/data",
+    "files": [
+      "README.md",
+      "benchmark/anime.json",
+      "benchmark/concept-art.json",
+      "benchmark/drawbench.json",
+      "benchmark/paintings.json",
+      "benchmark/photo.json",
+      "test.json"
+    ],
+    "bytes": 727976
+  },
+  "HPSv2_1_weights": {
+    "status": "complete",
+    "repo_id": "xswu/HPSv2",
+    "repo_type": "model",
+    "revision": "697403c78157020a1ae59d23f111aa58ced35b0a",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/benchmarks/hps/checkpoints/hpsv2",
+    "files": [
+      "HPS_v2.1_compressed.pt"
+    ],
+    "bytes": 1972490005
+  },
+  "HPS_base_CLIP": {
+    "status": "complete",
+    "repo_id": "laion/CLIP-ViT-H-14-laion2B-s32B-b79K",
+    "repo_type": "model",
+    "revision": "1c2b8495b28150b8a4922ee1c8edee224c284c0c",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/benchmarks/hps/checkpoints/base_clip",
+    "files": [
+      "open_clip_config.json",
+      "open_clip_pytorch_model.bin"
+    ],
+    "bytes": 3944692962
+  },
+  "COCO2017_annotations": {
+    "status": "complete",
+    "url": "https://s3.amazonaws.com/images.cocodataset.org/annotations/annotations_trainval2017.zip",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/benchmarks/coco/archives/annotations_trainval2017.zip",
+    "bytes": 252907541,
+    "sha256": "113a836d90195ee1f884e704da6304dfaaecff1f023f49b6ca93c4aaae470268",
+    "counts": {
+      "train2017": {
+        "images": 118287,
+        "captions": 591753
+      },
+      "val2017": {
+        "images": 5000,
+        "captions": 25014
+      }
+    },
+    "extracted_to": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/benchmarks/coco/data/annotations"
+  },
+  "COCO2017_val_images": {
+    "status": "complete",
+    "url": "https://s3.amazonaws.com/images.cocodataset.org/zips/val2017.zip",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/benchmarks/coco/archives/val2017.zip",
+    "bytes": 815585330,
+    "sha256": "4f7e2ccb2866ec5041993c9cf2a952bbed69647b115d0f74da7ce8f4bef82f05",
+    "image_count": 5000,
+    "extracted_to": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/benchmarks/coco/data/val2017"
+  },
+  "GenEval_detector": {
+    "status": "complete",
+    "url": "https://download.openmmlab.com/mmdetection/v2.0/mask2former/mask2former_swin-s-p4-w7-224_lsj_8x2_50e_coco/mask2former_swin-s-p4-w7-224_lsj_8x2_50e_coco_20220504_001756-743b7d99.pth",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/benchmarks/geneval/checkpoints/mask2former_swin-s-p4-w7-224_lsj_8x2_50e_coco.pth",
+    "bytes": 275630991,
+    "sha256": "743b7d99015f1224c6d57fd4b14d04b15cc8ec72ae7ee7831e7c71d8873b7a54"
+  },
+  "CLIP_ViT_L14": {
+    "status": "complete",
+    "url": "https://openaipublic.azureedge.net/clip/models/b8cca3fd41ae0c99ba7e8951adf17d267cdb84cd88be6f7c2e0eca1737a03836/ViT-L-14.pt",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/metrics/clip/checkpoints/ViT-L-14.pt",
+    "bytes": 932768134,
+    "sha256": "b8cca3fd41ae0c99ba7e8951adf17d267cdb84cd88be6f7c2e0eca1737a03836"
+  },
+  "CLIP_ViT_B32": {
+    "status": "complete",
+    "url": "https://openaipublic.azureedge.net/clip/models/40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af/ViT-B-32.pt",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/metrics/clip/checkpoints/ViT-B-32.pt",
+    "bytes": 353976522,
+    "sha256": "40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af"
+  },
+  "FID_inception": {
+    "status": "complete",
+    "url": "https://github.com/mseitzer/pytorch-fid/releases/download/fid_weights/pt_inception-2015-12-05-6726825d.pth",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/metrics/fid/checkpoints/pt_inception-2015-12-05-6726825d.pth",
+    "bytes": 95628359,
+    "sha256": "6726825d0af5f729cebd5821db510b11b1cfad8faad88a03f1befd49fb9129b2"
+  },
+  "HPD_train_metadata": {
+    "status": "complete",
+    "repo_id": "ymhao/HPDv2",
+    "repo_type": "dataset",
+    "revision": "bb0f2563e451e11c3f376b2ba93615db00e042e1",
+    "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/benchmarks/hps/training_data",
+    "files": [
+      "HPDv2.py",
+      "README.md",
+      "test.json",
+      "train.json"
+    ],
+    "bytes": 116492225
+  }
+}
