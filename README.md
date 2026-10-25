@@ -126,7 +126,7 @@ cd reactive-samplers
 ```
 
 Downloaded third-party source trees are pinned Git submodules. Base/baseline model weights,
-benchmark datasets, environments and private run records are not stored in Git. The exact
+benchmark datasets and environments are not stored in Git. The current sampler_runs/ records and outputs are tracked. The exact
 resource manifest is docs/resource-lock.json; the download scripts restore those resources.
 OYS official code has not been located. AYS's published schedule is included; its official
 Quickstart and the OYS paper can be fetched with the resource downloader.
