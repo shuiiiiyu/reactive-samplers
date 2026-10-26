@@ -1,0 +1,3 @@
+At σ=0.19983, the updater’s skip rule is disabled below σ=0.30, so it selects the next reference sigma, 0.11091. With two NFEs remaining, the image should finish at the reference total of 28 NFE. I kept `analysis.py` and `updater.py` unchanged.
+
+A lower final NFE would refute this prediction.

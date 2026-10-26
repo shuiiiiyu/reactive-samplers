@@ -1,0 +1,3 @@
+At σ = 0.97411, predicted-clean change remains highly unstable (relative RMS 0.923; cosine 0.423), and the step is outside the skip window. The updater follows the reference schedule to σ = 0.96013. I kept both files unchanged; feedback has no candidate-image results.
+
+Prediction: this step matches the reference trajectory. Paired results showing quality loss or no NFE savings from later skips would challenge the policy’s expected tradeoff.

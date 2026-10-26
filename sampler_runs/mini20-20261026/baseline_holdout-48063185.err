@@ -1,0 +1,30 @@
+load GCC/11.4.0 (PATH, LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
+CPLUS_INCLUDE_PATH, CC, FC, F90, F77, CXX, OMPI_FC, OMPI_F90, OMPI_F77,
+OMPI_CC, OMPI_CXX) 
+load mkl/2024.0 (LD_LIBRARY_PATH)
+load impi/2021.11 (PATH, MANPATH, LD_LIBRARY_PATH)
+load HDF5/1.14.1-2 (PATH, LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
+CPLUS_INCLUDE_PATH, HDF5_DIR, HDF5_ROOT) 
+load PYTHON/3.11.5 (PATH, MANPATH, LD_LIBRARY_PATH, LIBRARY_PATH,
+PKG_CONFIG_PATH, C_INCLUDE_PATH, CPLUS_INCLUDE_PATH, PYTHONHOME, PYTHONPATH) 
+ ------------------------------------------------------------------------------------------ 
+|                                     WARNING                                              |
+|                                                                                          |
+| NVPCX uses its own implementation of MPI that does not offer srun support.               |
+| Programs compiled with NVPCX must use 'mpirun --bind-to none' instead of 'srun'.         |
+| Remember to also add 'export SLURM_CPU_BIND=none' in your job scripts.                   |
+ ------------------------------------------------------------------------------------------ 
+load OPENBLAS/0.3.27 (LD_LIBRARY_PATH, LIBRARY_PATH, PKG_CONFIG_PATH)
+load CUDNN/9.0.0/cuda11 (LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
+CPLUS_INCLUDE_PATH, CUDNN_LIB_DIR, CUDNN_LIBRARY, CUDNN_INCLUDE_DIR) 
+load TENSORRT/10.0.0/cuda11 (PATH, LD_LIBRARY_PATH, LIBRARY_PATH,
+C_INCLUDE_PATH, CPLUS_INCLUDE_PATH) 
+load NCCL/2.19.4 (LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
+CPLUS_INCLUDE_PATH) 
+load UV/0.10.11 (PATH)
+Loading pipeline components...:   0%|          | 0/9 [00:00<?, ?it/s]Loading pipeline components...:  11%|█         | 1/9 [00:00<00:04,  1.76it/s]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s][A
+Loading checkpoint shards:  50%|█████     | 1/2 [00:19<00:19, 19.17s/it][A
+Loading checkpoint shards: 100%|██████████| 2/2 [00:35<00:00, 17.49s/it][ALoading checkpoint shards: 100%|██████████| 2/2 [00:35<00:00, 17.74s/it]
+Loading pipeline components...:  22%|██▏       | 2/9 [00:36<02:27, 21.14s/it]You set `add_prefix_space`. The tokenizer needs to be converted from the slow tokenizers
+Loading pipeline components...:  33%|███▎      | 3/9 [00:36<01:09, 11.57s/it]Loading pipeline components...:  56%|█████▌    | 5/9 [01:01<00:48, 12.18s/it]Loading pipeline components...:  78%|███████▊  | 7/9 [01:01<00:13,  6.78s/it]Loading pipeline components...:  89%|████████▉ | 8/9 [01:02<00:05,  5.25s/it]Loading pipeline components...: 100%|██████████| 9/9 [01:02<00:00,  6.92s/it]

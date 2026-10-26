@@ -1,0 +1,5 @@
+**Observation:** At σ=0.9601, predicted-clean change is large (relative RMS 0.825, cosine 0.601), so the current stability rule won’t skip a step.
+
+**Keep** `analysis.py` and `updater.py` unchanged. The rule will follow the reference schedule to the next σ, 0.9454. One matched image used 27 rather than 28 NFE and matched HPS; CLIP was slightly lower (30.802 vs. 30.866). That single result doesn’t establish a quality or runtime improvement.
+
+The prediction would be refuted if this trajectory skips a step here, or if further matched results show a consistent quality loss from the later stable-region skip.

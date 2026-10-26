@@ -32,7 +32,8 @@ class SD3Adapter:
         self.cfg = self.guidance_scale > 1
         with torch.inference_mode():
             pos, neg, pooled, neg_pooled = pipe.encode_prompt(
-                prompt=prompt, negative_prompt="", device=self.device,
+                prompt=prompt, prompt_2=prompt, prompt_3=prompt,
+                negative_prompt="", device=self.device,
                 num_images_per_prompt=1, do_classifier_free_guidance=self.cfg,
                 max_sequence_length=self.max_sequence_length,
             )
@@ -56,18 +57,25 @@ class SD3Adapter:
         if any(a <= b for a, b in zip(sigmas, sigmas[1:])):
             raise ValueError("Scheduler did not produce a strictly descending schedule")
         self.denoiser_items = 0
+        self.denoiser_evaluations = 0
         self.synchronize()
         return latent, sigmas
 
     def timestep(self, sigma):
         return sigma * self.pipe.scheduler.config.num_train_timesteps
 
+    def validate_feature_layers(self, feature_layers):
+        modules = dict(self.pipe.transformer.named_modules())
+        if not isinstance(feature_layers, (list, tuple)) or not all(isinstance(name, str) for name in feature_layers):
+            raise TypeError("FEATURE_LAYERS must be a list or tuple of module names")
+        if any(name not in modules for name in feature_layers):
+            raise ValueError("FEATURE_LAYERS contains an unknown transformer module name")
+        return modules
+
     def predict(self, latent, sigma, feature_layers):
         torch, pipe = self.torch, self.pipe
         features, hooks = {}, []
-        modules = dict(pipe.transformer.named_modules())
-        if any(name not in modules for name in feature_layers):
-            raise ValueError("FEATURE_LAYERS contains an unknown transformer module name")
+        modules = self.validate_feature_layers(feature_layers)
         for name in feature_layers:
             def capture(module, inputs, output, key=name):
                 features[key] = output  # read-only contract; preserves arbitrary layer output structure
@@ -77,11 +85,12 @@ class SD3Adapter:
                 model_input = torch.cat([latent] * 2) if self.cfg else latent
                 t = torch.tensor(sigma, device=self.device, dtype=torch.float32)
                 t = (t * pipe.scheduler.config.num_train_timesteps).expand(model_input.shape[0])
+                self.denoiser_evaluations += 1
+                self.denoiser_items += model_input.shape[0]
                 output = pipe.transformer(
                     hidden_states=model_input, timestep=t, encoder_hidden_states=self.embeds,
                     pooled_projections=self.pooled, joint_attention_kwargs=None, return_dict=False,
                 )[0]
-                self.denoiser_items += model_input.shape[0]
                 if self.cfg:
                     uncond, cond = output.chunk(2)
                     return Prediction(uncond + self.guidance_scale * (cond - uncond), cond, uncond, features)
@@ -101,6 +110,20 @@ class SD3Adapter:
         scheduler._begin_index = None
         with torch.inference_mode():
             return scheduler.step(prediction.guided, t, latent, return_dict=False)[0]
+
+    def snapshot_state(self):
+        from ..recovery import clone_state
+        scheduler = self.pipe.scheduler
+        return {key: clone_state(getattr(scheduler, key)) for key in
+                ("sigmas", "timesteps", "_step_index", "_begin_index")}
+
+    def restore_state(self, state):
+        from ..recovery import clone_state
+        for key, value in state.items():
+            setattr(self.pipe.scheduler, key, clone_state(value))
+
+    def save_failure_state(self, ctx, path):
+        save_context(ctx, path)
 
     def finish(self, latent):
         torch, pipe = self.torch, self.pipe

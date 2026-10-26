@@ -1,0 +1,98 @@
+load GCC/11.4.0 (PATH, LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
+CPLUS_INCLUDE_PATH, CC, FC, F90, F77, CXX, OMPI_FC, OMPI_F90, OMPI_F77,
+OMPI_CC, OMPI_CXX) 
+load mkl/2024.0 (LD_LIBRARY_PATH)
+load impi/2021.11 (PATH, MANPATH, LD_LIBRARY_PATH)
+load HDF5/1.14.1-2 (PATH, LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
+CPLUS_INCLUDE_PATH, HDF5_DIR, HDF5_ROOT) 
+load PYTHON/3.11.5 (PATH, MANPATH, LD_LIBRARY_PATH, LIBRARY_PATH,
+PKG_CONFIG_PATH, C_INCLUDE_PATH, CPLUS_INCLUDE_PATH, PYTHONHOME, PYTHONPATH) 
+ ------------------------------------------------------------------------------------------ 
+|                                     WARNING                                              |
+|                                                                                          |
+| NVPCX uses its own implementation of MPI that does not offer srun support.               |
+| Programs compiled with NVPCX must use 'mpirun --bind-to none' instead of 'srun'.         |
+| Remember to also add 'export SLURM_CPU_BIND=none' in your job scripts.                   |
+ ------------------------------------------------------------------------------------------ 
+load OPENBLAS/0.3.27 (LD_LIBRARY_PATH, LIBRARY_PATH, PKG_CONFIG_PATH)
+load CUDNN/9.0.0/cuda11 (LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
+CPLUS_INCLUDE_PATH, CUDNN_LIB_DIR, CUDNN_LIBRARY, CUDNN_INCLUDE_DIR) 
+load TENSORRT/10.0.0/cuda11 (PATH, LD_LIBRARY_PATH, LIBRARY_PATH,
+C_INCLUDE_PATH, CPLUS_INCLUDE_PATH) 
+load NCCL/2.19.4 (LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
+CPLUS_INCLUDE_PATH) 
+load UV/0.10.11 (PATH)
+Using CPython 3.11.5 interpreter at: /apps/ACC/PYTHON/3.11.5/GCC/bin/python
+Creating virtual environment at: /scratch/tmp/48036668/reactive-samplers.wTf2ci/env
+Activate with: source /scratch/tmp/48036668/reactive-samplers.wTf2ci/env/bin/activate
+Using Python 3.11.5 environment at: /scratch/tmp/48036668/reactive-samplers.wTf2ci/env
+Resolved 49 packages in 2ms
+Prepared 49 packages in 5.46s
+Installed 49 packages in 95ms
+ + accelerate==1.10.1
+ + antlr4-python3-runtime==4.9.3
+ + certifi==2026.10.23
+ + charset-normalizer==3.5.2
+ + diffusers==0.35.1
+ + filelock==4.2.4
+ + fsspec==2026.9.0
+ + hf-xet==1.7.0
+ + huggingface-hub==0.34.4
+ + hydra-core==1.3.2
+ + idna==3.20
+ + importlib-metadata==10.1.0
+ + jinja2==3.1.6
+ + markupsafe==3.0.4
+ + mpmath==1.3.0
+ + networkx==3.6.1
+ + numpy==2.2.6
+ + nvidia-cublas-cu12==12.1.3.1
+ + nvidia-cuda-cupti-cu12==12.1.105
+ + nvidia-cuda-nvrtc-cu12==12.1.105
+ + nvidia-cuda-runtime-cu12==12.1.105
+ + nvidia-cudnn-cu12==9.1.0.70
+ + nvidia-cufft-cu12==11.0.2.54
+ + nvidia-curand-cu12==10.3.2.106
+ + nvidia-cusolver-cu12==11.4.5.107
+ + nvidia-cusparse-cu12==12.1.0.106
+ + nvidia-nccl-cu12==2.21.5
+ + nvidia-nvjitlink-cu12==12.9.86
+ + nvidia-nvtx-cu12==12.1.105
+ + omegaconf==2.3.1
+ + packaging==26.3
+ + pillow==11.3.0
+ + protobuf==5.29.5
+ + psutil==7.2.2
+ + pyyaml==6.0.3
+ + regex==2026.9.29
+ + requests==2.34.2
+ + safetensors==0.8.0
+ + sentencepiece==0.2.1
+ + setuptools==80.9.0
+ + sympy==1.13.1
+ + tokenizers==0.19.1
+ + torch==2.5.1+cu121
+ + tqdm==4.70.1
+ + transformers==4.44.2
+ + triton==3.1.0
+ + typing-extensions==4.16.0
+ + urllib3==2.8.0
+ + zipp==4.1.2
+Using Python 3.11.5 environment at: /scratch/tmp/48036668/reactive-samplers.wTf2ci/env
+Resolved 6 packages in 3ms
+   Building reactive-samplers @ file:///gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers
+      Built reactive-samplers @ file:///gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers
+Prepared 1 package in 650ms
+Installed 1 package in 1ms
+ + reactive-samplers==0.1.0 (from file:///gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers)
+You are offline and the cache for model files in Transformers v4.22.0 has been updated while your local cache seems to be the one of a previous version. It is very likely that all your calls to any `from_pretrained()` method will fail. Remove the offline mode and enable internet connection to have your cache be updated automatically, then you can go back to offline mode.
+0it [00:00, ?it/s]0it [00:00, ?it/s]
+Loading pipeline components...:   0%|          | 0/9 [00:00<?, ?it/s]Loading pipeline components...:  11%|█         | 1/9 [00:03<00:31,  3.89s/it]Loading pipeline components...:  22%|██▏       | 2/9 [00:18<01:09,  9.97s/it]You set `add_prefix_space`. The tokenizer needs to be converted from the slow tokenizers
+Loading pipeline components...:  56%|█████▌    | 5/9 [00:18<00:11,  2.90s/it]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s][A
+Loading checkpoint shards:  50%|█████     | 1/2 [00:11<00:11, 11.12s/it][A
+Loading checkpoint shards: 100%|██████████| 2/2 [00:21<00:00, 10.46s/it][ALoading checkpoint shards: 100%|██████████| 2/2 [00:21<00:00, 10.56s/it]
+Loading pipeline components...:  67%|██████▋   | 6/9 [00:39<00:22,  7.55s/it]Loading pipeline components...:  89%|████████▉ | 8/9 [00:40<00:04,  4.50s/it]Loading pipeline components...: 100%|██████████| 9/9 [00:40<00:00,  3.56s/it]Loading pipeline components...: 100%|██████████| 9/9 [00:40<00:00,  4.51s/it]
+  0%|          | 0/28 [00:00<?, ?it/s]  4%|▎         | 1/28 [00:02<01:19,  2.94s/it] 11%|█         | 3/28 [00:03<00:20,  1.22it/s] 18%|█▊        | 5/28 [00:03<00:10,  2.28it/s] 25%|██▌       | 7/28 [00:03<00:05,  3.50it/s] 32%|███▏      | 9/28 [00:03<00:03,  4.83it/s] 39%|███▉      | 11/28 [00:03<00:02,  6.18it/s] 46%|████▋     | 13/28 [00:03<00:02,  7.48it/s] 54%|█████▎    | 15/28 [00:04<00:01,  8.65it/s] 61%|██████    | 17/28 [00:04<00:01,  9.65it/s] 68%|██████▊   | 19/28 [00:04<00:00, 10.47it/s] 75%|███████▌  | 21/28 [00:04<00:00, 11.11it/s] 82%|████████▏ | 23/28 [00:04<00:00, 11.60it/s] 89%|████████▉ | 25/28 [00:04<00:00, 11.97it/s] 96%|█████████▋| 27/28 [00:04<00:00, 12.23it/s]100%|██████████| 28/28 [00:05<00:00,  5.56it/s]
+Loading pipeline components...:   0%|          | 0/7 [00:00<?, ?it/s]Loading pipeline components...:  14%|█▍        | 1/7 [00:09<00:54,  9.09s/it]Loading pipeline components...:  29%|██▊       | 2/7 [00:10<00:21,  4.36s/it]Loading pipeline components...:  57%|█████▋    | 4/7 [00:49<00:42, 14.04s/it]Loading pipeline components...:  86%|████████▌ | 6/7 [00:49<00:07,  7.45s/it]Loading pipeline components...: 100%|██████████| 7/7 [00:50<00:00,  5.79s/it]Loading pipeline components...: 100%|██████████| 7/7 [00:50<00:00,  7.26s/it]
+  0%|          | 0/30 [00:00<?, ?it/s]  3%|▎         | 1/30 [00:00<00:25,  1.16it/s] 10%|█         | 3/30 [00:00<00:07,  3.71it/s] 17%|█▋        | 5/30 [00:01<00:04,  6.14it/s] 23%|██▎       | 7/30 [00:01<00:02,  8.32it/s] 30%|███       | 9/30 [00:01<00:02, 10.16it/s] 37%|███▋      | 11/30 [00:01<00:01, 11.66it/s] 43%|████▎     | 13/30 [00:01<00:01, 12.84it/s] 50%|█████     | 15/30 [00:01<00:01, 13.72it/s] 57%|█████▋    | 17/30 [00:01<00:00, 14.39it/s] 63%|██████▎   | 19/30 [00:01<00:00, 14.88it/s] 70%|███████   | 21/30 [00:02<00:00, 15.22it/s] 77%|███████▋  | 23/30 [00:02<00:00, 15.47it/s] 83%|████████▎ | 25/30 [00:02<00:00, 15.65it/s] 90%|█████████ | 27/30 [00:02<00:00, 15.78it/s] 97%|█████████▋| 29/30 [00:02<00:00, 15.87it/s]100%|██████████| 30/30 [00:02<00:00, 11.25it/s]

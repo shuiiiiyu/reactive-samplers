@@ -7,7 +7,7 @@ from pathlib import Path
 from reactive_samplers.agent import AgentSession
 from reactive_samplers.cli import read_prompts
 from reactive_samplers.context import Action, Context, Prediction, validate_action
-from reactive_samplers.programs import Programs, digest, freeze
+from reactive_samplers.programs import Programs, copy_sources, digest, freeze
 from reactive_samplers.report import Recorder
 from reactive_samplers.schedule import CheckSchedule
 from reactive_samplers.wrapper import sample
@@ -36,16 +36,25 @@ class ToyAdapter:
         pass
 
 
+def scalar_programs(workspace, versions):
+    copy_sources(Path(__file__).resolve().parents[1] / "reactive_samplers/prompts", workspace)
+    (workspace / "analysis.py").write_text("def analyze(ctx, memory):\n    return {'sigma': ctx.sigma}\n")
+    return Programs(workspace, versions)
+
+
 class CoreTests(unittest.TestCase):
     def test_default_rule_and_per_image_reset(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            programs = Programs.create(root / "workspace", root / "programs")
+            programs = scalar_programs(root / "workspace", root / "programs")
             for _ in range(2):
                 image, result, history = sample(ToyAdapter(), programs, "fixture", 0, 4, 4,
                                                 CheckSchedule(), Recorder(root / "run"))
                 self.assertEqual(image, 1.0)
                 self.assertEqual(result["nfe"], 4)
+                self.assertEqual(result["steps"], 4)
+                self.assertEqual(result["timesteps"], [1000.0, 750.0, 500.0, 250.0])
+                self.assertEqual(result["sigma_schedule"], [1.0, 0.75, 0.5, 0.25, 0.0])
                 self.assertEqual(result["terminal_sigma"], 0)
                 self.assertLessEqual(len(history), 2)
 
@@ -70,7 +79,7 @@ class CoreTests(unittest.TestCase):
     def test_agent_modifies_current_image_and_repeated_diagnostics(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            programs = Programs.create(root / "workspace", root / "programs")
+            programs = scalar_programs(root / "workspace", root / "programs")
             initial = programs.version
             calls = []
             def bridge(request_path, workspace):
@@ -97,7 +106,7 @@ class CoreTests(unittest.TestCase):
     def test_invalid_edit_restores_old_program(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            programs = Programs.create(root / "workspace", root / "programs")
+            programs = scalar_programs(root / "workspace", root / "programs")
             initial = programs.version
             def bad(request, workspace):
                 (workspace / "updater.py").write_text("def choose(:\n")
@@ -112,7 +121,7 @@ class CoreTests(unittest.TestCase):
     def test_illegal_candidate_action_rejected_before_update(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            programs = Programs.create(root / "workspace", root / "programs")
+            programs = scalar_programs(root / "workspace", root / "programs")
             def bad(request, workspace):
                 (workspace / "updater.py").write_text(
                     "from reactive_samplers.context import Action\n"
@@ -125,7 +134,7 @@ class CoreTests(unittest.TestCase):
     def test_changed_updater_is_called_once(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            programs = Programs.create(root / "workspace", root / "programs")
+            programs = scalar_programs(root / "workspace", root / "programs")
             def edit(request, workspace):
                 (workspace / "updater.py").write_text(
                     "from reactive_samplers.context import Action\n"
@@ -141,7 +150,7 @@ class CoreTests(unittest.TestCase):
     def test_freeze_verification_and_no_agent_replay(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            programs = Programs.create(root / "workspace", root / "programs")
+            programs = scalar_programs(root / "workspace", root / "programs")
             frozen = freeze(programs.versions / programs.version, root / "frozen")
             replay = Programs.create(root / "evaluation", root / "eval_versions", frozen)
             _, result, _ = sample(ToyAdapter(), replay, "fixture", 0, 3, 3,
@@ -155,7 +164,7 @@ class CoreTests(unittest.TestCase):
     def test_relative_helpers_reloaded_and_scratch_excluded(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            programs = Programs.create(root / "workspace", root / "programs")
+            programs = scalar_programs(root / "workspace", root / "programs")
             (programs.workspace / "signal.py").write_text("VALUE = 1\n")
             (programs.workspace / "analysis.py").write_text("from .signal import VALUE\ndef analyze(ctx, memory): return {'v': VALUE}\n")
             programs.reload()

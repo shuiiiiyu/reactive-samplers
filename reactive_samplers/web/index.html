@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reactive Samplers · Images</title>
+<style>
+:root{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;color:#242824;background:#f6f7f4;font-size:14px;font-synthesis:none}*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:default;opacity:.45}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #537657;outline-offset:3px}button{border:1px solid #d9ded7;background:#fff;border-radius:7px;padding:9px 14px;color:inherit}button:hover:not(:disabled){border-color:#81927e}header{height:76px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #dfe3db;background:#fff;gap:16px}.brand{display:flex;align-items:center;gap:12px}.mark{width:29px;height:29px;border:1.5px solid #314b36;border-radius:50%;display:grid;place-items:center;font-size:18px;color:#314b36}.brand h1{font-size:17px;letter-spacing:-.4px;margin:0;font-weight:650}.brand p{margin:3px 0 0;color:#737b70;font-size:11px;letter-spacing:1.5px}.header-actions{display:flex;gap:9px;align-items:center}.primary{background:#304c37;color:#fff;border-color:#304c37}.primary:hover:not(:disabled){background:#253f2c;border-color:#253f2c}.layout{display:grid;grid-template-columns:268px minmax(0,1fr);min-height:calc(100vh - 76px)}aside{padding:26px 22px;background:#fff;border-right:1px solid #dfe3db}h2{font-size:14px;margin:0 0 22px;font-weight:650}.section-note{font-size:12px;color:#737b70;line-height:1.6;margin:-12px 0 22px}label{display:block;font-size:12px;color:#5b6558;margin-bottom:7px}input,textarea,select{width:100%;background:#fff;border:1px solid #d9ded7;border-radius:6px;padding:9px 10px;color:#242824}textarea{resize:vertical;min-height:126px;line-height:1.65;font-size:13px}.field{margin-bottom:17px}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field-grid .field{min-width:0}form>.primary{width:100%;margin-top:2px}.small-note{font-size:11px;line-height:1.7;color:#768071;margin:11px 0 0}main{padding:25px 27px 30px;min-width:0}.toolbar{display:flex;justify-content:space-between;align-items:center;margin:0 0 20px;min-height:25px}.toolbar h2{margin:0;font-size:15px}.count{font-size:12px;font-weight:400;color:#788071;margin-left:9px}.quiet{font-size:12px;color:#687661}.live{display:inline-block;width:6px;height:6px;border-radius:50%;background:#739478;margin-right:7px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.card{background:#fff;border:1px solid #dfe3db;border-radius:9px;overflow:hidden;min-width:0;transition:border-color .15s}.card.selected{border-color:#416449;box-shadow:0 0 0 1px #416449}.preview{display:block;padding:0;border:0;border-radius:0;width:100%;aspect-ratio:1;background:#eef0eb;position:relative;overflow:hidden}.preview img{width:100%;height:100%;object-fit:contain;display:block}.pick{position:absolute;top:11px;left:11px;background:#ffffffed;width:24px;height:24px;border:1px solid #c7cfc3;border-radius:5px;display:grid;place-items:center;font-size:12px;color:#304c37}.selected .pick{background:#304c37;color:white;border-color:#304c37}.card-body{padding:13px 14px 12px}.card-top{display:flex;gap:8px;align-items:center;justify-content:space-between}.model{font-size:12px;font-weight:650}.config-button{font-size:11px;padding:4px 8px;border-radius:4px}.specs,.stats{color:#687363;font-size:11px;margin-top:8px;font-variant-numeric:tabular-nums;display:flex;gap:11px;flex-wrap:wrap}.stats{margin-top:6px;color:#85907f}.prompt{font-size:12px;line-height:1.6;margin:10px 0 0;color:#50584c;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}.empty{grid-column:1/-1;text-align:center;padding:90px 15px;color:#808b79;font-size:13px}.notice{font-size:12px;line-height:1.6;color:#8d3e30;margin:12px 0;overflow-wrap:anywhere}.notice:empty{display:none}.jobs{border-top:1px solid #e7eae3;margin-top:26px;padding-top:20px}.jobs:empty{display:none}.job{font-size:12px;line-height:1.6;margin:0 0 15px}.job-state{color:#687d60;font-size:11px}.job.failed .job-state{color:#a34232}.job-prompt{color:#5f6859;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}.compare-mode .layout{display:block}.compare-mode aside{display:none}.compare-mode .grid{height:calc(100vh - 163px);grid-template-rows:repeat(2,minmax(0,1fr))}.compare-mode .card{display:flex;flex-direction:column;min-height:0}.compare-mode .preview{aspect-ratio:auto;flex:1;min-height:0}.compare-mode .card-body{padding:10px 12px;flex:none}.compare-mode .prompt{display:none}.compare-mode .stats{margin-top:5px}.compare-mode main{padding-bottom:16px}dialog{border:1px solid #d9ded7;border-radius:11px;padding:25px;width:min(680px,92vw);max-height:86vh;color:#242824}dialog::backdrop{background:#18251d66;backdrop-filter:blur(2px)}.dialog-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:17px}.dialog-top h2{margin:0}#detail-path{font-size:11px;color:#7c8676;overflow-wrap:anywhere;line-height:1.6}pre{padding:16px;background:#f5f7f2;border:1px solid #e5e9df;border-radius:6px;font:12px/1.75 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;max-height:58vh;overflow:auto;margin:15px 0 0}.subtle{background:transparent;border-color:transparent;color:#65705f;font-size:12px}[hidden]{display:none!important}@media(min-width:1700px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.compare-mode .grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:1100px){.layout{grid-template-columns:235px minmax(0,1fr)}aside{padding:23px 17px}main{padding:23px 20px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.compare-mode .grid{grid-template-columns:repeat(3,minmax(0,1fr))}.specs{gap:7px}}@media(max-width:700px){header{padding:0 16px;height:70px}.brand h1{font-size:15px}.brand p{font-size:9px}.mark{display:none}.header-actions{gap:3px}.header-actions button{padding:8px;font-size:12px}.layout{display:block}aside{border-right:0;border-bottom:1px solid #dfe3db}textarea{min-height:80px}main{padding:21px 14px}.grid{gap:12px}.card-body{padding:10px}.compare-mode .grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));height:calc(100vh - 155px)}.compare-mode .specs{font-size:10px;gap:5px}.compare-mode .stats{display:none}.quiet{font-size:10px}}
+.grid.experiments{display:block}.experiment{margin-bottom:38px}.experiment-title{font-size:18px;margin:0 0 18px;padding-bottom:13px;border-bottom:1px solid #d9ded7}.pair{margin-bottom:25px}.pair-heading{font-size:12px;line-height:1.7;margin:0 0 10px;color:#50584c;overflow-wrap:anywhere}.pair-heading span{display:block;color:#7c8676;font-size:11px}.pair-scroll{overflow-x:auto;padding:1px 1px 7px}.pair-images{display:grid;grid-template-columns:repeat(var(--columns),minmax(240px,400px));gap:16px}.variant{min-width:0}.variant-title{font-size:12px;font-weight:600;margin:0 0 9px;color:#304c37}.variant .card+.card{margin-top:12px}.placeholder{aspect-ratio:1;display:grid;place-items:center;border:1px dashed #cfd6ca;border-radius:9px;color:#89927f;font-size:12px}.experiments .prompt,.experiments .framework{display:none}.framework{font-size:11px;color:#6e7c65;margin-top:6px}
+</style>
+</head>
+<body>
+<header><div class="brand"><span class="mark" aria-hidden="true">↗</span><div><h1>Reactive Samplers</h1><p>IMAGE WORKSPACE</p></div></div><div class="header-actions"><button id="clear" class="subtle" hidden>清空选择</button><button id="compare" class="primary" disabled>对比 0 / 6</button></div></header>
+<div class="layout">
+<aside><h2>生成图片</h2><p class="section-note">选择模型，记录每一次生成。</p>
+<form id="generate-form">
+<div class="field"><label for="model">模型</label><select id="model" name="model"><option value="sd3">SD3 Medium</option><option value="sdxl">SDXL Base 1.0</option></select></div>
+<div class="field"><label for="prompt">Prompt</label><textarea id="prompt" name="prompt" required maxlength="4096" placeholder="描述你想生成的画面…">A red panda wearing a blue scarf, sitting on a wooden bench in a sunlit park, detailed photography.</textarea></div>
+<div class="field-grid"><div class="field"><label for="steps">Steps</label><input id="steps" type="number" min="1" max="100" value="28" required></div><div class="field"><label for="guidance">CFG</label><input id="guidance" type="number" min="0" max="20" step="0.1" value="7" required></div></div>
+<div class="field"><label for="seed">Seed</label><input id="seed" type="number" min="0" max="4294967295" value="42" required></div>
+<div class="field-grid"><div class="field"><label for="width">宽度</label><input id="width" type="number" min="256" max="1536" step="64" value="1024" required></div><div class="field"><label for="height">高度</label><input id="height" type="number" min="256" max="1536" step="64" value="1024" required></div></div>
+<button class="primary" id="submit" type="submit">生成图片</button><p class="small-note" id="generation-note">生成完成后，图片与配置会自动出现在右侧。</p>
+</form><p id="form-error" class="notice" role="alert"></p><div id="jobs" class="jobs" aria-live="polite"></div></aside>
+<main><div class="toolbar"><h2 id="view-title">全部图片 <span class="count" id="count"></span></h2><span class="quiet" id="sync-status"><i class="live"></i>自动同步</span></div><p class="notice" id="page-error" role="alert"></p><div class="grid" id="grid"><div class="empty">正在读取图片…</div></div></main>
+</div>
+<dialog id="details"><div class="dialog-top"><h2>生成配置</h2><button id="close-details">关闭</button></div><div id="detail-path"></div><pre id="detail-json"></pre></dialog>
+<script>
+const $=id=>document.getElementById(id);
+let images=[], selected=new Set(), comparing=false, models={}, signature='';
+const show=(v, fallback='—')=>v===undefined||v===null?fallback:String(v);
+const modelName=id=>models[id]?.name||id||'模型未记录';
+function empty(text){const node=document.createElement('div');node.className='empty';node.textContent=text;return node;}
+function updateButtons(){ $('compare').textContent=comparing?'返回全部图片':`对比 ${selected.size} / 6`; $('compare').disabled=!comparing&&selected.size<2; $('clear').hidden=!selected.size||comparing; }
+function toggle(id){$('page-error').textContent='';if(selected.has(id))selected.delete(id);else if(selected.size<6)selected.add(id);else{$('page-error').textContent='最多同时对比 6 张图片，请先取消一张。';return;}if(!selected.size)comparing=false;render();}
+function framework(row){
+ const c=row.config,schedule=c.agent_schedule?.schedule;
+ const method=c.mode==='default'?'default':c.method||(c.mode?'adaptive_sigma':'default');
+ const name=({default:'官方默认',adaptive_sigma:'自动步长',grid_skip:'原表跳点'})[method]||method;
+ const phase=c.mode==='explore'?' · 探索':c.mode==='evaluate'?' · 冻结评测':'';
+ const check=c.mode==='explore'?(schedule==='every_step'?' · 每步介入':schedule==='checkpoints'?' · 固定检查点':''):'';
+ return `${modelName(c.model)} · ${name}${phase}${check}`;
+}
+function groupExperiments(list){
+ const groups=new Map();
+ for(const row of list){
+  const e=row.experiment,c=row.config;
+  if(!groups.has(e.id))groups.set(e.id,{title:e.title,columns:new Set(),pairs:new Map()});
+  const group=groups.get(e.id),column=framework(row);
+  group.columns.add(column);
+  const key=c.prompt&&c.seed!==undefined&&c.seed!==null?JSON.stringify([c.prompt,c.seed]):row.id;
+  if(!group.pairs.has(key))group.pairs.set(key,{prompt:c.prompt,seed:c.seed,source:c.source,images:new Map()});
+  const pair=group.pairs.get(key);
+  if(!pair.images.has(column))pair.images.set(column,[]);
+  pair.images.get(column).push(row);
+ }
+ return [...groups.values()];
+}
+function imageCard(row){
+  const c=row.config,card=document.createElement('article');card.className='card'+(selected.has(row.id)?' selected':'');card.dataset.id=row.id;
+  card.innerHTML='<button class="preview" type="button"><img loading="lazy"><span class="pick"></span></button><div class="card-body"><div class="card-top"><span class="model"></span><button class="config-button" type="button">配置</button></div><div class="specs"></div><div class="stats"></div><p class="prompt"></p></div>';
+  const preview=card.querySelector('.preview'); preview.setAttribute('aria-label',`${selected.has(row.id)?'取消选择':'选择'} ${modelName(c.model)} · Seed ${show(c.seed)}`);preview.setAttribute('aria-pressed',String(selected.has(row.id)));preview.onclick=()=>toggle(row.id);
+  const image=card.querySelector('img');image.src=row.url;image.alt=c.prompt||row.id;
+  card.querySelector('.pick').textContent=selected.has(row.id)?[...selected].indexOf(row.id)+1:'';
+  card.querySelector('.model').textContent=modelName(c.model);
+  const label=document.createElement('div');label.className='framework';label.textContent=framework(row);card.querySelector('.card-body').append(label);
+  card.querySelector('.specs').textContent=`${show(c.steps??c.reference_steps)} steps · CFG ${show(c.guidance_scale)} · ${show(c.width)} × ${show(c.height)}`;
+  const seconds=c.inference_seconds??c.end_to_end_seconds??c.sampling_seconds;
+  card.querySelector('.stats').textContent=`Seed ${show(c.seed)} · NFE ${show(c.nfe)}${seconds!==undefined?' · '+Number(seconds).toFixed(2)+'s':''}`;
+  card.querySelector('.prompt').textContent=c.prompt||'未记录 Prompt';
+  card.querySelector('.config-button').onclick=()=>{$('detail-path').textContent=row.id;$('detail-json').textContent=JSON.stringify(c,null,2);$('details').showModal();};
+  return card;
+}
+function render(){
+ document.body.classList.toggle('compare-mode',comparing); updateButtons();
+ $('view-title').firstChild.textContent=comparing?'图片对比 ':'实验图片 '; $('count').textContent=comparing?`${selected.size} 张`:`${images.length} 张`;
+ const grid=$('grid');grid.classList.toggle('experiments',!comparing);grid.replaceChildren();
+ if(!images.length){grid.append(empty('还没有图片。完成一次生成后会自动显示在这里。'));return;}
+ if(comparing){for(const id of selected){const row=images.find(x=>x.id===id);if(row)grid.append(imageCard(row));}return;}
+ for(const group of groupExperiments(images)){
+  const section=document.createElement('section');section.className='experiment';
+  const title=document.createElement('h2');title.className='experiment-title';title.textContent=group.title;section.append(title);
+  const columns=[...group.columns].sort((a,b)=>(b.includes('官方默认')-a.includes('官方默认'))||a.localeCompare(b,'zh-CN'));
+  for(const pair of group.pairs.values()){
+   const item=document.createElement('div');item.className='pair';
+   const heading=document.createElement('p');heading.className='pair-heading';heading.textContent=pair.prompt||'未记录 Prompt';
+   const seed=document.createElement('span');seed.textContent=`Seed ${show(pair.seed)}${pair.source?' · '+pair.source:''}`;heading.append(seed);item.append(heading);
+   const scroll=document.createElement('div');scroll.className='pair-scroll';
+   const strip=document.createElement('div');strip.className='pair-images';strip.style.setProperty('--columns',columns.length);
+   for(const column of columns){
+    const cell=document.createElement('div');cell.className='variant';const label=document.createElement('h3');label.className='variant-title';label.textContent=column;cell.append(label);
+    const rows=pair.images.get(column)||[];
+    if(rows.length)for(const row of rows)cell.append(imageCard(row));else{const missing=document.createElement('div');missing.className='placeholder';missing.textContent='暂无结果';cell.append(missing);}
+    strip.append(cell);
+   }
+   scroll.append(strip);item.append(scroll);section.append(item);
+  }
+  grid.append(section);
+ }
+}
+async function api(url,options){const response=await fetch(url,options);const result=await response.json();if(!response.ok)throw new Error(result.error||'请求失败');return result;}
+function renderJobs(jobs){
+ const target=$('jobs');target.replaceChildren();
+ for(const job of jobs.filter((j,i)=>j.status!=='complete'&&(j.status!=='failed'||i===0)).slice(0,4)){
+  const item=document.createElement('div');item.className='job'+(job.status==='failed'?' failed':'');
+  const title=document.createElement('div');title.textContent=modelName(job.config.model);item.append(title);
+  const state=document.createElement('div');state.className='job-state';state.textContent=job.status==='failed'?'生成失败':job.status==='running'?(job.stage==='sampling'?`生成中 ${job.step} / ${job.total}`:'正在加载模型…'):'等待 GPU…';item.append(state);
+  const text=document.createElement('div');text.className='job-prompt';text.textContent=job.error||job.config.prompt;text.title=text.textContent;item.append(text);target.append(item);
+ }
+}
+async function refresh(){
+ try{const [data,jobs]=await Promise.all([api('/api/images'),api('/api/jobs')]);const next=JSON.stringify(data.images);if(next!==signature){signature=next;images=data.images;const ids=new Set(images.map(x=>x.id));selected=new Set([...selected].filter(id=>ids.has(id)));render();}renderJobs(jobs.jobs);$('sync-status').innerHTML='<i class="live"></i>自动同步';}
+ catch(error){$('sync-status').textContent='连接中断，正在重试';if(!images.length)$('grid').replaceChildren(empty('暂时无法连接，请检查 SSH 隧道。'));}
+}
+$('model').onchange=()=>{const defaults=models[$('model').value];if(defaults){$('steps').value=defaults.steps;$('guidance').value=defaults.guidance_scale;}};
+$('compare').onclick=()=>{comparing=!comparing;$('page-error').textContent='';render();};
+$('clear').onclick=()=>{selected.clear();$('page-error').textContent='';render();};
+$('close-details').onclick=()=>$('details').close();
+$('details').onclick=event=>{if(event.target===$('details')){const b=$('details').getBoundingClientRect();if(event.clientX<b.left||event.clientX>b.right||event.clientY<b.top||event.clientY>b.bottom)$('details').close();}};
+$('generate-form').onsubmit=async event=>{
+ event.preventDefault();$('form-error').textContent='';$('submit').disabled=true;$('submit').textContent='正在提交…';
+ const config={model:$('model').value,prompt:$('prompt').value,seed:Number($('seed').value),steps:Number($('steps').value),guidance_scale:Number($('guidance').value),width:Number($('width').value),height:Number($('height').value)};
+ try{await api('/api/generate',{method:'POST',headers:{'Content-Type':'application/json','X-Requested-With':'reactive-samplers'},body:JSON.stringify(config)});await refresh();}catch(error){$('form-error').textContent=error.message;}finally{$('submit').disabled=false;$('submit').textContent='生成图片';}
+};
+(async()=>{try{const data=await api('/api/models');models=data.models;if(!data.can_generate){$('submit').disabled=true;$('generation-note').textContent='当前为只读预览，尚未连接生成接口。';}await refresh();}catch(error){$('page-error').textContent=error.message;}setInterval(refresh,4000);})();
+</script>
+</body>
+</html>

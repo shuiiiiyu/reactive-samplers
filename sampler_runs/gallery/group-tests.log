@@ -1,0 +1,14 @@
+warning: Using incompatible environment (`/tmp/reactive-metric-runtime/env`) due to `--no-sync` (The interpreter in the project environment has a different version (3.11.17) than it was created with (3.11.5))
+test_experiment_groups_keep_variants_and_other_experiments_separate (test_gallery.GalleryTests.test_experiment_groups_keep_variants_and_other_experiments_separate) ... ok
+test_http_submission_safe_paths_and_automatic_discovery (test_gallery.GalleryTests.test_http_submission_safe_paths_and_automatic_discovery) ... 127.0.0.1 - - [26/Oct/2026 16:17:20] "POST /api/generate HTTP/1.1" 202 -
+127.0.0.1 - - [26/Oct/2026 16:17:20] "GET /images/..%2Fsecret.png HTTP/1.1" 404 -
+127.0.0.1 - - [26/Oct/2026 16:17:20] "GET /images/%2Fetc%2Fpasswd HTTP/1.1" 404 -
+127.0.0.1 - - [26/Oct/2026 16:17:20] "POST /api/generate HTTP/1.1" 403 -
+ok
+test_legacy_smoke_paths_and_main_experiment_configs (test_gallery.GalleryTests.test_legacy_smoke_paths_and_main_experiment_configs) ... ok
+test_validation_rejects_invalid_values_and_unknown_actions (test_gallery.GalleryTests.test_validation_rejects_invalid_values_and_unknown_actions) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.545s
+
+OK

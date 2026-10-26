@@ -1,0 +1,80 @@
+Building wheel...
+running bdist_wheel
+running build
+running build_py
+copying reactive_samplers/wrapper.py -> build/lib/reactive_samplers
+copying reactive_samplers/context.py -> build/lib/reactive_samplers
+running egg_info
+writing reactive_samplers.egg-info/PKG-INFO
+writing dependency_links to reactive_samplers.egg-info/dependency_links.txt
+writing entry points to reactive_samplers.egg-info/entry_points.txt
+writing requirements to reactive_samplers.egg-info/requires.txt
+writing top-level names to reactive_samplers.egg-info/top_level.txt
+reading manifest file 'reactive_samplers.egg-info/SOURCES.txt'
+writing manifest file 'reactive_samplers.egg-info/SOURCES.txt'
+installing to build/bdist.linux-x86_64/wheel
+running install
+running install_lib
+creating build/bdist.linux-x86_64/wheel
+creating build/bdist.linux-x86_64/wheel/reactive_samplers
+copying build/lib/reactive_samplers/context.py -> build/bdist.linux-x86_64/wheel/./reactive_samplers
+copying build/lib/reactive_samplers/wrapper.py -> build/bdist.linux-x86_64/wheel/./reactive_samplers
+creating build/bdist.linux-x86_64/wheel/reactive_samplers/web
+copying build/lib/reactive_samplers/web/index.html -> build/bdist.linux-x86_64/wheel/./reactive_samplers/web
+creating build/bdist.linux-x86_64/wheel/reactive_samplers/backends
+copying build/lib/reactive_samplers/backends/__init__.py -> build/bdist.linux-x86_64/wheel/./reactive_samplers/backends
+creating build/bdist.linux-x86_64/wheel/reactive_samplers/models
+copying build/lib/reactive_samplers/models/__init__.py -> build/bdist.linux-x86_64/wheel/./reactive_samplers/models
+copying build/lib/reactive_samplers/models/sd3.py -> build/bdist.linux-x86_64/wheel/./reactive_samplers/models
+creating build/bdist.linux-x86_64/wheel/reactive_samplers/prompts
+copying build/lib/reactive_samplers/prompts/sampling_agent.md -> build/bdist.linux-x86_64/wheel/./reactive_samplers/prompts
+creating build/bdist.linux-x86_64/wheel/reactive_samplers/prompts/grid_skip
+copying build/lib/reactive_samplers/prompts/grid_skip/sampling_agent.md -> build/bdist.linux-x86_64/wheel/./reactive_samplers/prompts/grid_skip
+copying build/lib/reactive_samplers/prompts/grid_skip/analysis.py -> build/bdist.linux-x86_64/wheel/./reactive_samplers/prompts/grid_skip
+copying build/lib/reactive_samplers/prompts/grid_skip/updater.py -> build/bdist.linux-x86_64/wheel/./reactive_samplers/prompts/grid_skip
+copying build/lib/reactive_samplers/prompts/analysis.py -> build/bdist.linux-x86_64/wheel/./reactive_samplers/prompts
+copying build/lib/reactive_samplers/prompts/updater.py -> build/bdist.linux-x86_64/wheel/./reactive_samplers/prompts
+copying build/lib/reactive_samplers/evaluation.py -> build/bdist.linux-x86_64/wheel/./reactive_samplers
+copying build/lib/reactive_samplers/schedule.py -> build/bdist.linux-x86_64/wheel/./reactive_samplers
+copying build/lib/reactive_samplers/__init__.py -> build/bdist.linux-x86_64/wheel/./reactive_samplers
+copying build/lib/reactive_samplers/gallery.py -> build/bdist.linux-x86_64/wheel/./reactive_samplers
+copying build/lib/reactive_samplers/generation.py -> build/bdist.linux-x86_64/wheel/./reactive_samplers
+copying build/lib/reactive_samplers/recovery.py -> build/bdist.linux-x86_64/wheel/./reactive_samplers
+copying build/lib/reactive_samplers/report.py -> build/bdist.linux-x86_64/wheel/./reactive_samplers
+copying build/lib/reactive_samplers/programs.py -> build/bdist.linux-x86_64/wheel/./reactive_samplers
+copying build/lib/reactive_samplers/agent.py -> build/bdist.linux-x86_64/wheel/./reactive_samplers
+copying build/lib/reactive_samplers/cli.py -> build/bdist.linux-x86_64/wheel/./reactive_samplers
+running install_egg_info
+Copying reactive_samplers.egg-info to build/bdist.linux-x86_64/wheel/./reactive_samplers-0.1.0-py3.11.egg-info
+running install_scripts
+creating build/bdist.linux-x86_64/wheel/reactive_samplers-0.1.0.dist-info/WHEEL
+creating '/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/sampler_runs/setup/grid_skip/wheels/.tmp-vr1hgkpd/reactive_samplers-0.1.0-py3-none-any.whl' and adding 'build/bdist.linux-x86_64/wheel' to it
+adding 'reactive_samplers/__init__.py'
+adding 'reactive_samplers/agent.py'
+adding 'reactive_samplers/cli.py'
+adding 'reactive_samplers/context.py'
+adding 'reactive_samplers/evaluation.py'
+adding 'reactive_samplers/gallery.py'
+adding 'reactive_samplers/generation.py'
+adding 'reactive_samplers/programs.py'
+adding 'reactive_samplers/recovery.py'
+adding 'reactive_samplers/report.py'
+adding 'reactive_samplers/schedule.py'
+adding 'reactive_samplers/wrapper.py'
+adding 'reactive_samplers/backends/__init__.py'
+adding 'reactive_samplers/models/__init__.py'
+adding 'reactive_samplers/models/sd3.py'
+adding 'reactive_samplers/prompts/analysis.py'
+adding 'reactive_samplers/prompts/sampling_agent.md'
+adding 'reactive_samplers/prompts/updater.py'
+adding 'reactive_samplers/prompts/grid_skip/analysis.py'
+adding 'reactive_samplers/prompts/grid_skip/sampling_agent.md'
+adding 'reactive_samplers/prompts/grid_skip/updater.py'
+adding 'reactive_samplers/web/index.html'
+adding 'reactive_samplers-0.1.0.dist-info/METADATA'
+adding 'reactive_samplers-0.1.0.dist-info/WHEEL'
+adding 'reactive_samplers-0.1.0.dist-info/entry_points.txt'
+adding 'reactive_samplers-0.1.0.dist-info/top_level.txt'
+adding 'reactive_samplers-0.1.0.dist-info/RECORD'
+removing build/bdist.linux-x86_64/wheel
+Successfully built sampler_runs/setup/grid_skip/wheels/reactive_samplers-0.1.0-py3-none-any.whl

@@ -1,0 +1,5 @@
+**Observation:** At σ=0.5151, the skip window is active, but predicted-clean change (relative RMS 0.126; cosine 0.992) and velocity change (relative RMS 0.186) miss the stability thresholds.
+
+**Keep** `analysis.py` and `updater.py` unchanged. The policy should follow the reference schedule to σ=0.4649. One matched image used 27 vs. 28 NFE, with equal HPS and slightly lower CLIP; that single result doesn’t establish a quality or runtime improvement.
+
+The prediction would be refuted if the policy skips here, or if more matched results show a consistent quality cost when the stability gate triggers.

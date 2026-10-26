@@ -1,0 +1,5 @@
+**Observation:** At σ=0.1109, predicted-clean change is stable (relative RMS 0.053; cosine 0.999), while velocity change is large. The skip rule only applies from σ=0.30 to 0.85.
+
+**Keep** the current policy unchanged. It should follow the reference schedule to σ=0.0089, then finish. The earlier skip reached σ=0.1998 as predicted; its quality impact is still unknown.
+
+The prediction would be refuted if the policy skips the remaining reference step, or if matched results show a consistent quality cost from the earlier skip.

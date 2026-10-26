@@ -1,0 +1,3 @@
+At σ=0.81432, predicted-clean change remains high (relative RMS 0.188; cosine 0.983), so the updater’s stability thresholds do not trigger. It selects the next reference sigma, 0.79037.
+
+I kept [updater.py](/workspace/home/shencanyu/.codex-opal/reactive-samplers/agent_explore/workspace/updater.py) and [analysis.py](/workspace/home/shencanyu/.codex-opal/reactive-samplers/agent_explore/workspace/analysis.py) unchanged. **Prediction:** this step follows the reference schedule; later skips may reduce NFE when trajectory changes stabilize. Matched quality drops or no NFE savings would refute that prediction.

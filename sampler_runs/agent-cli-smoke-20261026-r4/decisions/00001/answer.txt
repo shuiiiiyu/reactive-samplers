@@ -1,0 +1,3 @@
+Blocked: shell execution fails because the environment lacks `bwrap`. I couldn’t read the decision files or inspect the paused state, and made no changes.
+
+Rationale: editing without those inputs would be speculative. Prediction: behavior remains unchanged.

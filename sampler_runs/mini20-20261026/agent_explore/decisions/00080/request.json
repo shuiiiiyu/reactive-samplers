@@ -1,0 +1,71 @@
+{
+  "session_id": "agent_explore",
+  "decision": 80,
+  "step": 0,
+  "nfe": 1,
+  "sigma": 1.0,
+  "state": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/mini20-20261026/agent_explore/decisions/00080/state.pt",
+  "workspace": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/mini20-20261026/agent_explore/workspace",
+  "diagnostic_workspace": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/mini20-20261026/agent_explore/decisions/00080/diagnostic_workspace",
+  "policy_version": "6a414820d454f46301a6cedafc3ce36e3985a9eaef7ff66c47ee999ac76d3373",
+  "observation": {
+    "sigma": 1.0,
+    "timestep": 1000.0,
+    "step": 0,
+    "nfe": 1,
+    "remaining_nfe": 27,
+    "history_length": 0,
+    "latent": {
+      "mean": 0.002456006361171603,
+      "std": 0.9996150135993958,
+      "rms": 0.9996179938316345,
+      "max_abs": 5.15625
+    },
+    "velocity": {
+      "mean": -0.3950156569480896,
+      "std": 1.7103989124298096,
+      "rms": 1.7554206848144531,
+      "max_abs": 7.53125
+    },
+    "predicted_clean": {
+      "mean": 0.39746055006980896,
+      "std": 1.357468605041504,
+      "rms": 1.414459466934204,
+      "max_abs": 4.625
+    },
+    "velocity_change": null,
+    "latent_change": null,
+    "predicted_clean_change": null,
+    "spatial_latent_change": null,
+    "spatial_predicted_clean_change": null,
+    "cfg": {
+      "conditional": {
+        "mean": -0.1093306764960289,
+        "std": 1.190961480140686,
+        "rms": 1.1959693431854248,
+        "max_abs": 5.1875
+      },
+      "unconditional": {
+        "mean": -0.06171946972608566,
+        "std": 1.1569762229919434,
+        "rms": 1.1586211919784546,
+        "max_abs": 5.09375
+      },
+      "difference": {
+        "rms": 0.16354654729366302,
+        "relative_rms": 0.1411561816930771,
+        "cosine": 0.9908519387245178
+      }
+    },
+    "layer_features": {}
+  },
+  "instructions": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/reactive_samplers/prompts/sampling_agent.md",
+  "inspect_command": [
+    "reactive-samplers",
+    "inspect",
+    "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/mini20-20261026/agent_explore/decisions/00080/state.pt",
+    "--workspace",
+    "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/mini20-20261026/agent_explore/workspace"
+  ],
+  "feedback": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/mini20-20261026/agent_explore/feedback.json"
+}

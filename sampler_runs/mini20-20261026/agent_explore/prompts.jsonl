@@ -1,0 +1,10 @@
+{"id": "coco_train2017_00", "source": "coco_train2017", "prompt": "A little girl brushing her teeth with an electric toothbrush.", "seed": 4083313579, "image_id": 187743, "annotation_id": 173565}
+{"id": "coco_train2017_01", "source": "coco_train2017", "prompt": "A blue and white bus is driving down a street.", "seed": 939461875, "image_id": 30775, "annotation_id": 42622}
+{"id": "coco_train2017_02", "source": "coco_train2017", "prompt": "A snowboarder sitting down with his snowboard on his feet.", "seed": 2660488036, "image_id": 527718, "annotation_id": 789522}
+{"id": "coco_train2017_03", "source": "coco_train2017", "prompt": "Several people on the sand at a beach.", "seed": 4098222939, "image_id": 15757, "annotation_id": 585428}
+{"id": "coco_train2017_04", "source": "coco_train2017", "prompt": "A female swimming in the water with a life vest on.", "seed": 1664761177, "image_id": 48381, "annotation_id": 761095}
+{"id": "hpd_v2_train_00", "source": "hpd_v2_train", "prompt": "The image portrays the end of an organism.", "seed": 637080426}
+{"id": "hpd_v2_train_01", "source": "hpd_v2_train", "prompt": "Portrait of a fox in a boater hat and scarf.", "seed": 1380129124}
+{"id": "hpd_v2_train_02", "source": "hpd_v2_train", "prompt": "Angry 3D marble statue fashion model splashing white and pink metal with a Stanley Kubrick mood.", "seed": 1582741564}
+{"id": "hpd_v2_train_03", "source": "hpd_v2_train", "prompt": "The image is a detailed architectural drawing of a rooster, presented in an infographic-style elevation that shows its dimensions and technical sketch.", "seed": 1451913639}
+{"id": "hpd_v2_train_04", "source": "hpd_v2_train", "prompt": "A male android with shiny skin, half robot and half humanoid, posing still with a blank stare.", "seed": 4012369879}

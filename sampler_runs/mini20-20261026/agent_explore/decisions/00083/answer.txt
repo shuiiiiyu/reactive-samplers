@@ -1,0 +1,5 @@
+At σ≈0.9601, predicted-clean change is large (relative RMS ≈0.472; cosine ≈0.882), and the skip window does not include this sigma. The updater follows the reference schedule to σ≈0.94539.
+
+I kept `analysis.py` and `updater.py` unchanged, including the terminal-sigma guard. The latest paired image used 25 NFE versus 28 reference and scored slightly higher on HPS and CLIP, but one image is insufficient to establish a general quality effect.
+
+**Prediction:** this image follows the reference schedule at this step; any later skip depends on the stability checks. Consistent quality declines across more paired images would argue against keeping the rule.

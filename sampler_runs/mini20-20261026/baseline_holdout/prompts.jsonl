@@ -1,0 +1,10 @@
+{"id": "coco_train2017_05", "source": "coco_train2017", "prompt": "The stuffed animals are being displayed on the rack.", "seed": 1322420039, "image_id": 218863, "annotation_id": 800781}
+{"id": "coco_train2017_06", "source": "coco_train2017", "prompt": "wheat bread with chocolate and sliced bananas", "seed": 1683078042, "image_id": 430160, "annotation_id": 252741}
+{"id": "coco_train2017_07", "source": "coco_train2017", "prompt": "A clock on a building with people painted around it.", "seed": 1385453594, "image_id": 579226, "annotation_id": 258855}
+{"id": "coco_train2017_08", "source": "coco_train2017", "prompt": "Two orange fruits with leaves on a blue plate.", "seed": 300683463, "image_id": 566482, "annotation_id": 648890}
+{"id": "coco_train2017_09", "source": "coco_train2017", "prompt": "Small boy in blue shirt holds up a yellow frisbee in his hands.", "seed": 3229507884, "image_id": 460711, "annotation_id": 200673}
+{"id": "hpd_v2_train_05", "source": "hpd_v2_train", "prompt": "\"The Great Wave off Kanagawa\" digital painting depicted with intricate details and elegant strokes.", "seed": 668678887}
+{"id": "hpd_v2_train_06", "source": "hpd_v2_train", "prompt": "Harry Potter as Dio Brando in JoJo style.", "seed": 1688291636}
+{"id": "hpd_v2_train_07", "source": "hpd_v2_train", "prompt": "The image shows a futuristic cyborg portraying Stephen Hawking, as part of an art station concept art.", "seed": 1695317183}
+{"id": "hpd_v2_train_08", "source": "hpd_v2_train", "prompt": "A crowd of people stand by canopy tents in the rain.", "seed": 2297279162}
+{"id": "hpd_v2_train_09", "source": "hpd_v2_train", "prompt": "A picture of Pikachu, a yellow Pokémon with red cheeks and lightning-shaped tail.", "seed": 960053506}

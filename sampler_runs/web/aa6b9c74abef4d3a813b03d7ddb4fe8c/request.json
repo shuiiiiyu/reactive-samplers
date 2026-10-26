@@ -1,0 +1,10 @@
+{
+  "model": "sd3",
+  "negative_prompt": "",
+  "seed": 4342,
+  "width": 1024,
+  "height": 1024,
+  "steps": 28,
+  "guidance_scale": 7,
+  "prompt": "A red panda wearing a blue scarf, sitting on a wooden bench in a sunlit park, detailed photography."
+}

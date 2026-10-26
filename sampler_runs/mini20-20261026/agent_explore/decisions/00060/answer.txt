@@ -1,0 +1,5 @@
+At σ≈0.9298, predicted-clean change remains high (relative RMS ≈0.407), and this sigma is above the skip window. The updater follows the reference schedule to σ≈0.91335.
+
+I kept `analysis.py` and `updater.py` unchanged. The two paired image results remain mixed and too limited to establish a quality effect.
+
+**Prediction:** this image continues on the reference schedule at high sigma; a skip may occur later if the stability thresholds are met in range. Consistent score declines across more paired images would argue against keeping the rule.

@@ -1,0 +1,5 @@
+At the fresh start (σ=1, no history), the stability rule cannot trigger. The updater follows the reference schedule to σ≈0.98738. I kept both files unchanged; the terminal-sigma guard added earlier remains in place.
+
+Feedback for the third paired image shows 25 NFE versus 28 reference NFE, with HPS +0.00049 and CLIP +0.146 versus its same-prompt, same-seed reference. This single result is encouraging but too limited to establish a general quality effect.
+
+**Prediction:** the image follows the reference schedule initially; later skips depend on the stability checks. Consistent quality declines across more paired images would argue against keeping the rule.

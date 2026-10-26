@@ -1,0 +1,5 @@
+At sigma 0.8577, velocity change is declining (relative RMS 0.163, cosine 0.987), but remains above the rule’s similarity threshold, and the skip window starts below 0.85. Feedback has 10 references and no completed candidate images.
+
+I inspected the paused state and kept `analysis.py` and `updater.py` unchanged. The rule should follow the reference schedule here.
+
+**Prediction:** No skip at this step; later skips will be rare. Lower matched-prompt HPS/CLIP scores or skips during unstable predictions would refute the rule. No candidate quality results are available yet.

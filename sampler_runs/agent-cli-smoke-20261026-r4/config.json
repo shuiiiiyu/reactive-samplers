@@ -1,0 +1,30 @@
+{
+  "mode": "explore",
+  "model_path": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/models/sd3-medium",
+  "device": "cuda",
+  "dtype": "bfloat16",
+  "height": 1024,
+  "width": 1024,
+  "guidance_scale": 7.0,
+  "max_sequence_length": 256,
+  "reference_steps": 28,
+  "max_nfe": 28,
+  "prompts": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/setup/agent-cli-smoke-20261026/prompts.jsonl",
+  "expected_count": 1,
+  "output_dir": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/agent-cli-smoke-20261026-r4",
+  "policy": null,
+  "agent": {
+    "backend": "mailbox",
+    "command": [],
+    "timeout_seconds": 1800,
+    "poll_seconds": 1,
+    "schedule": "checkpoints",
+    "checkpoints": [
+      0
+    ]
+  },
+  "metrics": {
+    "names": [],
+    "clip_model": null
+  }
+}

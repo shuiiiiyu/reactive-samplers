@@ -1,0 +1,52 @@
+{
+  "prompt": "A red panda wearing a blue scarf, sitting on a wooden bench in a sunlit park, detailed photography.",
+  "seed": 42,
+  "environment": {
+    "torch": "2.5.1+cu121",
+    "diffusers": "0.35.1",
+    "transformers": "4.44.2",
+    "gpu": "NVIDIA H100"
+  },
+  "images": {
+    "sd3": {
+      "status": "complete",
+      "checkpoint": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/models/sd3-medium",
+      "dtype": "torch.bfloat16",
+      "steps": 28,
+      "guidance_scale": 7.0,
+      "height": 1024,
+      "width": 1024,
+      "cpu_offload": true,
+      "local_files_only": true,
+      "load_seconds": 40.68895320803858,
+      "inference_seconds": 8.3497392621357,
+      "image": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/trento_smoke/48036668/images/sd3.png",
+      "nfe": 28,
+      "executed_steps": 28,
+      "pixel_std": 85.4944074284783,
+      "pixel_min": 0,
+      "pixel_max": 255,
+      "peak_gpu_allocated_bytes": 10963193856
+    },
+    "sdxl": {
+      "status": "complete",
+      "checkpoint": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/models/sdxl-base-1.0",
+      "dtype": "torch.float16",
+      "steps": 30,
+      "guidance_scale": 5.0,
+      "height": 1024,
+      "width": 1024,
+      "cpu_offload": true,
+      "local_files_only": true,
+      "load_seconds": 50.86358418595046,
+      "inference_seconds": 4.0443949438631535,
+      "image": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/trento_smoke/48036668/images/sdxl.png",
+      "nfe": 30,
+      "executed_steps": 30,
+      "pixel_std": 61.5567344722394,
+      "pixel_min": 0,
+      "pixel_max": 255,
+      "peak_gpu_allocated_bytes": 5618402816
+    }
+  }
+}

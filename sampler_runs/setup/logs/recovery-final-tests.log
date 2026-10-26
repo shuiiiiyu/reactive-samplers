@@ -1,0 +1,49 @@
+test_flow_clean_spatial_cfg_and_layer_signals (test_analysis.AnalysisTests.test_flow_clean_spatial_cfg_and_layer_signals) ... ok
+test_action_boundaries_and_final_budget (test_core.CoreTests.test_action_boundaries_and_final_budget) ... ok
+test_agent_modifies_current_image_and_repeated_diagnostics (test_core.CoreTests.test_agent_modifies_current_image_and_repeated_diagnostics) ... ok
+test_both_agent_schedules (test_core.CoreTests.test_both_agent_schedules) ... ok
+test_changed_updater_is_called_once (test_core.CoreTests.test_changed_updater_is_called_once) ... ok
+test_default_rule_and_per_image_reset (test_core.CoreTests.test_default_rule_and_per_image_reset) ... ok
+test_freeze_verification_and_no_agent_replay (test_core.CoreTests.test_freeze_verification_and_no_agent_replay) ... ok
+test_illegal_candidate_action_rejected_before_update (test_core.CoreTests.test_illegal_candidate_action_rejected_before_update) ... ok
+test_invalid_edit_restores_old_program (test_core.CoreTests.test_invalid_edit_restores_old_program) ... ok
+test_prompt_manifest_validation (test_core.CoreTests.test_prompt_manifest_validation) ... ok
+test_relative_helpers_reloaded_and_scratch_excluded (test_core.CoreTests.test_relative_helpers_reloaded_and_scratch_excluded) ... ok
+test_http_submission_safe_paths_and_automatic_discovery (test_gallery.GalleryTests.test_http_submission_safe_paths_and_automatic_discovery) ... 127.0.0.1 - - [26/Oct/2026 14:51:10] "POST /api/generate HTTP/1.1" 202 -
+127.0.0.1 - - [26/Oct/2026 14:51:10] "GET /images/..%2Fsecret.png HTTP/1.1" 404 -
+127.0.0.1 - - [26/Oct/2026 14:51:10] "GET /images/%2Fetc%2Fpasswd HTTP/1.1" 404 -
+127.0.0.1 - - [26/Oct/2026 14:51:10] "POST /api/generate HTTP/1.1" 403 -
+ok
+test_legacy_smoke_paths_and_main_experiment_configs (test_gallery.GalleryTests.test_legacy_smoke_paths_and_main_experiment_configs) ... ok
+test_validation_rejects_invalid_values_and_unknown_actions (test_gallery.GalleryTests.test_validation_rejects_invalid_values_and_unknown_actions) ... ok
+test_bridge_hash_matches_sampler_hash (test_recovery.MailboxRecoveryTests.test_bridge_hash_matches_sampler_hash) ... ok
+test_command_timeout_terminates_child_process_group (test_recovery.MailboxRecoveryTests.test_command_timeout_terminates_child_process_group) ... ok
+test_incomplete_and_failed_cli_turns_are_not_successes (test_recovery.MailboxRecoveryTests.test_incomplete_and_failed_cli_turns_are_not_successes) ... ok
+test_protocol_two_mailbox_commits_a_valid_candidate_at_the_same_step (test_recovery.MailboxRecoveryTests.test_protocol_two_mailbox_commits_a_valid_candidate_at_the_same_step) ... ok
+test_staged_candidate_is_returned_without_touching_active_workspace (test_recovery.MailboxRecoveryTests.test_staged_candidate_is_returned_without_touching_active_workspace) ... ok
+test_wrong_request_hash_and_late_response_are_rejected (test_recovery.MailboxRecoveryTests.test_wrong_request_hash_and_late_response_are_rejected) ... ok
+test_cuda_failure_aborts_with_snapshot_without_policy_retry (test_recovery.RecoveryTests.test_cuda_failure_aborts_with_snapshot_without_policy_retry) ... ok
+test_fallback_that_also_raises_reaches_earlier_stable_rule (test_recovery.RecoveryTests.test_fallback_that_also_raises_reaches_earlier_stable_rule) ... ok
+test_frozen_failure_is_labeled_when_default_takes_over (test_recovery.RecoveryTests.test_frozen_failure_is_labeled_when_default_takes_over) ... ok
+test_invalid_candidate_import_observation_and_coordinates (test_recovery.RecoveryTests.test_invalid_candidate_import_observation_and_coordinates) ... ok
+test_late_runtime_failure_is_sent_to_next_agent_request (test_recovery.RecoveryTests.test_late_runtime_failure_is_sent_to_next_agent_request) ... ok
+test_pending_trial_is_not_promoted_to_fallback (test_recovery.RecoveryTests.test_pending_trial_is_not_promoted_to_fallback) ... ok
+test_policy_cannot_mutate_authoritative_latent_prediction_or_history (test_recovery.RecoveryTests.test_policy_cannot_mutate_authoritative_latent_prediction_or_history) ... ok
+test_running_analysis_systemexit_and_rng_changes_are_recovered (test_recovery.RecoveryTests.test_running_analysis_systemexit_and_rng_changes_are_recovered) ... ok
+test_solver_partial_state_and_nan_do_not_commit_or_add_nfe (test_recovery.RecoveryTests.test_solver_partial_state_and_nan_do_not_commit_or_add_nfe) ... ok
+test_scheduler_snapshot_restores_indices_and_sigma_coordinates (test_sd3_scheduler.SchedulerParity.test_scheduler_snapshot_restores_indices_and_sigma_coordinates) ... ok
+test_stock_euler_and_dynamic_adapter_match (test_sd3_scheduler.SchedulerParity.test_stock_euler_and_dynamic_adapter_match) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 3.589s
+
+OK
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/weakref.py", line 666, in _exitfunc
+    f()
+  File "/usr/lib/python3.11/weakref.py", line 590, in __call__
+    return info.func(*info.args, **(info.kwargs or {}))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/tempfile.py", line 1073, in _cleanup
+    _warnings.warn(warn_message, ResourceWarning)
+ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp3utc1tb7'>

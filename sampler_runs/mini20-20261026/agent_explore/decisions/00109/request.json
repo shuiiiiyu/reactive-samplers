@@ -1,0 +1,123 @@
+{
+  "session_id": "agent_explore",
+  "decision": 109,
+  "step": 4,
+  "nfe": 5,
+  "sigma": 0.9453874826431274,
+  "state": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/mini20-20261026/agent_explore/decisions/00109/state.pt",
+  "workspace": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/mini20-20261026/agent_explore/workspace",
+  "diagnostic_workspace": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/mini20-20261026/agent_explore/decisions/00109/diagnostic_workspace",
+  "policy_version": "6a414820d454f46301a6cedafc3ce36e3985a9eaef7ff66c47ee999ac76d3373",
+  "observation": {
+    "sigma": 0.9453874826431274,
+    "timestep": 945.3874826431274,
+    "step": 4,
+    "nfe": 5,
+    "remaining_nfe": 23,
+    "history_length": 4,
+    "latent": {
+      "mean": 0.010747595690190792,
+      "std": 0.9448767304420471,
+      "rms": 0.9449378252029419,
+      "max_abs": 4.53125
+    },
+    "velocity": {
+      "mean": -0.1335114687681198,
+      "std": 1.4703867435455322,
+      "rms": 1.4764357805252075,
+      "max_abs": 9.3125
+    },
+    "predicted_clean": {
+      "mean": 0.13695301115512848,
+      "std": 1.0445101261138916,
+      "rms": 1.053450345993042,
+      "max_abs": 7.25
+    },
+    "velocity_change": {
+      "rms": 0.4754830598831177,
+      "relative_rms": 0.3182772994041443,
+      "cosine": 0.9488190412521362
+    },
+    "latent_change": {
+      "rms": 0.022078873589634895,
+      "relative_rms": 0.023022500798106194,
+      "cosine": 0.9998403787612915
+    },
+    "predicted_clean_change": {
+      "rms": 0.44949546456336975,
+      "relative_rms": 0.41038984060287476,
+      "cosine": 0.9132040739059448
+    },
+    "spatial_latent_change": {
+      "tile_rms_4x4": [
+        0.020314667373895645,
+        0.021489273756742477,
+        0.020600710064172745,
+        0.019569600000977516,
+        0.020644765347242355,
+        0.02465875819325447,
+        0.023388070985674858,
+        0.02085503190755844,
+        0.020790109410881996,
+        0.02529587224125862,
+        0.022999746724963188,
+        0.021566523239016533,
+        0.023476852104067802,
+        0.023183617740869522,
+        0.021911881864070892,
+        0.021601079031825066
+      ],
+      "max_tile_rms": 0.02529587224125862
+    },
+    "spatial_predicted_clean_change": {
+      "tile_rms_4x4": [
+        0.2292996644973755,
+        0.298115611076355,
+        0.4145170748233795,
+        0.2094239890575409,
+        0.22660300135612488,
+        0.7162873148918152,
+        0.7835655808448792,
+        0.19621387124061584,
+        0.44258227944374084,
+        0.7401010394096375,
+        0.7006452083587646,
+        0.4691522717475891,
+        0.21781153976917267,
+        0.20745770633220673,
+        0.26672306656837463,
+        0.20605064928531647
+      ],
+      "max_tile_rms": 0.7835655808448792
+    },
+    "cfg": {
+      "conditional": {
+        "mean": -0.15003234148025513,
+        "std": 1.3203409910202026,
+        "rms": 1.3288377523422241,
+        "max_abs": 6.40625
+      },
+      "unconditional": {
+        "mean": -0.1527860164642334,
+        "std": 1.3091756105422974,
+        "rms": 1.3180608749389648,
+        "max_abs": 6.28125
+      },
+      "difference": {
+        "rms": 0.0760551169514656,
+        "relative_rms": 0.05770228058099747,
+        "cosine": 0.9983818531036377
+      }
+    },
+    "layer_features": {}
+  },
+  "instructions": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/reactive_samplers/prompts/sampling_agent.md",
+  "inspect_command": [
+    "reactive-samplers",
+    "inspect",
+    "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/mini20-20261026/agent_explore/decisions/00109/state.pt",
+    "--workspace",
+    "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/mini20-20261026/agent_explore/workspace"
+  ],
+  "feedback": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/mini20-20261026/agent_explore/feedback.json"
+}

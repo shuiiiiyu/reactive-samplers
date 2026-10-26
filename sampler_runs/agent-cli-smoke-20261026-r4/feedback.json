@@ -1,0 +1,19 @@
+{
+  "completed_images": [
+    {
+      "id": "red_panda",
+      "prompt": "A red panda wearing a blue scarf, sitting on a wooden bench in a sunlit park, detailed photography.",
+      "seed": 42,
+      "source": "agent_cli_smoke",
+      "nfe": 28,
+      "denoiser_items": 56,
+      "sampling_seconds": 34.28362069185823,
+      "end_to_end_seconds": 34.60786918294616,
+      "agent_seconds": 32.01545273303054,
+      "final_policy_version": "ae5e5b0ea517ff3e7acea2dbfedbb36646831d74a8bc2453e318129ff7c27285",
+      "terminal_sigma": 0.0,
+      "scores": {},
+      "image": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/agent-cli-smoke-20261026-r4/images/red_panda.png"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "session_id": "agent-cli-smoke-20261026-r4",
+  "decision": 1,
+  "step": 0,
+  "nfe": 1,
+  "sigma": 1.0,
+  "state": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/agent-cli-smoke-20261026-r4/decisions/00001/state.pt",
+  "workspace": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/agent-cli-smoke-20261026-r4/workspace",
+  "diagnostic_workspace": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/agent-cli-smoke-20261026-r4/decisions/00001/diagnostic_workspace",
+  "policy_version": "ae5e5b0ea517ff3e7acea2dbfedbb36646831d74a8bc2453e318129ff7c27285",
+  "observation": {
+    "sigma": 1.0,
+    "timestep": 1000.0,
+    "nfe": 1,
+    "remaining_nfe": 27,
+    "history_length": 0
+  },
+  "instructions": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/reactive_samplers/prompts/sampling_agent.md",
+  "inspect_command": [
+    "reactive-samplers",
+    "inspect",
+    "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/agent-cli-smoke-20261026-r4/decisions/00001/state.pt",
+    "--workspace",
+    "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/agent-cli-smoke-20261026-r4/workspace"
+  ],
+  "feedback": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/agent-cli-smoke-20261026-r4/feedback.json"
+}

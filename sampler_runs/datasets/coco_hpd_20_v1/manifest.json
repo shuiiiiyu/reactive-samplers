@@ -1,0 +1,10 @@
+{
+  "selection_seed": 20261026,
+  "explore_count": 10,
+  "holdout_count": 10,
+  "sources": [
+    "COCO 2017 train captions",
+    "HPD v2 training prompts"
+  ],
+  "rule": "Unique prompts per source; random sample of ten, first five explore, last five holdout."
+}

@@ -1,0 +1,3 @@
+At σ=0.00893, `remaining_nfe` is 0, so the updater returns the terminal sigma. I kept `analysis.py` and `updater.py` unchanged.
+
+**Prediction:** The image completes at 28 NFE, matching the reference schedule. A different final NFE would refute this prediction.

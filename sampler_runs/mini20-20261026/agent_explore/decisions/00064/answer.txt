@@ -1,0 +1,5 @@
+At σ≈0.8577, the skip window has not started, so the updater follows the reference schedule to σ≈0.83672. Predicted-clean change is still substantial (relative RMS ≈0.214).
+
+I kept `analysis.py` and `updater.py` unchanged. The two paired image results remain mixed and too limited to establish a quality effect.
+
+**Prediction:** the next step follows the reference schedule; later skips remain conditional on meeting the stability thresholds. Consistent score declines across more paired images would argue against keeping the rule.

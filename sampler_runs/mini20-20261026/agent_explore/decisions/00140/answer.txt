@@ -1,0 +1,3 @@
+At σ=0.89590, the updater’s skip rule is outside its active σ range, so it selects the next reference sigma, 0.87738. I kept `analysis.py` and `updater.py` unchanged.
+
+**Prediction:** This step follows the reference schedule. A different next sigma would refute this prediction.

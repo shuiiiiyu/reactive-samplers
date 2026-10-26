@@ -1,0 +1,33 @@
+{
+  "model_path": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/models/sd3-medium",
+  "device": "cuda",
+  "dtype": "bfloat16",
+  "height": 1024,
+  "width": 1024,
+  "guidance_scale": 7.0,
+  "max_sequence_length": 256,
+  "reference_steps": 28,
+  "max_nfe": 28,
+  "expected_count": 10,
+  "policy": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/mini20-20261026/default_policy",
+  "agent": {
+    "backend": "mailbox",
+    "command": [],
+    "timeout_seconds": 600,
+    "poll_seconds": 1,
+    "schedule": "every_step",
+    "checkpoints": []
+  },
+  "metrics": {
+    "names": [
+      "hps_v2_1",
+      "clip_score"
+    ],
+    "clip_model": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/metrics/clip/checkpoints/ViT-B-32.pt",
+    "hps_checkpoint": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/benchmarks/hps/checkpoints/hpsv2/HPS_v2.1_compressed.pt"
+  },
+  "mode": "default",
+  "prompts": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/datasets/coco_hpd_20_v1/explore.jsonl",
+  "output_dir": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/mini20-20261026/baseline_explore",
+  "baseline_results": null
+}

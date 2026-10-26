@@ -1,0 +1,5 @@
+At σ≈0.5606, the predicted-clean check passes (relative RMS ≈0.096; cosine ≈0.9954), while the velocity check fails. The updater therefore skips the next reference sigma, 0.51507, and selects σ≈0.46488.
+
+I kept `analysis.py` and `updater.py` unchanged. The two paired image results remain too limited and mixed to establish a quality effect.
+
+**Prediction:** the sampler takes that larger step; later skips remain conditional on the stability checks. A different selected sigma or consistent quality declines across more paired images would argue against this rule.

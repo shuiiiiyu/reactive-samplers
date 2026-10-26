@@ -1,6 +1,7 @@
 # Required experiment settings are intentionally unresolved until the environment is chosen.
 mode: ???                         # default | explore | evaluate
-model_path: models/sd3-medium  # downloaded local Diffusers checkpoint
+method: adaptive_sigma             # adaptive_sigma | grid_skip
+model_path: models/sd3-medium           # downloaded local Diffusers checkpoint
 device: ???
 dtype: ???
 height: ???
@@ -13,14 +14,18 @@ prompts: ???                      # JSONL: {id, prompt, seed, source}
 expected_count: ???               # initial plan: 10 explore / 40 evaluate
 output_dir: ???                   # fresh directory; never silently resume/overwrite
 policy: null                      # required frozen directory in evaluate mode
+baseline_results: null            # optional paired reference feedback for exploration
 agent:
-  backend: command
+  backend: mailbox             # RunPod Codex CLI bridge; start bridge before Slurm job
   command: []                     # trusted bridge argv; {request}, {workspace} placeholders
+  timeout_seconds: 1800           # timeout falls back to the previous policy
+  poll_seconds: 1
   schedule: every_step            # every_step | checkpoints
   checkpoints: []                 # zero-based executed-step indices
 metrics:
   names: []                       # explicitly enable hps_v2_1 and/or clip_score for quality experiments
   clip_model: null
+  hps_checkpoint: null
 hydra:
   job:
     chdir: false

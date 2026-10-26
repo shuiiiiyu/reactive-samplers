@@ -1,0 +1,5 @@
+Decision 55 starts at σ=1.0 with no trajectory history, so the stability rule cannot trigger. The updater follows the reference schedule to σ≈0.98738.
+
+I kept `analysis.py` and `updater.py` unchanged. Paired feedback from the two completed images is mixed: HPS was unchanged for one and slightly higher for the other; CLIP was slightly lower for one and higher for the other. That’s too little evidence to judge the rule’s effect.
+
+**Prediction:** if the current image meets the stability thresholds later in the 0.30–0.85 range, the updater will skip a reference step and use fewer NFE. A larger paired set showing consistent score declines, or skips when the stability conditions are unmet, would refute this prediction.

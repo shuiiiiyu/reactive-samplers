@@ -1,0 +1,3 @@
+At σ = 0.60215, predicted-clean change meets the stability thresholds (relative RMS 0.096; cosine 0.9954), so the updater skips the next reference point, σ = 0.56063, and advances to σ = 0.51507. I kept both files unchanged; feedback has no candidate-image results.
+
+Prediction: this skip saves one NFE, with uncertain quality impact. Paired results showing a quality drop would refute the safety prediction.

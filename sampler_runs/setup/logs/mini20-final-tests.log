@@ -1,0 +1,24 @@
+test_flow_clean_spatial_cfg_and_layer_signals (test_analysis.AnalysisTests.test_flow_clean_spatial_cfg_and_layer_signals) ... ok
+test_action_boundaries_and_final_budget (test_core.CoreTests.test_action_boundaries_and_final_budget) ... ok
+test_agent_modifies_current_image_and_repeated_diagnostics (test_core.CoreTests.test_agent_modifies_current_image_and_repeated_diagnostics) ... ok
+test_both_agent_schedules (test_core.CoreTests.test_both_agent_schedules) ... ok
+test_changed_updater_is_called_once (test_core.CoreTests.test_changed_updater_is_called_once) ... ok
+test_default_rule_and_per_image_reset (test_core.CoreTests.test_default_rule_and_per_image_reset) ... ok
+test_freeze_verification_and_no_agent_replay (test_core.CoreTests.test_freeze_verification_and_no_agent_replay) ... ok
+test_illegal_candidate_action_rejected_before_update (test_core.CoreTests.test_illegal_candidate_action_rejected_before_update) ... ok
+test_invalid_edit_restores_old_program (test_core.CoreTests.test_invalid_edit_restores_old_program) ... ok
+test_prompt_manifest_validation (test_core.CoreTests.test_prompt_manifest_validation) ... ok
+test_relative_helpers_reloaded_and_scratch_excluded (test_core.CoreTests.test_relative_helpers_reloaded_and_scratch_excluded) ... ok
+test_http_submission_safe_paths_and_automatic_discovery (test_gallery.GalleryTests.test_http_submission_safe_paths_and_automatic_discovery) ... 127.0.0.1 - - [26/Oct/2026 08:57:58] "POST /api/generate HTTP/1.1" 202 -
+127.0.0.1 - - [26/Oct/2026 08:57:58] "GET /images/..%2Fsecret.png HTTP/1.1" 404 -
+127.0.0.1 - - [26/Oct/2026 08:57:58] "GET /images/%2Fetc%2Fpasswd HTTP/1.1" 404 -
+127.0.0.1 - - [26/Oct/2026 08:57:58] "POST /api/generate HTTP/1.1" 403 -
+ok
+test_legacy_smoke_paths_and_main_experiment_configs (test_gallery.GalleryTests.test_legacy_smoke_paths_and_main_experiment_configs) ... ok
+test_validation_rejects_invalid_values_and_unknown_actions (test_gallery.GalleryTests.test_validation_rejects_invalid_values_and_unknown_actions) ... ok
+test_stock_euler_and_dynamic_adapter_match (test_sd3_scheduler.SchedulerParity.test_stock_euler_and_dynamic_adapter_match) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 1.997s
+
+OK
