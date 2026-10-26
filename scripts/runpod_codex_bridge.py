@@ -149,7 +149,10 @@ def process_decision(args, request_path):
     if request.get("workspace") != remote_workspace or request.get("diagnostic_workspace") != remote_diagnostic:
         raise ValueError("Request workspace does not match this run")
     method = request.get("method", "adaptive_sigma")
-    prompt_name = {"adaptive_sigma": "sampling_agent.md", "grid_skip": "grid_skip/sampling_agent.md"}.get(method)
+    model = request.get("model", "sd3")
+    prompt_name = {("sd3", "adaptive_sigma"): "sampling_agent.md",
+                   ("sd3", "grid_skip"): "grid_skip/sampling_agent.md",
+                   ("sdxl", "grid_skip"): "sdxl_grid_skip/sampling_agent.md"}.get((model, method))
     if prompt_name is None or request.get("instructions") != args.project_root + "/reactive_samplers/prompts/" + prompt_name:
         raise ValueError("Unexpected Agent instruction path")
     if request.get("feedback") != args.run_dir + "/feedback.json":
@@ -192,12 +195,15 @@ def process_decision(args, request_path):
     session = json.loads(session_file.read_text(encoding="utf-8")) if session_file.exists() else {}
     if session and session.get("method", "adaptive_sigma") != method:
         raise ValueError("Different sampling methods require independent Agent runs and conversations")
+    if session and session.get("model", "sd3") != model:
+        raise ValueError("Different base models require independent Agent conversations")
     prompt = (f"Read {instructions} and {request_file}. Edit only analysis.py, updater.py, and relative Python "
               f"helpers in {workspace}. You may repeatedly edit analysis.py and run `python3 .agent_tools/inspect_current` "
               "to inspect the exact paused state. Then edit or keep updater.py. Do not alter the model, sampler, "
               "scheduler, evaluation, prompts, seeds, or other project files. End with a concise rationale and prediction.")
     command = [args.codex, "exec", "--json", "-m", "gpt-6-luna",
-               "-c", "model_reasoning_effort=high", "-C", str(workspace),
+               "-c", "model_reasoning_effort=" + args.reasoning_effort,
+               "-c", 'service_tier="default"', "-c", "features.fast_mode=false", "-C", str(workspace),
                "--sandbox", "danger-full-access", "--skip-git-repo-check"]
     if session.get("thread_id"):
         command += ["resume", session["thread_id"]]
@@ -223,7 +229,7 @@ def process_decision(args, request_path):
     if process.returncode:
         raise RuntimeError(f"Codex CLI exited with status {process.returncode}; see {log_path}")
     thread_id, final_message = parse_turn(log_path, session.get("thread_id"))
-    session_file.write_text(json.dumps({"thread_id": thread_id, "method": method}) + "\n", encoding="utf-8")
+    session_file.write_text(json.dumps({"thread_id": thread_id, "method": method, "model": model}) + "\n", encoding="utf-8")
     if exists(host, decision_dir + "/bridge_cancelled.json"):
         return
     # Protocol 2 never writes a running workspace. Only the sampler may accept a staged candidate.
@@ -234,7 +240,8 @@ def process_decision(args, request_path):
         return
     put_json(host, decision_dir + "/bridge_response.json", {
         "status": "ok", "message": final_message or "Codex CLI turn completed.",
-        "agent_model": "gpt-6-luna", "reasoning_effort": "high", "sandbox_mode": "danger-full-access",
+        "agent_model": "gpt-6-luna", "reasoning_effort": args.reasoning_effort,
+        "service_tier": "default", "fast_mode": False, "sandbox_mode": "danger-full-access",
         "request_id": request.get("request_id"), "base_version": request["policy_version"],
         "candidate_workspace": staged, "candidate_version": policy_digest(workspace),
     })
@@ -250,6 +257,7 @@ def main():
     parser.add_argument("--bridge-root", default=str(Path(__file__).resolve().parents[1]))
     parser.add_argument("--poll-seconds", type=float, default=1)
     parser.add_argument("--agent-timeout", type=int, default=900)
+    parser.add_argument("--reasoning-effort", choices=("low", "medium", "high"), default="high")
     args = parser.parse_args()
     args.run_dir = args.run_dir.rstrip("/")
     args.project_root = args.project_root.rstrip("/")

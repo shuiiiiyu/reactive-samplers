@@ -1,0 +1,11 @@
+{
+  "title": "COCO 十样本跳步对比实验 · SD3 与 SDXL",
+  "selection_seed": 20261027,
+  "count": 10,
+  "split": "exploratory paired comparison",
+  "agent_model": "gpt-6-luna",
+  "reasoning_effort": "low",
+  "service_tier": "default",
+  "fast_mode": false,
+  "previous_prompt_sets_excluded": true
+}

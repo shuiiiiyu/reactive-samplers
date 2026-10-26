@@ -73,6 +73,7 @@ def sample(adapter, programs, prompt, seed, reference_steps, max_nfe, schedule, 
     ctx, stage = None, "start"
     memory, history, timesteps, sigma_schedule = {}, [], [], []
     recovered_steps, default_steps = 0, 0
+    denoiser_seconds = 0.0
     model_index, kept_indices, skipped_indices, grid_checks = 0, [], [], 0
     agent_before = agent.seconds if agent else 0.0
     decisions_before = agent.count if agent else 0
@@ -124,7 +125,11 @@ def sample(adapter, programs, prompt, seed, reference_steps, max_nfe, schedule, 
                     revert(exc, stage)
             stage = "prediction"
             require_finite(latent, "input latent")
+            adapter.synchronize()
+            prediction_started = time.perf_counter()
             prediction = adapter.predict(latent, sigma, layers)
+            adapter.synchronize()
+            denoiser_seconds += time.perf_counter() - prediction_started
             ctx.prediction, ctx.nfe = prediction, step + 1
             require_finite(prediction.guided, "model prediction")
             # The only solver state that can change during a policy attempt is snapshotted.
@@ -234,6 +239,9 @@ def sample(adapter, programs, prompt, seed, reference_steps, max_nfe, schedule, 
                       "version": programs.version, "observation": observation}
             if method == "grid_skip":
                 record.update(model_index=model_index, grid_decisions=decisions)
+                if decision_status is not None:
+                    record.update(agent_decision=agent.count, agent_outcome=decision_status,
+                                  agent_output=str(agent.current_folder / "answer.txt"))
                 kept_indices.append(model_index)
                 skipped_indices.extend(item["index"] for item in decisions if item["skip"])
                 grid_checks += len(decisions)
@@ -268,6 +276,7 @@ def sample(adapter, programs, prompt, seed, reference_steps, max_nfe, schedule, 
     result = {"nfe": getattr(adapter, "denoiser_evaluations", step + 1), "steps": step + 1, "timesteps": timesteps,
               "sigma_schedule": sigma_schedule, "denoiser_items": adapter.denoiser_items,
               "sampling_seconds": sampling_seconds, "end_to_end_seconds": time.perf_counter() - started,
+              "denoiser_seconds": denoiser_seconds,
               "agent_seconds": (agent.seconds - agent_before) if agent else 0.0,
               "agent_calls": (agent.count - decisions_before) if agent else 0,
               "final_policy_version": programs.version, "terminal_sigma": sigma,

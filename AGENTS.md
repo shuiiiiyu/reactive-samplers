@@ -20,8 +20,8 @@ Reference: https://github.com/xingjian-bai/opal
   project code and preserve upstream version metadata.
 
 ## Research contract
-- Current method scope: SD3-Medium + official FlowMatch Euler. SDXL inference smoke works;
-  the adaptive SDXL adapter and baseline integration remain future work.
+- Current method scope: SD3-Medium + official FlowMatch Euler; SDXL Base + official
+  Euler supports fixed-grid skipping only. Continuous SDXL scheduling remains future work.
 - Freeze base weights; do not train a timestep network or modify solver formulas, CFG,
   caching, data, evaluation or precision to improve method results.
 - The Agent may repeatedly modify/run analysis and modify updater inside ONE image.

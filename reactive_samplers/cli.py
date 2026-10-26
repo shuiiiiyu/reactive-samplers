@@ -32,6 +32,10 @@ def run_config(cfg):
     if method not in METHODS:
         raise ValueError(f"Unknown sampling method: {method}")
     cfg = {**cfg, "method": method}
+    model = cfg.get("model", "sd3")
+    if model not in {"sd3", "sdxl"} or (model == "sdxl" and method != "grid_skip"):
+        raise ValueError("Supported models: SD3; SDXL with grid_skip")
+    cfg["model"] = model
     if mode not in {"default", "explore", "evaluate"}:
         raise ValueError("mode must be default, explore or evaluate")
     if mode == "evaluate" and not cfg.get("policy"):
@@ -54,9 +58,10 @@ def run_config(cfg):
     # All model imports are lazy; help/freeze/core tests need no CUDA or checkpoint.
     import torch
     import diffusers
-    from diffusers import StableDiffusion3Pipeline
+    from diffusers import StableDiffusion3Pipeline, StableDiffusionXLPipeline
     from .evaluation import QualityMetrics
     from .models.sd3 import SD3Adapter, save_context
+    from .models.sdxl import SDXLAdapter, verify_pipeline
     if diffusers.__version__ != "0.35.1":
         raise RuntimeError("The initial SD3 adapter targets diffusers==0.35.1; run parity before changing versions")
     root = Path(cfg["output_dir"]).resolve()
@@ -69,18 +74,25 @@ def run_config(cfg):
         metrics = QualityMetrics(cfg["metrics"]["names"], cfg["metrics"].get("clip_model"),
                                  cfg["metrics"].get("hps_checkpoint"))
         source = cfg.get("policy") if mode in {"default", "evaluate"} else None
+        if source is None and model == "sdxl":
+            source = Path(__file__).parent / "prompts/sdxl_grid_skip"
         programs = Programs.create(root / "workspace", root / "programs", source, method=method)
-        pipe = StableDiffusion3Pipeline.from_pretrained(
+        pipeline_class = StableDiffusion3Pipeline if model == "sd3" else StableDiffusionXLPipeline
+        pipe = pipeline_class.from_pretrained(
             cfg["model_path"], torch_dtype=getattr(torch, cfg["dtype"]), local_files_only=True,
         ).to(cfg["device"])
-        adapter = SD3Adapter(pipe, **{k: cfg[k] for k in ("guidance_scale", "height", "width", "max_sequence_length")})
+        adapter_class = SD3Adapter if model == "sd3" else SDXLAdapter
+        adapter = adapter_class(pipe, **{k: cfg[k] for k in ("guidance_scale", "height", "width", "max_sequence_length")})
+        if model == "sdxl" and cfg.get("verify_pipeline", False):
+            parity = verify_pipeline(pipe, adapter, prompts[0]["prompt"], prompts[0]["seed"], cfg["reference_steps"])
+            write_json(root / "official_pipeline_parity.json", parity)
     except POLICY_ERRORS as exc:
         FailureLog(root).record(exc, stage="initialization", outcome="aborted")
         write_json(root / "status.json", {"status": "failed", "stage": "initialization", "error": str(exc)})
         raise
     agent = None
     if mode == "explore":
-        agent = AgentSession(command_agent, root, save_context, method=method)
+        agent = AgentSession(command_agent, root, save_context, method=method, model=model)
     results = []
     reference = []
     if mode == "explore" and cfg.get("baseline_results"):

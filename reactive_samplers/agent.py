@@ -11,11 +11,13 @@ from .context import METHODS
 
 
 class AgentSession:
-    def __init__(self, backend, run_dir, save_context, method="adaptive_sigma"):
+    def __init__(self, backend, run_dir, save_context, method="adaptive_sigma", model="sd3"):
         if method not in METHODS:
             raise ValueError(f"Unknown sampling method: {method}")
         self.method = method
+        self.model = model
         self.instructions = Path(__file__).parent / "prompts" / (
+            "sdxl_grid_skip/sampling_agent.md" if model == "sdxl" else
             "grid_skip/sampling_agent.md" if method == "grid_skip" else "sampling_agent.md")
         self.backend = backend
         self.root = Path(run_dir).resolve()
@@ -57,7 +59,8 @@ class AgentSession:
         write_json(request, {
             "protocol_version": 2, "request_id": uuid.uuid4().hex,
             "session_id": hashlib.sha256(str(self.root).encode()).hexdigest()[:16], "decision": self.count,
-            "method": self.method, "model_index": ctx.model_index, "candidate_index": ctx.candidate_index,
+            "method": self.method, "model": self.model,
+            "model_index": ctx.model_index, "candidate_index": ctx.candidate_index,
             "sample_id": ctx.sample_id,
             "step": ctx.step, "nfe": ctx.nfe, "sigma": ctx.sigma,
             "state": str(state), "workspace": str(programs.workspace.resolve()),

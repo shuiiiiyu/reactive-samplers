@@ -1,0 +1,8 @@
+warning: Using incompatible environment (`/tmp/reactive-metric-runtime/env`) due to `--no-sync` (The interpreter in the project environment has a different version (3.11.17) than it was created with (3.11.5))
+test_pairs_keep_real_outputs_timesteps_and_recovery_status (test_coco10_report.CocoReportTests.test_pairs_keep_real_outputs_timesteps_and_recovery_status) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.010s
+
+OK
+{"sd3_default": 1, "sd3_skip": 1, "sdxl_default": 1, "sdxl_skip": 1}

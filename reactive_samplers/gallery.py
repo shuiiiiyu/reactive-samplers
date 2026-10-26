@@ -37,7 +37,8 @@ def experiment_info(relative, runs):
     info = read_json(runs / identity / "experiment.json")
     title = info.get("title") if isinstance(info, dict) else None
     if not title:
-        label = ("小规模采样对比实验" if name.startswith("mini20") else
+        label = ("COCO 十样本跳步对比实验" if name.startswith("coco10-grid") else
+                 "小规模采样对比实验" if name.startswith("mini20") else
                  "Agent 接入验证" if name.startswith("agent-cli-smoke") else
                  "模型推理验证" if "smoke" in name else
                  "手动生成实验" if name == "web" else "采样实验")
@@ -103,7 +104,7 @@ class Gallery:
                                 except ValueError:
                                     continue
                                 if event.get("event") == "step":
-                                    steps.append({k: event[k] for k in ("step", "sigma", "next_sigma", "version") if k in event})
+                                    steps.append({k: event[k] for k in ("step", "sigma", "next_sigma", "timestep", "next_timestep", "version", "grid_decisions", "agent_decision", "agent_outcome", "agent_output") if k in event})
                             metadata[candidate]["sampling_trajectory"] = steps
                         break
         rows = []

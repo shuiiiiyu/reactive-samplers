@@ -6,21 +6,23 @@ FEATURE_LAYERS = ["pos_embed", "transformer_blocks.23"]
 HISTORY_LIMIT = 2
 
 
-def analyze(ctx, memory):
+def analyze(ctx, memory, input_layer="pos_embed", output_layer="transformer_blocks.23"):
     # Several candidates can share one prediction; update temporal feature state once.
     if memory.get("feature_nfe") != ctx.nfe:
         observation = common_analysis(ctx, memory)
-        initial = ctx.prediction.features.get("pos_embed")
-        final = ctx.prediction.features.get("transformer_blocks.23")
-        final = final[1] if isinstance(final, (tuple, list)) and len(final) == 2 else None
+        initial = ctx.prediction.features.get(input_layer)
+        final = ctx.prediction.features.get(output_layer)
+        if isinstance(final, (tuple, list)):
+            final = final[1] if len(final) == 2 else None
         observation.update(feature_transform=None, input_feature_change=None, output_feature_change=None,
                            feature_delta_sigma=None)
         if initial is not None and final is not None and initial.shape == final.shape:
             names = ("unconditional", "conditional") if initial.shape[0] == 2 else ("conditional",)
             observation["feature_transform"] = {
                 name: _change(final[i:i + 1], initial[i:i + 1]) for i, name in enumerate(names)}
-            descriptors = {"input": initial.detach().float().mean(dim=1),
-                           "output": final.detach().float().mean(dim=1)}
+            axes = (1,) if initial.ndim == 3 else (2, 3)
+            descriptors = {"input": initial.detach().float().mean(dim=axes),
+                           "output": final.detach().float().mean(dim=axes)}
             previous = memory.get("feature_descriptors")
             if previous is not None:
                 observation["feature_delta_sigma"] = memory["feature_sigma"] - ctx.sigma

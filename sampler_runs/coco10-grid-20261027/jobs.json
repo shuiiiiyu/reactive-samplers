@@ -1,0 +1,26 @@
+{
+  "sd3_default": {
+    "job_id": "48093171",
+    "config": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/coco10-grid-20261027/sd3_default.json",
+    "model": "sd3",
+    "arm": "default"
+  },
+  "sd3_skip": {
+    "job_id": "48093172",
+    "config": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/coco10-grid-20261027/sd3_skip.json",
+    "model": "sd3",
+    "arm": "skip"
+  },
+  "sdxl_default": {
+    "job_id": "48093173",
+    "config": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/coco10-grid-20261027/sdxl_default.json",
+    "model": "sdxl",
+    "arm": "default"
+  },
+  "sdxl_skip": {
+    "job_id": "48093174",
+    "config": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/coco10-grid-20261027/sdxl_skip.json",
+    "model": "sdxl",
+    "arm": "skip"
+  }
+}
