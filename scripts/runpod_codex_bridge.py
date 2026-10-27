@@ -277,7 +277,7 @@ def main():
     args.state_dir = state_directory(args.codex_home, args.run_dir)
     args.state_dir.mkdir(parents=True, exist_ok=True)
     if not Path(args.codex).is_file():
-        parser.error("Codex CLI missing; run scripts/bootstrap_runpod_codex.sh first")
+        parser.error("Configured Codex CLI executable is missing; check --codex against the existing runtime")
     print(f"Watching {args.run_dir}; one Codex session is reused for this run.", flush=True)
     while True:
         result = ssh(args.trento_host, f"find {shlex.quote(args.run_dir + '/decisions')} -mindepth 2 -maxdepth 2 -name request.json -print 2>/dev/null || true")

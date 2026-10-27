@@ -36,5 +36,7 @@ Reference: https://github.com/xingjian-bai/opal
 - Never claim quality preservation or acceleration from a smoke check.
 
 ## Development
-Use uv. Run `bash scripts/check_environment.sh` inside tmux for the CPU checks.
+Use the existing Python environment. Run `python -m unittest discover -s tests -v`
+inside tmux for CPU regression checks. Environment setup and smoke-test scripts
+were intentionally removed; do not recreate them unless requested.
 GPU generation and paid Agent calls require a user request covering that work.

@@ -30,7 +30,7 @@ reactive_samplers/           Our framework implementation
   cli.py                    inspect / freeze / report utilities
 conf/                       Main-experiment Hydra configuration
 scripts/                    Entry points, checks and resumable resource downloads
-tests/                      CPU regression checks and opt-in GPU smoke tools
+tests/                      CPU regression checks
 models/                     Base SD3-Medium and SDXL weight directories
 baselines/                  TPDM / AYS / OYS source, schedules and baseline weights
 benchmarks/                 COCO / HPS / GenEval code, inputs and evaluator weights
@@ -77,10 +77,9 @@ cache methods use explicit framework-owned cache payloads; Agent code controls r
 ## Run and verify
 
 ```bash
-uv sync
 uv run reactive-samplers --help
 uv run python scripts/run_main.py --cfg job
-bash scripts/check_environment.sh
+python -m unittest discover -s tests -v
 ```
 
 `conf/sd3_main.yaml` holds concrete SD3 defaults; `sd3_grid_skip.yaml` inherits them
@@ -121,23 +120,14 @@ uv run reactive-samplers report sampler_runs/RUN
 ```
 
 Use tmux for remote checks, downloads and inference that should survive disconnects.
-The inference smoke is opt-in, separate from unittest discovery:
-
-```bash
-bash tests/run_inference_smoke.sh --output-dir sampler_runs/new_smoke
-```
-
-It runs the official SD3 and SDXL pipelines with local weights, one image each.
-The test uses CPU offload for the server's 16 GB GPU. Its isolated environment lives
-in `.venv-inference`; the launcher reuses server PyTorch rather than installing another
-CUDA stack. All model components remain present.
+Environment setup and one-off smoke tools have been retired. Use the existing
+runtime for normal inference and CPU regression checks.
 
 ## Validation scope
 
 CPU checks cover scheduler-interval parity, all four methods, cache behavior and configuration.
 SD3 and SDXL each generated a valid 1024x1024 smoke image. These facts do not establish
 full adaptive-Pipeline parity, baseline reproduction, quality preservation or acceleration.
-The full SD3 Pipeline parity harness is `scripts/check_sd3_parity.py` and remains unrun.
 
 Quality scoring is explicit; empty metric configuration means no quality measurement.
 NFE counts denoiser calls and denoiser_items records CFG batch items. Sampling time includes

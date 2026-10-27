@@ -8,27 +8,12 @@ are the research contract and mailbox validation, not OS sandbox isolation. The 
 inspection requests are served by the paused Trento process against its in-memory
 state and an isolated diagnostic workspace.
 
-## One-time RunPod setup
+## Existing RunPod runtime
 
-Run these commands from RunPod. The Codex home is separate from any other Codex
-login; do not copy an existing auth file into it.
-
-```bash
-project=/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers
-mkdir -p "$HOME/.codex-opal"
-ssh trento "cat '$project/scripts/bootstrap_runpod_codex.sh'" | bash
-CODEX_HOME="$HOME/.codex-opal" $HOME/.codex-opal/reactive-samplers-tools/bin/codex-v0.160.1 login --device-auth
-```
-
-Complete the displayed device login. The bootstrap installs the pinned Codex CLI
-and its matching `codex-code-mode-host`; both are required for CLI file and shell
-operations. After the daily cleanup, rerun the bootstrap command if either binary
-is missing. The login remains under `$HOME/.codex-opal` if RunPod preserves that
-AI-tool directory.
-
-If the CLI says device-code sign-in is disabled, enable device-code login for Codex
-in ChatGPT Settings → Security, then rerun the login command. If the setting is
-controlled by a managed workspace, ask its administrator to enable it.
+Use the already installed Codex CLI and matching `codex-code-mode-host` under
+`$HOME/.codex-opal/reactive-samplers-tools/bin/`. Existing authentication remains
+under `$HOME/.codex-opal`. Installation tooling has been intentionally removed.
+The per-run bridge below is still required for Agent exploration.
 
 ## Per-run bridge
 
