@@ -1,0 +1,13 @@
+warning: Using incompatible environment (`/tmp/reactive-metric-runtime/env`) due to `--no-sync` (The interpreter in the project environment has a different version (3.11.17) than it was created with (3.11.5))
+test_transport_retry_resumes_polling_and_preserves_interrupt (test_bridge_watch.BridgeWatchTests.test_transport_retry_resumes_polling_and_preserves_interrupt) ... Watching /project/sampler_runs/test; one Codex session is reused for this run.
+Bridge transport failed; retrying in 5 seconds: Command '['ssh']' returned non-zero exit status 255.
+Watching /project/sampler_runs/test; one Codex session is reused for this run.
+Watching /project/sampler_runs/test; one Codex session is reused for this run.
+Bridge transport failed; retrying in 5 seconds: Command '['ssh']' timed out after 60 seconds
+Watching /project/sampler_runs/test; one Codex session is reused for this run.
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.140s
+
+OK

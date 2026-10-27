@@ -299,4 +299,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    while True:
+        try:
+            main()
+            break
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as exc:
+            print(f"Bridge transport failed; retrying in 5 seconds: {exc}", flush=True)
+            time.sleep(5)

@@ -1,0 +1,26 @@
+load GCC/11.4.0 (PATH, LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
+CPLUS_INCLUDE_PATH, CC, FC, F90, F77, CXX, OMPI_FC, OMPI_F90, OMPI_F77,
+OMPI_CC, OMPI_CXX) 
+load mkl/2024.0 (LD_LIBRARY_PATH)
+load impi/2021.11 (PATH, MANPATH, LD_LIBRARY_PATH)
+load HDF5/1.14.1-2 (PATH, LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
+CPLUS_INCLUDE_PATH, HDF5_DIR, HDF5_ROOT) 
+load PYTHON/3.11.5 (PATH, MANPATH, LD_LIBRARY_PATH, LIBRARY_PATH,
+PKG_CONFIG_PATH, C_INCLUDE_PATH, CPLUS_INCLUDE_PATH, PYTHONHOME, PYTHONPATH) 
+ ------------------------------------------------------------------------------------------ 
+|                                     WARNING                                              |
+|                                                                                          |
+| NVPCX uses its own implementation of MPI that does not offer srun support.               |
+| Programs compiled with NVPCX must use 'mpirun --bind-to none' instead of 'srun'.         |
+| Remember to also add 'export SLURM_CPU_BIND=none' in your job scripts.                   |
+ ------------------------------------------------------------------------------------------ 
+load OPENBLAS/0.3.27 (LD_LIBRARY_PATH, LIBRARY_PATH, PKG_CONFIG_PATH)
+load CUDNN/9.0.0/cuda11 (LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
+CPLUS_INCLUDE_PATH, CUDNN_LIB_DIR, CUDNN_LIBRARY, CUDNN_INCLUDE_DIR) 
+load TENSORRT/10.0.0/cuda11 (PATH, LD_LIBRARY_PATH, LIBRARY_PATH,
+C_INCLUDE_PATH, CPLUS_INCLUDE_PATH) 
+load NCCL/2.19.4 (LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
+CPLUS_INCLUDE_PATH) 
+load UV/0.10.11 (PATH)
+Loading pipeline components...:   0%|          | 0/7 [00:00<?, ?it/s]Loading pipeline components...:  14%|█▍        | 1/7 [00:09<00:57,  9.66s/it]Loading pipeline components...:  29%|██▊       | 2/7 [00:11<00:24,  4.82s/it]Loading pipeline components...:  57%|█████▋    | 4/7 [00:53<00:45, 15.19s/it]Loading pipeline components...:  71%|███████▏  | 5/7 [00:54<00:21, 10.81s/it]Loading pipeline components...: 100%|██████████| 7/7 [00:55<00:00,  5.78s/it]Loading pipeline components...: 100%|██████████| 7/7 [00:55<00:00,  7.86s/it]
+  0%|          | 0/30 [00:00<?, ?it/s]  7%|▋         | 2/30 [00:00<00:01, 18.56it/s] 13%|█▎        | 4/30 [00:00<00:01, 17.13it/s] 20%|██        | 6/30 [00:00<00:01, 16.71it/s] 27%|██▋       | 8/30 [00:00<00:01, 16.52it/s] 33%|███▎      | 10/30 [00:00<00:01, 16.42it/s] 40%|████      | 12/30 [00:00<00:01, 16.36it/s] 47%|████▋     | 14/30 [00:00<00:00, 16.32it/s] 53%|█████▎    | 16/30 [00:00<00:00, 16.29it/s] 60%|██████    | 18/30 [00:01<00:00, 16.27it/s] 67%|██████▋   | 20/30 [00:01<00:00, 16.25it/s] 73%|███████▎  | 22/30 [00:01<00:00, 16.24it/s] 80%|████████  | 24/30 [00:01<00:00, 16.24it/s] 87%|████████▋ | 26/30 [00:01<00:00, 16.24it/s] 93%|█████████▎| 28/30 [00:01<00:00, 16.24it/s]100%|██████████| 30/30 [00:01<00:00, 16.23it/s]100%|██████████| 30/30 [00:01<00:00, 16.37it/s]
