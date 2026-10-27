@@ -19,3 +19,6 @@
 [submodule "pytorch-fid"]
 	path = metrics/fid/source
 	url = https://github.com/mseitzer/pytorch-fid.git
+[submodule "baselines/adaptivediffusion/source"]
+	path = baselines/adaptivediffusion/source
+	url = https://github.com/InternScience/AdaptiveDiffusion.git
