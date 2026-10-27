@@ -20,7 +20,7 @@ class CocoReportTests(unittest.TestCase):
                     trace.parent.mkdir(parents=True)
                     skip = arm == 'skip'
                     row = {'id': 'p', 'prompt': 'fixture', 'seed': 7, 'steps': 2 if skip else 4,
-                        'nfe': 2 if skip else 4, 'scores': {'hps_v2_1': .3, 'clip_score': 30.},
+                        'nfe': 2 if skip else 4, 'scores': {'image_reward': .3, 'clip_score': 30.},
                         'end_to_end_seconds': 8. if skip else 2., 'denoiser_seconds': 1. if skip else 2.,
                         'agent_seconds': 5. if skip else 0., 'agent_calls': 1 if skip else 0,
                         'valid_for_benchmark': not (skip and model == 'sdxl'),

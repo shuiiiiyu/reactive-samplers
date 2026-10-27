@@ -23,14 +23,14 @@ from reactive_samplers.wrapper import sample
 from scripts.runpod_codex_bridge import parse_turn, policy_digest
 
 
-FOLLOW = ("from reactive_samplers.context import Action\n"
+FOLLOW = ("from reactive_samplers.context import SkipAction\n"
           "def choose(obs, ctx, memory):\n"
-          "    return Action(next(s for s in ctx.reference_sigmas if s < ctx.sigma))\n")
+          "    return SkipAction(False)\n")
 
 
 class RecoveryTests(unittest.TestCase):
-    def run_image(self, root, programs, agent=None, adapter=None, checkpoints=(0,), **kwargs):
-        return sample(adapter or ToyAdapter(), programs, "fixture", 7, 4, 4,
+    def run_image(self, root, programs, agent=None, adapter=None, checkpoints=(0,), steps=4, **kwargs):
+        return sample(adapter or ToyAdapter(), programs, "fixture", 7, steps, steps,
                       CheckSchedule("checkpoints", checkpoints),
                       Recorder(root / "trajectories/image", run_root=root), agent, **kwargs)
 
@@ -70,8 +70,8 @@ class RecoveryTests(unittest.TestCase):
                 requests.append(request)
                 if len(requests) == 1:
                     (workspace / "updater.py").write_text(FOLLOW.replace(
-                        "    return Action", "    if ctx.step == 1:\n        memory['poison'] = True\n"
-                        "        raise RuntimeError('late failure')\n    return Action"))
+                        "    return SkipAction", "    if ctx.step == 1:\n        memory['poison'] = True\n"
+                        "        raise RuntimeError('late failure')\n    return SkipAction"))
             agent = AgentSession(edit, root, lambda ctx, path: path.write_text("fixture"))
             image, stats, _ = self.run_image(root, programs, agent, checkpoints=(0, 2))
             self.assertEqual(image, 1.0)
@@ -122,8 +122,8 @@ class RecoveryTests(unittest.TestCase):
                 step = json.loads(path.read_text())["step"]
                 code = FOLLOW + f"\n# candidate {step}\n"
                 if step == 1:
-                    code = code.replace("    return Action", "    if ctx.step == 2:\n"
-                                        "        raise RuntimeError('trial B failed')\n    return Action")
+                    code = code.replace("    return SkipAction", "    if ctx.step == 2:\n"
+                                        "        raise RuntimeError('trial B failed')\n    return SkipAction")
                 (workspace / "updater.py").write_text(code)
                 candidates.append(digest(workspace))
             agent = AgentSession(edit, root, lambda ctx, path: path.write_text("fixture"))
@@ -141,9 +141,9 @@ class RecoveryTests(unittest.TestCase):
                 step = json.loads(path.read_text())["step"]
                 message = "A" if step == 0 else "B"
                 (workspace / "updater.py").write_text(FOLLOW.replace(
-                    "    return Action", f"    if ctx.step == 3:\n        raise RuntimeError('{message}')\n    return Action"))
+                    "    return SkipAction", f"    if ctx.step == 3:\n        raise RuntimeError('{message}')\n    return SkipAction"))
             agent = AgentSession(edit, root, lambda ctx, path: path.write_text("fixture"))
-            image, stats, _ = self.run_image(root, programs, agent, checkpoints=(0, 2))
+            image, stats, _ = self.run_image(root, programs, agent, checkpoints=(0, 2), steps=8)
             self.assertEqual(image, 1.0)
             self.assertEqual(programs.version, original)
             self.assertEqual(stats["failure_count"], 2)
@@ -161,14 +161,14 @@ class RecoveryTests(unittest.TestCase):
                     stable = programs.versions / programs.version / "analysis.py"
                     stable.write_text(stable.read_text() + "\n# tampered immutable version\n")
                     (workspace / "updater.py").write_text(FOLLOW.replace(
-                        "    return Action", "    if ctx.step == 3:\n        raise RuntimeError('B failed')\n    return Action"))
+                        "    return SkipAction", "    if ctx.step == 3:\n        raise RuntimeError('B failed')\n    return SkipAction"))
             agent = AgentSession(edit, root, lambda ctx, path: path.write_text("fixture"))
-            image, stats, _ = self.run_image(root, programs, agent, checkpoints=(0, 2))
+            image, stats, _ = self.run_image(root, programs, agent, checkpoints=(0, 2), steps=8)
             self.assertEqual(image, 1.0)
             self.assertEqual(programs.version, original)
             failures = [json.loads(line) for line in (root / "failures.jsonl").read_text().splitlines()]
             self.assertTrue(any(row["stage"] == "restore_version" for row in failures))
-            self.assertEqual(stats["nfe"], 4)
+            self.assertEqual(stats["nfe"], 8)
 
     def test_running_analysis_systemexit_and_rng_changes_are_recovered(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -193,8 +193,8 @@ class RecoveryTests(unittest.TestCase):
             ("analysis.py", "raise SystemExit('import failed')\n"),
             ("analysis.py", "def analyze(ctx, memory): return {'bad': float('nan')}\n"),
             ("analysis.py", "FEATURE_LAYERS = 17\ndef analyze(ctx, memory): return {}\n"),
-            ("updater.py", "from reactive_samplers.context import Action\n"
-             "def choose(obs, ctx, memory):\n    ctx.sigma = 2.0\n    return Action(1.5)\n"),
+            ("updater.py", "from reactive_samplers.context import SkipAction\n"
+             "def choose(obs, ctx, memory):\n    ctx.sigma = 2.0\n    return SkipAction(1.5)\n"),
         ]
         for name, code in candidates:
             with self.subTest(name=name, code=code), tempfile.TemporaryDirectory() as tmp:
@@ -213,19 +213,23 @@ class RecoveryTests(unittest.TestCase):
     def test_solver_partial_state_and_nan_do_not_commit_or_add_nfe(self):
         class Solver(ToyAdapter):
             state = 0
+            failed = False
             def snapshot_state(self):
                 return self.state
             def restore_state(self, state):
                 self.state = state
             def advance(self, latent, prediction, sigma, next_sigma):
                 self.state += 1
-                return float("nan") if sigma == 1.0 and next_sigma == 0.5 else super().advance(latent, prediction, sigma, next_sigma)
+                if not self.failed and sigma == 1.0:
+                    self.failed = True
+                    return float("nan")
+                return super().advance(latent, prediction, sigma, next_sigma)
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             programs = scalar_programs(root / "workspace", root / "programs")
             def edit(path, workspace):
                 (workspace / "updater.py").write_text(
-                    "from reactive_samplers.context import Action\ndef choose(obs, ctx, memory): return Action(0.5)\n")
+                    "from reactive_samplers.context import SkipAction\ndef choose(obs, ctx, memory): return SkipAction(False) # revised rule\n")
             agent = AgentSession(edit, root, lambda ctx, path: path.write_text("fixture"))
             adapter = Solver()
             image, stats, history = self.run_image(root, programs, agent, adapter)
@@ -283,10 +287,10 @@ class RecoveryTests(unittest.TestCase):
             programs = scalar_programs(root / "workspace", root / "programs")
             def edit(path, workspace):
                 (workspace / "updater.py").write_text(FOLLOW.replace(
-                    "    return Action", "    ctx.latent.fill_(999)\n    ctx.prediction.guided.fill_(888)\n"
+                    "    return SkipAction", "    ctx.latent.fill_(999)\n    ctx.input_feature.fill_(888)\n"
                     "    if ctx.history:\n        ctx.history[0]['latent'].zero_()\n"
                     "    if ctx.step == 1:\n        memory['poison'] = ctx.latent\n"
-                    "        raise RuntimeError('tensor mutation before failure')\n    return Action"))
+                    "        raise RuntimeError('tensor mutation before failure')\n    return SkipAction"))
             agent = AgentSession(edit, root, lambda ctx, path: path.write_text("fixture"))
             image, stats, history = self.run_image(root, programs, agent, Tensors())
             torch.testing.assert_close(image, torch.ones_like(image), rtol=0, atol=0)
@@ -324,8 +328,8 @@ class MailboxRecoveryTests(unittest.TestCase):
                 candidate = Path(path).parent / "candidate"
                 copy_sources(workspace, candidate)
                 (candidate / "updater.py").write_text(
-                    "from reactive_samplers.context import Action\n"
-                    "def choose(obs, ctx, memory): return Action(ctx.terminal_sigma)\n")
+                    "from reactive_samplers.context import SkipAction\n"
+                    "def choose(obs, ctx, memory): return SkipAction(True)\n")
                 write_json(Path(path).parent / "bridge_response.json", {
                     "status": "ok", "request_id": request["request_id"], "base_version": request["policy_version"],
                     "candidate_workspace": str(candidate), "candidate_version": digest(candidate),
@@ -338,13 +342,13 @@ class MailboxRecoveryTests(unittest.TestCase):
             agent = AgentSession(Staged(1, .001), root, lambda ctx, path: path.write_text("fixture"))
             image, stats, _ = sample(ToyAdapter(), programs, "fixture", 0, 4, 4, CheckSchedule(),
                                      Recorder(root / "image", run_root=root), agent)
-            self.assertEqual(image, 1.0)
-            self.assertEqual(stats["nfe"], 1)
+            self.assertEqual(image, 1.5)
+            self.assertEqual(stats["nfe"], 2)
             self.assertNotEqual(programs.version, initial)
             self.assertEqual(digest(programs.workspace), programs.version)
 
     def test_wrong_request_hash_and_late_response_are_rejected(self):
-        for fault in ("request_id", "candidate_version", "cancelled", "changed_base"):
+        for fault in ("request_id", "cancelled", "changed_base"):
             with self.subTest(fault=fault), tempfile.TemporaryDirectory() as tmp:
                 programs, folder, response = self.prepare(Path(tmp))
                 if fault in response:
@@ -357,6 +361,31 @@ class MailboxRecoveryTests(unittest.TestCase):
                 write_json(folder / "bridge_response.json", response)
                 with self.assertRaises((ValueError, TimeoutError)):
                     MailboxAgent(1, .001).check(folder / "request.json", programs.workspace, None)
+
+    def test_sampler_rejects_a_changed_staged_candidate(self):
+        class Staged(MailboxAgent):
+            def check(self, path, workspace, inspect):
+                request = json.loads(Path(path).read_text())
+                candidate = Path(path).parent / "candidate"
+                copy_sources(workspace, candidate)
+                (candidate / "updater.py").write_text(FOLLOW + "# valid proposed version\n")
+                proposed = digest(candidate)
+                (candidate / "updater.py").write_text(FOLLOW + "# modified after publication\n")
+                write_json(Path(path).parent / "bridge_response.json", {
+                    "status": "ok", "request_id": request["request_id"], "base_version": request["policy_version"],
+                    "candidate_workspace": str(candidate), "candidate_version": proposed,
+                })
+                return super().check(path, workspace, inspect)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            programs = scalar_programs(root / "workspace", root / "programs")
+            initial = programs.version
+            agent = AgentSession(Staged(1, .001), root, lambda ctx, path: path.write_text("fixture"))
+            _, stats, _ = sample(ToyAdapter(), programs, "fixture", 0, 4, 4,
+                CheckSchedule("checkpoints", (0,)), Recorder(root / "image", run_root=root), agent)
+            self.assertEqual(programs.version, initial)
+            self.assertEqual(stats["nfe"], 4)
+            self.assertEqual(json.loads((root / "decisions/00001/outcome.json").read_text())["outcome"], "rejected")
 
     def test_incomplete_and_failed_cli_turns_are_not_successes(self):
         with tempfile.TemporaryDirectory() as tmp:

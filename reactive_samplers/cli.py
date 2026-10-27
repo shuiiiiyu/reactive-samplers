@@ -1,5 +1,6 @@
 import argparse
 import json
+import time
 from pathlib import Path
 
 from .agent import AgentSession
@@ -28,12 +29,12 @@ def read_prompts(path, expected):
 def run_config(cfg):
     """Shared main-experiment entry. Hydra resolves required fields before this function."""
     mode = cfg["mode"]
-    method = cfg.get("method", "adaptive_sigma")
+    method = cfg.get("method", "grid_skip")
     if method not in METHODS:
         raise ValueError(f"Unknown sampling method: {method}")
     cfg = {**cfg, "method": method}
     model = cfg.get("model", "sd3")
-    if model not in {"sd3", "sdxl"} or (model == "sdxl" and method == "adaptive_sigma"):
+    if model not in {"sd3", "sdxl"}:
         raise ValueError("Supported models: SD3; SDXL with grid_skip or either cache method")
     cfg["model"] = model
     if mode not in {"default", "explore", "evaluate"}:
@@ -59,7 +60,7 @@ def run_config(cfg):
     import torch
     import diffusers
     from diffusers import StableDiffusion3Pipeline, StableDiffusionXLPipeline
-    from .evaluation import QualityMetrics
+    from .evaluation import QualityMetrics, paired_feedback
     from .models.sd3 import SD3Adapter, save_context
     from .models.sdxl import SDXLAdapter, verify_pipeline
     if diffusers.__version__ != "0.35.1":
@@ -72,7 +73,8 @@ def run_config(cfg):
     from .recovery import FailureLog, POLICY_ERRORS
     try:
         metrics = QualityMetrics(cfg["metrics"]["names"], cfg["metrics"].get("clip_model"),
-                                 cfg["metrics"].get("hps_checkpoint"))
+                                 cfg["metrics"].get("image_reward_checkpoint"),
+                                 cfg["metrics"].get("image_reward_config"))
         source = cfg.get("policy") if mode in {"default", "evaluate"} else None
         if source is None and model == "sdxl" and method == "grid_skip":
             source = Path(__file__).parent / "prompts/sdxl_grid_skip"
@@ -97,7 +99,7 @@ def run_config(cfg):
     reference = []
     if mode == "explore" and cfg.get("baseline_results"):
         reference = json.loads(Path(cfg["baseline_results"]).read_text(encoding="utf-8"))["images"]
-        write_json(root / "feedback.json", {"reference_images": reference, "completed_images": results})
+    write_json(root / "feedback.json", {"reference_images": reference, "completed_images": results})
     for row in prompts:
         image_dir = root / "images"
         image_dir.mkdir(exist_ok=True)
@@ -112,14 +114,18 @@ def run_config(cfg):
             image_path = image_dir / (row["id"] + ".png")
             image.save(image_path)
             stage = "metrics"
+            scoring_started = time.perf_counter()
             scores = metrics.score(image_path, row["prompt"])
+            scoring_seconds = time.perf_counter() - scoring_started
         except POLICY_ERRORS as exc:
             if stage != "sampling":
                 FailureLog(root).record(exc, stage=stage, version=programs.version, outcome="aborted")
             write_json(root / "status.json", {"status": "failed", "stage": stage,
                                                "sample_id": row["id"], "error": str(exc)})
             raise
-        result = {**row, **stats, "scores": scores, "image": str(image_path)}
+        result = {**row, **stats, "scores": scores, "image": str(image_path),
+                  "scoring_seconds": scoring_seconds}
+        result.update(paired_feedback(result, reference))
         results.append(result)
         if mode == "explore":
             # Full raw history is retained only in exploration; frozen inference keeps policy memory only.
@@ -149,7 +155,7 @@ def main():
     export = sub.add_parser("freeze", help="Export a complete immutable-by-hash strategy")
     export.add_argument("source")
     export.add_argument("target")
-    export.add_argument("--method", choices=METHODS, default="adaptive_sigma")
+    export.add_argument("--method", choices=METHODS, default="grid_skip")
     inspect = sub.add_parser("inspect", help="Run edited analysis against a paused trusted state snapshot")
     inspect.add_argument("state")
     inspect.add_argument("--workspace", required=True)
@@ -167,7 +173,9 @@ def main():
         with tempfile.TemporaryDirectory() as temp:
             ctx = load_context(args.state)
             programs = Programs(args.workspace, Path(temp) / "versions", method=ctx.method)
+            from .observations import definitions
             observation = programs.analysis.analyze(ctx, ctx.analysis_memory)
+            observation = {"observation": observation, "observation_definitions": definitions(ctx, programs.analysis, observation)}
             if args.output:
                 write_json(args.output, observation)
             print(json.dumps(observation, ensure_ascii=False, allow_nan=False))

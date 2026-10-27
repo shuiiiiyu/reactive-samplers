@@ -22,7 +22,7 @@
 </form><p id="form-error" class="notice" role="alert"></p><div id="jobs" class="jobs" aria-live="polite"></div></aside>
 <main><div class="toolbar"><h2 id="view-title">全部图片 <span class="count" id="count"></span></h2><span class="quiet" id="sync-status"><i class="live"></i>自动同步</span></div><p class="notice" id="page-error" role="alert"></p><div class="grid" id="grid"><div class="empty">正在读取图片…</div></div></main>
 </div>
-<dialog id="details"><div class="dialog-top"><h2>生成配置</h2><button id="close-details">关闭</button></div><div id="detail-path"></div><pre id="detail-json"></pre></dialog>
+<dialog id="details"><div class="dialog-top"><h2>生成配置与 Agent 决策</h2><button id="close-details">关闭</button></div><div id="detail-path"></div><div id="decision-records"></div><pre id="detail-json"></pre></dialog>
 <script>
 const $=id=>document.getElementById(id);
 let images=[], selected=new Set(), comparing=false, models={}, signature='';
@@ -34,7 +34,7 @@ function toggle(id){$('page-error').textContent='';if(selected.has(id))selected.
 function framework(row){
  const c=row.config,schedule=c.agent_schedule?.schedule;
  const method=c.mode==='default'?'default':c.method||(c.mode?'adaptive_sigma':'default');
- const name=({default:'官方默认',adaptive_sigma:'自动步长',grid_skip:'原表跳点'})[method]||method;
+ const name=({default:'官方默认',adaptive_sigma:'自动步长',grid_skip:'当前节点跳过',prediction_cache:'预测缓存',residual_cache:'主干残差缓存'})[method]||method;
  const phase=c.mode==='explore'?' · 探索':c.mode==='evaluate'?' · 冻结评测':'';
  const check=c.mode==='explore'?(schedule==='every_step'?' · 每步介入':schedule==='checkpoints'?' · 固定检查点':''):'';
  return `${modelName(c.model)} · ${name}${phase}${check}${c.valid_for_benchmark===false?' · 运行无效':''}`;
@@ -56,18 +56,37 @@ function groupExperiments(list){
 }
 function imageCard(row){
   const c=row.config,card=document.createElement('article');card.className='card'+(selected.has(row.id)?' selected':'');card.dataset.id=row.id;
-  card.innerHTML='<button class="preview" type="button"><img loading="lazy"><span class="pick"></span></button><div class="card-body"><div class="card-top"><span class="model"></span><button class="config-button" type="button">配置</button></div><div class="specs"></div><div class="stats"></div><p class="prompt"></p></div>';
-  const preview=card.querySelector('.preview'); preview.setAttribute('aria-label',`${selected.has(row.id)?'取消选择':'选择'} ${modelName(c.model)} · Seed ${show(c.seed)}`);preview.setAttribute('aria-pressed',String(selected.has(row.id)));preview.onclick=()=>toggle(row.id);
+  card.innerHTML='<button class="preview" type="button"><img loading="lazy"><span class="pick"></span></button><div class="card-body"><div class="card-top"><span class="model"></span><button class="config-button" type="button">配置 / Agent</button></div><div class="specs"></div><div class="stats"></div><p class="prompt"></p></div>';
+  const preview=card.querySelector('.preview'); preview.setAttribute('aria-label',`${selected.has(row.id)?'取消选择':'选择'} ${modelName(c.model)}`);preview.setAttribute('aria-pressed',String(selected.has(row.id)));preview.onclick=()=>toggle(row.id);
   const image=card.querySelector('img');image.src=row.url;image.alt=c.prompt||row.id;
   card.querySelector('.pick').textContent=selected.has(row.id)?[...selected].indexOf(row.id)+1:'';
   card.querySelector('.model').textContent=modelName(c.model);
   const label=document.createElement('div');label.className='framework';label.textContent=framework(row);card.querySelector('.card-body').append(label);
   card.querySelector('.specs').textContent=`${show(c.steps??c.reference_steps)} steps · CFG ${show(c.guidance_scale)} · ${show(c.width)} × ${show(c.height)}`;
   const seconds=c.inference_seconds??c.end_to_end_seconds??c.sampling_seconds;
-  card.querySelector('.stats').textContent=`Seed ${show(c.seed)} · NFE ${show(c.nfe)}${seconds!==undefined?' · '+Number(seconds).toFixed(2)+'s':''}`;
+  const score=v=>v===undefined||v===null?'—':Number(v).toFixed(3);
+  card.querySelector('.stats').textContent=`NFE ${show(c.nfe)}${seconds!==undefined?' · '+Number(seconds).toFixed(2)+'s':''} · CLIPScore ${score(c.scores?.clip_score)} · ImageReward ${score(c.scores?.image_reward)}`;
   card.querySelector('.prompt').textContent=c.prompt||'未记录 Prompt';
-  card.querySelector('.config-button').onclick=()=>{$('detail-path').textContent=row.id;$('detail-json').textContent=JSON.stringify(c,null,2);$('details').showModal();};
+  card.querySelector('.config-button').onclick=()=>{$('detail-path').textContent=row.id;const detail={...c};delete detail.seed;$('detail-json').textContent=JSON.stringify(detail,null,2);renderDecisions(c.agent_decisions||[]);$('details').showModal();};
   return card;
+}
+function renderDecisions(records){
+ const panel=$('decision-records');panel.replaceChildren();
+ const title=document.createElement('h3');title.textContent=`Agent 决策记录 (${records.length})`;panel.append(title);
+ if(!records.length){const note=document.createElement('p');note.textContent='这张图片尚无可用的结构化 Agent 记录。';panel.append(note);return;}
+ const download=document.createElement('button');download.textContent='下载全部决策记录';download.onclick=()=>{
+  const url=URL.createObjectURL(new Blob([JSON.stringify(records,null,2)],{type:'application/json'}));
+  const a=document.createElement('a');a.href=url;a.download='agent-decisions.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ };panel.append(download);
+ for(const record of records){
+  const item=document.createElement('details');
+  const heading=document.createElement('summary');heading.textContent=`Decision ${record.decision} · Step ${record.step} · ${record.outcome?.outcome||'awaiting outcome'}${record.report_complete?'':' · incomplete report'}`;item.append(heading);
+  for(const [key,label] of [['signals_used','Signals used this round'],['rule_changes','Actions this round'],['rationale','Why these signal conditions support these actions'],['signals_added','New signals added']]){
+   const h=document.createElement('h4');h.textContent=label;const text=document.createElement('p');text.style.whiteSpace='pre-wrap';text.textContent=record.report?.[key]||'Not provided';item.append(h,text);
+  }
+  const actual=document.createElement('pre');actual.textContent=JSON.stringify({framework_outcome:record.outcome,actual_executions:record.executions},null,2);item.append(actual);
+  const raw=document.createElement('details');const rawTitle=document.createElement('summary');rawTitle.textContent='Raw answer and observation definitions';const rawText=document.createElement('pre');rawText.textContent=JSON.stringify({raw_answer:record.raw_answer,observation:record.observation,observation_definitions:record.observation_definitions},null,2);raw.append(rawTitle,rawText);item.append(raw);panel.append(item);
+ }
 }
 function render(){
  document.body.classList.toggle('compare-mode',comparing); updateButtons();
@@ -82,7 +101,7 @@ function render(){
   for(const pair of group.pairs.values()){
    const item=document.createElement('div');item.className='pair';
    const heading=document.createElement('p');heading.className='pair-heading';heading.textContent=pair.prompt||'未记录 Prompt';
-   const seed=document.createElement('span');seed.textContent=`Seed ${show(pair.seed)}${pair.source?' · '+pair.source:''}`;heading.append(seed);item.append(heading);
+   if(pair.source){const source=document.createElement('span');source.textContent=pair.source;heading.append(source);}item.append(heading);
    const scroll=document.createElement('div');scroll.className='pair-scroll';
    const strip=document.createElement('div');strip.className='pair-images';strip.style.setProperty('--columns',columns.length);
    for(const column of columns){

@@ -4,27 +4,29 @@ Agent-in-the-loop discovery of training-free, adaptive diffusion sampling rules.
 Code organization follows [OPAL](https://github.com/xingjian-bai/opal): a small wrapper,
 an Agent session, editable programs, context, decision schedules and per-run records.
 
-Four distinct mechanisms are available: `adaptive_sigma` (arbitrary next sigma),
-`grid_skip` (remove grid nodes), `prediction_cache` (reuse final prediction), and
-`residual_cache` (reuse whole-backbone hidden residual). The cache methods decide
-before prediction and update every original grid node. See [four-methods.md](docs/four-methods.md)
-for function locations, model boundaries, observation, configuration and accounting.
+Three mechanisms are available: `grid_skip` (omit the current prediction and latent
+update), `prediction_cache` (reuse the last final prediction), and `residual_cache`
+(reuse the whole-backbone hidden residual with the current output head). All decide
+before prediction. Cache methods update every original interval. See
+[three-methods.md](docs/three-methods.md) for boundaries and observations.
 
 ## Directory layout
 
 ```text
 reactive_samplers/           Our framework implementation
-  wrapper.py                Sampling / Agent check / reload / action / original solver update
+  wrapper.py                Shared analysis and dispatch
+  grid_sampling.py          Current-node skip; no prediction or update when skipped
+  cache_sampling.py         Prediction/residual caching; update every interval
+  observations.py           Shared signals and English mathematical definitions
+  decision_records.py       Four-part Agent reports and trusted execution outcomes
   agent.py                  Agent session and repeated within-step diagnostics
   programs.py               Strategy loading, versions, rejection and freezing
-  context.py                Current state, past trajectory, observation and sigma action
+  context.py                Current state, references and SkipAction
   schedule.py               Every-step or fixed-checkpoint Agent intervention
   backends/                 Agent bridges
-  models/                   Model adapter CODE (currently adaptive SD3)
+  models/                   SD3/SDXL adapters and cache boundaries
   prompts/
-    sampling_agent.md       Agent instructions
-    analysis.py             Initial observation template
-    updater.py              Initial timestep-selection template
+    <method>/              Per-method analysis.py, updater.py and sampling_agent.md
   evaluation.py             Quality scoring adapters
   report.py                 Event/results records
   cli.py                    inspect / freeze / report utilities
@@ -34,16 +36,14 @@ tests/                      CPU regression checks
 models/                     Base SD3-Medium and SDXL weight directories
 baselines/                  TPDM / AYS / OYS source, schedules and baseline weights
 benchmarks/                 COCO / HPS / GenEval code, inputs and evaluator weights
-metrics/                    Shared CLIP / CLIPScore / FID code and checkpoints
-experiments/main/           Exploration/evaluation manifest contract
+metrics/                    CLIPScore / ImageReward; retained FID references
 sampler_runs/               Generated run products and setup/download records
 docs/                       Status and resource map
 ```
 
 ## Where are analysis.py and updater.py?
 
-Initial versions are `reactive_samplers/prompts/analysis.py` and
-`reactive_samplers/prompts/updater.py`. Each run starts with its own copies:
+Initial versions live in `reactive_samplers/prompts/<method>/`. Each run starts with its own copies:
 
 ```text
 sampler_runs/<run>/
@@ -51,6 +51,7 @@ sampler_runs/<run>/
   workspace/updater.py       Agent edits this file during that image's sampling
   programs/<source-hash>/    Complete retained strategy versions
   decisions/                State / request / Agent answer / timing
+  agent_decisions/          English reports and actual executions, JSON + Markdown
   trajectories/             Actual sigma boundaries and strategy version per step
   images/
   config.json
@@ -58,21 +59,26 @@ sampler_runs/<run>/
   frozen_policy/            Export for evaluation without an Agent
 ```
 
-The initial updater follows the official reference schedule. A check pauses sampling
-after the current model prediction and before its latent update. The Agent may repeatedly
-edit analysis, run `inspect`, view the diagnostic and then edit updater before returning.
-It does not need to wait for a finished image or a batch. The Agent bridge must preserve
-its provider/CLI conversation across the run; see docs/agent-cli.md for the RunPod bridge.
+The initial updater computes every node. Sampling pauses BEFORE the current full
+prediction. The Agent may edit analysis, run inspect on the saved state, and edit
+or keep updater. It writes a reusable state-dependent rule, not a one-step toggle.
+The bridge preserves the Agent conversation across the experiment.
 
-Observation fields are open-ended. `FEATURE_LAYERS` requests captures on future model
-forwards; uncaptured past features require explicit replay. `HISTORY_LIMIT` controls
-history retained in frozen inference. Exploration keeps the full existing trajectory.
-Rules receive only current/past information and must not mutate model state.
+Default observations are latent_rel_change, feature_rel_change, sigma,
+step_delta_sigma, since_real_delta_sigma and consecutive_skips. Cache methods also
+expose has_reference. Grid skipping compares current inputs with the last real
+prediction's inputs; cache methods compare with the adjacent grid inputs. JSON
+requests and inspect include English meanings, mathematical definitions and exact
+reference coordinates. New signals need matching analysis.OBSERVATION_SPEC entries.
+FEATURE_LAYERS is empty; no current full output is needed to decide whether to compute.
 
-Actions choose the next physical sigma after scheduler shifting. The adapter calls the
-unchanged official FlowMatch Euler update. It never reapplies shift to an action.
-No model training, learned timestep network or CFG tuning is included. The two
-cache methods use explicit framework-owned cache payloads; Agent code controls reuse decisions.
+Every image is scored with CLIPScore and ImageReward after generation. New results,
+paired reference deltas when available, and computation cost reach the next Agent
+request. Reports and actual actions are archived in agent_decisions/ and shown in
+the RunPod gallery. Scoring time is separate from sampling time.
+
+All updaters return SkipAction(bool). They do not select sigma, scan future nodes,
+train model weights, alter scheduler formulas, CFG or cache boundaries.
 
 ## Run and verify
 
@@ -95,7 +101,7 @@ Run these commands from the project root on the host holding the model weights:
 # Print the resolved configuration without loading a model or calling an Agent.
 uv run python scripts/run_main.py --cfg job --resolve reference_steps=40
 
-# Run one of the four mechanisms; default mode has no Agent calls.
+# Run one of the three mechanisms; default mode has no Agent calls.
 uv run python scripts/run_main.py method=prediction_cache reference_steps=40
 uv run python scripts/run_main.py --config-name sdxl_main method=residual_cache
 
@@ -125,11 +131,11 @@ runtime for normal inference and CPU regression checks.
 
 ## Validation scope
 
-CPU checks cover scheduler-interval parity, all four methods, cache behavior and configuration.
+CPU checks cover scheduler-interval parity, all three methods, cache behavior and configuration.
 SD3 and SDXL each generated a valid 1024x1024 smoke image. These facts do not establish
 full adaptive-Pipeline parity, baseline reproduction, quality preservation or acceleration.
 
-Quality scoring is explicit; empty metric configuration means no quality measurement.
+CLIPScore and ImageReward are enabled by default; an explicitly empty metric list disables scoring.
 NFE counts denoiser calls and denoiser_items records CFG batch items. Sampling time includes
 diagnostics and Agent waits. End-to-end generation time adds text encoding and VAE decoding
 but excludes model loading, image saving and scoring. Compare frozen/no-Agent timings when

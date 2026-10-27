@@ -95,6 +95,13 @@ class Gallery:
                         model_path = str(config.get("model_path", "")).lower()
                         inferred_model = "sdxl" if "sdxl" in model_path else "sd3" if "sd3" in model_path else None
                         metadata[candidate] = {**public_config, **common, **entry, "model": entry.get("model", key or inferred_model)}
+                        records = []
+                        for record_path in sorted((report.parent / "agent_decisions").glob("*.json")):
+                            record = read_json(record_path)
+                            if record.get("sample_id") == entry.get("id") or any(
+                                    item.get("sample_id") == entry.get("id") for item in record.get("executions", [])):
+                                records.append(record)
+                        metadata[candidate]["agent_decisions"] = records
                         trace = (report.parent / "trajectories" / str(entry.get("id", "")) / "events.jsonl").resolve()
                         if trace.is_relative_to(report.parent) and trace.is_file():
                             steps = []
@@ -104,7 +111,7 @@ class Gallery:
                                 except ValueError:
                                     continue
                                 if event.get("event") == "step":
-                                    steps.append({k: event[k] for k in ("step", "sigma", "next_sigma", "timestep", "next_timestep", "version", "grid_decisions", "agent_decision", "agent_outcome", "agent_output") if k in event})
+                                    steps.append({k: event[k] for k in ("step", "sigma", "next_sigma", "timestep", "next_timestep", "version", "grid_decisions", "skipped_node", "scheduler_updated", "reuse_cache", "backbone_evaluated", "forced", "agent_decision", "agent_outcome", "agent_output") if k in event})
                             metadata[candidate]["sampling_trajectory"] = steps
                         break
         rows = []

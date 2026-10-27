@@ -210,7 +210,7 @@ class CacheMethodTests(unittest.TestCase):
                     data = json.loads(request.read_text())
                     self.assertIn(method, data["instructions"])
                     self.assertEqual(set(data["observation"]), {"sigma", "step_delta_sigma",
-                        "since_real_delta_sigma", "consecutive_skips", "has_reference", "feature_rel_change"})
+                        "since_real_delta_sigma", "consecutive_skips", "has_reference", "feature_rel_change", "latent_rel_change"})
                     (workspace / "updater.py").write_text(
                         "from reactive_samplers.context import SkipAction\n"
                         "def choose(obs, ctx, memory): return SkipAction(True)\n")

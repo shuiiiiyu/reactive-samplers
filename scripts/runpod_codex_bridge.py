@@ -38,16 +38,6 @@ def policy_digest(workspace):
 
 def state_directory(codex_home, run_dir):
     root = Path(codex_home) / "reactive-samplers"
-    legacy = root / Path(run_dir).name
-    # Keep a legacy conversation only when all its saved requests belong to this run.
-    if (legacy / "codex-session.json").is_file():
-        try:
-            owners = {json.loads(path.read_text(encoding="utf-8")).get("state", "").rsplit("/decisions/", 1)[0]
-                      for path in (legacy / "decisions").glob("*/request.json")}
-        except (OSError, ValueError):
-            owners = set()
-        if owners == {run_dir}:
-            return legacy
     return root / (Path(run_dir).name + "-" + hashlib.sha256(run_dir.encode()).hexdigest()[:16])
 
 
@@ -153,10 +143,9 @@ def process_decision(args, request_path):
     remote_diagnostic = decision_dir + "/diagnostic_workspace"
     if request.get("workspace") != remote_workspace or request.get("diagnostic_workspace") != remote_diagnostic:
         raise ValueError("Request workspace does not match this run")
-    method = request.get("method", "adaptive_sigma")
+    method = request.get("method", "grid_skip")
     model = request.get("model", "sd3")
-    prompt_name = {("sd3", "adaptive_sigma"): "sampling_agent.md",
-                   ("sd3", "grid_skip"): "grid_skip/sampling_agent.md",
+    prompt_name = {("sd3", "grid_skip"): "grid_skip/sampling_agent.md",
                    ("sdxl", "grid_skip"): "sdxl_grid_skip/sampling_agent.md",
                    ("sd3", "prediction_cache"): "prediction_cache/sampling_agent.md",
                    ("sdxl", "prediction_cache"): "prediction_cache/sampling_agent.md",
@@ -202,14 +191,16 @@ def process_decision(args, request_path):
 
     session_file = args.state_dir / "codex-session.json"
     session = json.loads(session_file.read_text(encoding="utf-8")) if session_file.exists() else {}
-    if session and session.get("method", "adaptive_sigma") != method:
+    if session and session.get("method", "grid_skip") != method:
         raise ValueError("Different sampling methods require independent Agent runs and conversations")
     if session and session.get("model", "sd3") != model:
         raise ValueError("Different base models require independent Agent conversations")
     prompt = (f"Read {instructions} and {request_file}. Edit only analysis.py, updater.py, and relative Python "
               f"helpers in {workspace}. You may repeatedly edit analysis.py and run `python3 .agent_tools/inspect_current` "
               "to inspect the exact paused state. Then edit or keep updater.py. Do not alter the model, sampler, "
-              "scheduler, evaluation, prompts, seeds, or other project files. End with a concise rationale and prediction.")
+              "scheduler, evaluation, prompts, seeds, or other project files. Read new_completed_images in the request "
+              "and feedback.json before editing; use both CLIPScore and ImageReward with NFE to revise reusable rules. "
+              "End in English with exactly the four report headings listed in required_report_headings.")
     command = [args.codex, "exec", "--json", "-m", "gpt-6-luna",
                "-c", "model_reasoning_effort=" + args.reasoning_effort,
                "-c", 'service_tier="default"', "-c", "features.fast_mode=false", "-C", str(workspace),
@@ -243,7 +234,7 @@ def process_decision(args, request_path):
         return
     # Protocol 2 never writes a running workspace. Only the sampler may accept a staged candidate.
     staged = decision_dir + "/candidate"
-    target = staged if request.get("protocol_version") == 2 else remote_workspace
+    target = staged
     rsync_policy(host, workspace, target)
     if exists(host, decision_dir + "/bridge_cancelled.json"):
         return

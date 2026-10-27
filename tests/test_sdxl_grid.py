@@ -58,15 +58,11 @@ class SDXLGridTests(unittest.TestCase):
                     torch.testing.assert_close(actual, expected, rtol=0, atol=0)
             self.assertEqual(adapter.denoiser_evaluations, len(indices))
             ctx = Context('fixture', 7, 0, 1, 4, sigma, 0., float(times[index]), tuple(map(float, sigmas)),
-                          actual, prediction, [], method='grid_skip', model_index=0,
-                          candidate_index=1, candidate_timestep=float(times[1]))
-            memory = {}
-            first = analyze(ctx, memory)
-            self.assertEqual(first['prediction_type'], 'epsilon')
-            self.assertIsNotNone(first['feature_transform'])
-            self.assertNotIn('velocity', first)
-            ctx.nfe = 2
-            self.assertIsNotNone(analyze(ctx, memory)['output_feature_change'])
+                          actual, prediction, [], method='grid_skip')
+            first = analyze(ctx, {})
+            self.assertIn('latent_rel_change', first)
+            self.assertIsNone(first['latent_rel_change'])
+            self.assertEqual(FEATURE_LAYERS, [])
 
     def test_sdxl_gets_its_own_agent_contract(self):
         with tempfile.TemporaryDirectory() as folder:

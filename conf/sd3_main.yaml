@@ -1,6 +1,6 @@
 # SD3 defaults. CLI overrides take precedence; --cfg job only prints the config.
 mode: default                     # default | explore | evaluate
-method: adaptive_sigma             # adaptive_sigma | grid_skip | prediction_cache | residual_cache
+method: grid_skip                  # grid_skip | prediction_cache | residual_cache
 model: sd3
 max_consecutive_skips: 4            # cache methods only; trusted maximum consecutive reuse nodes
 model_path: models/sd3-medium           # downloaded local Diffusers checkpoint
@@ -27,9 +27,10 @@ agent:
   schedule: every_step            # every_step | checkpoints
   checkpoints: []                 # zero-based executed-step indices
 metrics:
-  names: []                       # explicitly enable hps_v2_1 and/or clip_score for quality experiments
-  clip_model: null
-  hps_checkpoint: null
+  names: [clip_score, image_reward] # scored after every image; both feed subsequent Agent decisions
+  clip_model: metrics/clip/checkpoints/ViT-B-32.pt
+  image_reward_checkpoint: metrics/image_reward/checkpoints/ImageReward.pt
+  image_reward_config: metrics/image_reward/checkpoints/med_config.json
 hydra:
   job:
     chdir: false

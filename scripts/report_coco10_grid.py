@@ -34,7 +34,7 @@ def report(root):
                 'baseline_steps': base['steps'], 'skip_steps': row['steps'],
                 'baseline_nfe': base['nfe'], 'skip_nfe': row['nfe'],
                 'nfe_reduction': 1 - row['nfe'] / base['nfe'],
-                'hps_delta': row['scores']['hps_v2_1'] - base['scores']['hps_v2_1'],
+                'image_reward_delta': row['scores']['image_reward'] - base['scores']['image_reward'],
                 'clip_delta': row['scores']['clip_score'] - base['scores']['clip_score'],
                 'baseline_seconds': base['end_to_end_seconds'], 'skip_seconds': row['end_to_end_seconds'],
                 'wall_speedup': base['end_to_end_seconds'] / row['end_to_end_seconds'],
@@ -54,11 +54,11 @@ def report(root):
     lines = ['# COCO 十样本跳步对比实验', '',
         '同一批 COCO Train prompt 与 seed；Luna / low / 标准速度。属于在线探索对照，不能作为独立冻结泛化评测。',
         '总耗时包含 Agent 等待；模型前向耗时单独记录。回退样本保留并明确标记，不能混入干净方法对比。', '',
-        '| 组别 | 已完成 | 平均 HPSv2.1 | 平均 CLIPScore | 平均 NFE | 平均前向秒数 | 平均总秒数 | 平均 Agent 秒数 |',
+        '| 组别 | 已完成 | 平均 ImageReward | 平均 CLIPScore | 平均 NFE | 平均前向秒数 | 平均总秒数 | 平均 Agent 秒数 |',
         '|---|---:|---:|---:|---:|---:|---:|---:|']
     for name, rows in arms.items():
         if rows:
-            values = [mean(r['scores']['hps_v2_1'] for r in rows), mean(r['scores']['clip_score'] for r in rows),
+            values = [mean(r['scores']['image_reward'] for r in rows), mean(r['scores']['clip_score'] for r in rows),
                 mean(r['nfe'] for r in rows), mean(r['denoiser_seconds'] for r in rows),
                 mean(r['end_to_end_seconds'] for r in rows), mean(r['agent_seconds'] for r in rows)]
             lines.append(f'| {name} | {len(rows)}/10 | ' + ' | '.join(f'{v:.4f}' for v in values) + ' |')
@@ -71,7 +71,7 @@ def report(root):
         if clean:
             lines.append('仅对无失败/回退配对统计：' + '；'.join(
                 f'{label} {mean(p[key] for p in clean):.4f}' for key, label in (
-                    ('nfe_reduction', 'NFE 减少比例'), ('hps_delta', 'HPS 差值'), ('clip_delta', 'CLIPScore 差值'),
+                    ('nfe_reduction', 'NFE 减少比例'), ('image_reward_delta', 'ImageReward 差值'), ('clip_delta', 'CLIPScore 差值'),
                     ('denoiser_speedup', '前向加速比'), ('wall_speedup', '包含 Agent 的总耗时加速比'))) + '。')
     lines += ['', '逐图配置、timestep 和保留/跳过索引见 comparison.csv；逐步 action、策略版本、Agent 最终输出见 decision_trace.json。',
               'Agent 输出是该次代码修改/保留的原文说明；实际逐候选 action 以 grid_decisions 为准。', '']

@@ -6,7 +6,7 @@ Reference: https://github.com/xingjian-bai/opal
 
 ## Code and runtime boundaries
 - `reactive_samplers/` owns the wrapper, Agent, program loader, context and schedules.
-- `reactive_samplers/prompts/analysis.py` and `updater.py` are initial templates.
+- `reactive_samplers/prompts/<method>/analysis.py` and `updater.py` are initial templates.
 - An experiment copies them into `sampler_runs/<run>/workspace/`; the Agent edits those
   run-local copies, not the framework templates. Versioned programs and decisions live
   alongside workspace/, as in OPAL.
@@ -20,9 +20,10 @@ Reference: https://github.com/xingjian-bai/opal
   project code and preserve upstream version metadata.
 
 ## Research contract
-- Four methods: adaptive_sigma, grid_skip, prediction_cache and residual_cache.
-  SD3-Medium uses official FlowMatch Euler; SDXL Base uses official epsilon Euler
-  with grid_skip or cache methods. Continuous SDXL scheduling remains future work.
+- Three methods: grid_skip, prediction_cache and residual_cache.
+  All decide before the current full prediction. grid_skip omits the current
+  prediction and latent update; cache methods update every original interval.
+  SD3-Medium uses official FlowMatch Euler; SDXL Base uses official epsilon Euler.
 - Freeze base weights; do not train a timestep network or modify solver formulas, CFG,
   data, evaluation or precision to improve method results. Cache methods use only the
   framework-owned final-prediction or whole-backbone-residual cache; Agent code must
@@ -32,7 +33,13 @@ Reference: https://github.com/xingjian-bai/opal
 - Explore on 10 images; evaluate a frozen policy without LLM calls on 40 disjoint images.
   Do not invent benchmark records. GenEval is reserved for independent final evaluation.
 - Reset per-image memory, retain strategy code across exploration images.
-- Validate physical sigma actions and preserve scheduler semantics.
+- Updaters return SkipAction(bool); they never choose sigma or scan future nodes.
+- Default observations and their English mathematical definitions come from
+  observations.py. Grid skipping compares with last-real inputs; cache methods
+  compare with adjacent-grid inputs. Definitions follow any Agent-added signals.
+- Every completed image supplies CLIPScore and ImageReward feedback. Every Agent
+  call writes its four-part English report and actual execution records into
+  agent_decisions/, which the RunPod gallery reads automatically.
 - Never claim quality preservation or acceleration from a smoke check.
 
 ## Development

@@ -1,12 +1,11 @@
 """Methods 3/4: decide BEFORE prediction, update EVERY original grid interval.
 
-Unlike method 2 (grid_skip), a reused node is never removed from the solver's
-schedule. The only difference between 3 and 4 is how a reused prediction is made.
+Unlike method 2 (grid_skip), a reused node never omits its latent update. The only difference between 3 and 4 is how a reused prediction is made.
 Cache tensors belong to the trusted sampler, not mutable Agent policy memory.
 """
 import time
 
-from .context import Context, Prediction, SkipAction
+from .context import Context, Prediction, validate_skip
 from .models.cache import prepare_feature, refresh_prediction, reuse_prediction, reuse_residual
 from .programs import digest
 from .recovery import (FailureLog, POLICY_ERRORS, PolicyRecovery, clone_state, fatal_error,
@@ -43,7 +42,8 @@ def _sample_cache(adapter, programs, prompt, seed, reference_steps, max_nfe, sch
     first_failure = len(failures.records)
     recovery = PolicyRecovery(programs)
     # All caches reset here on EVERY image, including evaluation without an Agent.
-    cached_prediction = cached_residual = reference_feature = reference_sigma = None
+    cached_prediction = cached_residual = reference_sigma = None
+    previous_latent = previous_feature = previous_sigma = previous_step = None
     memory, history, kept, reused, timesteps, sigma_schedule = {}, [], [], [], [], []
     consecutive_skips = recovered_steps = default_steps = 0
     feature_seconds = policy_seconds = denoiser_seconds = reuse_seconds = 0.0
@@ -66,9 +66,10 @@ def _sample_cache(adapter, programs, prompt, seed, reference_steps, max_nfe, sch
             feature_seconds += time.perf_counter() - began
             ctx = Context(prompt, seed, step, adapter.denoiser_evaluations, max_nfe, sigma, sigmas[-1],
                           adapter.timestep(sigma), tuple(sigmas), latent, Prediction(None), history,
-                          sample_id=recorder.root.name, method=method, model_index=step,
-                          candidate_index=step, candidate_timestep=adapter.timestep(sigma),
-                          input_feature=feature, reference_feature=reference_feature,
+                          sample_id=recorder.root.name, method=method,
+                          input_feature=feature, reference_feature=previous_feature,
+                          reference_latent=previous_latent, observation_reference_step=previous_step,
+                          observation_reference_sigma=previous_sigma,
                           cache_observation={
                               "sigma": sigma, "step_delta_sigma": sigma - next_sigma,
                               "since_real_delta_sigma": reference_sigma - sigma if reference_sigma is not None else 0.0,
@@ -137,9 +138,7 @@ def _sample_cache(adapter, programs, prompt, seed, reference_steps, max_nfe, sch
                     stage = "updater"
                     with policy_deadline(policy_timeout_seconds):
                         action = programs.updater.choose(clone_state(observation), working, proposed_memory)
-                    if not isinstance(action, SkipAction) or type(action.skip) is not bool:
-                        raise TypeError("Cache updater.choose must return SkipAction(skip=bool)")
-                    skip, forced = action.skip, None
+                    skip, forced = validate_skip(action), None
                     if cached_prediction is None:
                         skip, forced = False, "initialization"
                     elif consecutive_skips >= max_consecutive_skips:
@@ -203,7 +202,7 @@ def _sample_cache(adapter, programs, prompt, seed, reference_steps, max_nfe, sch
             else:
                 kept.append(step)
                 cached_prediction, cached_residual = clone_state(prediction), residual
-                reference_feature, reference_sigma = feature, sigma
+                reference_sigma = sigma
                 consecutive_skips = 0
             if changed:
                 programs.restore_workspace()
@@ -219,9 +218,11 @@ def _sample_cache(adapter, programs, prompt, seed, reference_steps, max_nfe, sch
             record = {"step": step, "nfe": adapter.denoiser_evaluations, "sigma": sigma,
                       "next_sigma": next_sigma, "timestep": ctx.timestep,
                       "next_timestep": adapter.timestep(next_sigma), "version": programs.version,
-                      "method": method, "observation": observation, "reuse_cache": skip,
+                      "method": method, "observation": observation, "reuse_cache": skip, "requested_skip": action.skip,
                       "forced": forced, "reference_sigma": reference_sigma,
-                      "backbone_evaluated": not skip, "output_head_evaluated": not skip or method == "residual_cache"}
+                      "backbone_evaluated": not skip, "scheduler_updated": True, "output_head_evaluated": not skip or method == "residual_cache"}
+            if agent:
+                agent.record_execution(ctx, record)
             recorder.event("step", **record)
             history.append({**record, "latent": latent, "prediction": clone_state(prediction)})
             if agent is None:
@@ -230,6 +231,8 @@ def _sample_cache(adapter, programs, prompt, seed, reference_steps, max_nfe, sch
                     del history[:max(0, len(history) - limit)]
             timesteps.append(ctx.timestep)
             sigma_schedule.append(next_sigma)
+            previous_latent, previous_feature = latent, feature
+            previous_sigma, previous_step = sigma, step
             latent = next_latent
         adapter.synchronize()
         sampling_seconds = time.perf_counter() - sampling_started

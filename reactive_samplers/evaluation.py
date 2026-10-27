@@ -1,44 +1,27 @@
-"""Offline quality scorers using the project's downloaded reference checkpoints."""
+"""Post-generation quality scorers using the project's downloaded reference checkpoints."""
 
 from pathlib import Path
 import sys
-import types
 
 
 class QualityMetrics:
-    def __init__(self, names, clip_model=None, hps_checkpoint=None):
-        unknown = set(names) - {"hps_v2_1", "clip_score"}
+    def __init__(self, names, clip_model=None, image_reward_checkpoint=None, image_reward_config=None):
+        unknown = set(names) - {"clip_score", "image_reward"}
         if unknown:
             raise ValueError(f"Unknown metrics: {sorted(unknown)}")
         self.names = names
         root = Path(__file__).resolve().parents[1]
-        if "hps_v2_1" in names:
-            checkpoint = Path(hps_checkpoint or root / "benchmarks/hps/checkpoints/hpsv2/HPS_v2.1_compressed.pt")
-            if not checkpoint.is_file():
-                raise FileNotFoundError(checkpoint)
-            sys.path.insert(0, str(root / "benchmarks/hps/source"))
-            # The upstream factory imports unused turtle.forward, which requires tkinter.
-            # Keep its source untouched and provide that name only during import.
-            turtle = sys.modules.get("turtle")
-            if turtle is None:
-                shim = types.ModuleType("turtle")
-                shim.forward = None
-                sys.modules["turtle"] = shim
-            try:
-                from hpsv2.src.open_clip import create_model_and_transforms, get_tokenizer
-            finally:
-                if turtle is None:
-                    del sys.modules["turtle"]
+        if "image_reward" in names:
+            checkpoint = Path(image_reward_checkpoint or root / "metrics/image_reward/checkpoints/ImageReward.pt")
+            config = Path(image_reward_config or checkpoint.parent / "med_config.json")
+            for path in (checkpoint, config):
+                if not path.is_file():
+                    raise FileNotFoundError(path)
+            import ImageReward as RM
             import torch
-            self.hps_device = "cuda" if torch.cuda.is_available() else "cpu"
-            self.hps, _, self.hps_preprocess = create_model_and_transforms(
-                "ViT-H-14", pretrained=None, precision="amp", device=self.hps_device,
-                light_augmentation=True, output_dict=True,
-            )
-            state = torch.load(checkpoint, map_location=self.hps_device, weights_only=False)
-            self.hps.load_state_dict(state["state_dict"])
-            self.hps.eval()
-            self.hps_tokenize = get_tokenizer("ViT-H-14")
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+            self.image_reward = RM.load(str(checkpoint), device=device, med_config=str(config))
+            self.image_reward.eval()
         if "clip_score" in names:
             if not clip_model:
                 raise ValueError("metrics.clip_model must name the CLIP checkpoint")
@@ -54,15 +37,10 @@ class QualityMetrics:
 
     def score(self, image_path, prompt):
         scores = {}
-        if "hps_v2_1" in self.names:
+        if "image_reward" in self.names:
             import torch
-            from PIL import Image
-            with Image.open(image_path) as im:
-                image = self.hps_preprocess(im.convert("RGB")).unsqueeze(0).to(self.hps_device)
-            tokens = self.hps_tokenize([prompt]).to(self.hps_device)
-            with torch.inference_mode(), torch.autocast(device_type=self.hps_device, enabled=self.hps_device == "cuda"):
-                output = self.hps(image, tokens)
-                scores["hps_v2_1"] = float((output["image_features"] @ output["text_features"].T)[0, 0])
+            with torch.inference_mode():
+                scores["image_reward"] = float(self.image_reward.score(prompt, str(image_path)))
         if "clip_score" in self.names:
             import torch
             from PIL import Image
@@ -75,3 +53,17 @@ class QualityMetrics:
                 similarity = torch.nn.functional.cosine_similarity(image_features, text_features).item()
             scores["clip_score"] = max(100.0 * similarity, 0.0)
         return scores
+
+
+def paired_feedback(result, references):
+    """Compare only matching prompt/seed outputs; scores are separate signals, not percentages."""
+    reference = next((row for row in references
+                      if (row["prompt"], row["seed"]) == (result["prompt"], result["seed"])), None)
+    if reference is None:
+        return {}
+    reference_scores = {name: reference.get("scores", {})[name] for name in result["scores"]
+                        if name in reference.get("scores", {})}
+    return {"reference_image": reference["image"], "reference_scores": reference_scores,
+            "score_deltas": {name: result["scores"][name] - score for name, score in reference_scores.items()},
+            "reference_nfe": reference["nfe"], "nfe_reduction": 1 - result["nfe"] / reference["nfe"],
+            "reference_valid_for_benchmark": reference.get("valid_for_benchmark", True)}

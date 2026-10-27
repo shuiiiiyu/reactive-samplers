@@ -28,11 +28,6 @@ def terminate_process(process):
         process.wait(timeout=5)
 
 
-class KeepAgent:
-    def __call__(self, request_path, workspace):
-        return "keep"
-
-
 class CommandAgent:
     def __init__(self, argv, timeout_seconds=900):
         if not argv or not isinstance(argv, list) or not all(isinstance(x, str) for x in argv):
@@ -87,22 +82,18 @@ class MailboxAgent:
                 write_json(result_path, result)
             if response_path.is_file():
                 response = json.loads(response_path.read_text(encoding="utf-8"))
-                if request.get("protocol_version") == 2:
-                    if response.get("request_id") != request["request_id"] or response.get("base_version") != request["policy_version"]:
-                        raise ValueError("Agent response belongs to a different request or policy version")
-                    if digest(workspace) != request["policy_version"]:
-                        raise ValueError("The running workspace changed while this request was pending")
+                if response.get("request_id") != request["request_id"] or response.get("base_version") != request["policy_version"]:
+                    raise ValueError("Agent response belongs to a different request or policy version")
+                if digest(workspace) != request["policy_version"]:
+                    raise ValueError("The running workspace changed while this request was pending")
                 if response.get("status") != "ok":
                     raise RuntimeError(response.get("error", "Remote Agent bridge failed"))
-                if request.get("protocol_version") == 2:
-                    candidate = (folder / "candidate").resolve()
-                    if Path(response.get("candidate_workspace", "")).resolve() != candidate:
-                        raise ValueError("Agent candidate is outside this decision's staging directory")
-                    if digest(candidate) != response.get("candidate_version"):
-                        raise ValueError("Candidate hash does not match the published response")
-                    return {"message": response.get("message", ""), "candidate_workspace": str(candidate),
-                            "candidate_version": response["candidate_version"]}
-                return response.get("message", "")
+                candidate = (folder / "candidate").resolve()
+                if Path(response.get("candidate_workspace", "")).resolve() != candidate:
+                    raise ValueError("Agent candidate is outside this decision's staging directory")
+                # The sampler verifies the candidate content immediately before installing it.
+                return {"message": response.get("message", ""), "candidate_workspace": str(candidate),
+                        "candidate_version": response["candidate_version"]}
             time.sleep(self.poll_seconds)
         write_json(folder / "bridge_cancelled.json", {"reason": "sampling-side timeout",
                                                       "request_id": request.get("request_id")})

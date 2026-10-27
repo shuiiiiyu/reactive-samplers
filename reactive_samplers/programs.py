@@ -10,7 +10,7 @@ import types
 import uuid
 
 from .recovery import policy_deadline
-from .context import CACHE_METHODS, METHODS
+from .context import METHODS
 
 
 def source_files(path):
@@ -34,7 +34,7 @@ def copy_sources(source, target):
 
 
 class Programs:
-    def __init__(self, workspace, versions, method="adaptive_sigma"):
+    def __init__(self, workspace, versions, method="grid_skip"):
         if method not in METHODS:
             raise ValueError(f"Unknown sampling method: {method}")
         self.method = method
@@ -44,27 +44,21 @@ class Programs:
         self.reload()
 
     @classmethod
-    def create(cls, workspace, versions, source=None, method="adaptive_sigma"):
+    def create(cls, workspace, versions, source=None, method="grid_skip"):
         if method not in METHODS:
             raise ValueError(f"Unknown sampling method: {method}")
         starting = source is None
         source = Path(source) if source else Path(__file__).parent / "prompts"
-        if starting and method != "adaptive_sigma":
+        if starting:
             source = source / method
         if (source / "manifest.json").exists():
             manifest = json.loads((source / "manifest.json").read_text())
             expected = manifest["sha256"]
-            if manifest.get("method", "adaptive_sigma") != method:
+            if manifest.get("method") != method:
                 raise ValueError("Frozen policy belongs to a different sampling method")
             if digest(source) != expected:
                 raise ValueError("Frozen strategy hash does not match its manifest")
-        if starting and method == "adaptive_sigma":
-            # Select the root starter only; do not copy other methods into its workspace.
-            Path(workspace).mkdir(parents=True, exist_ok=False)
-            for path in source.glob("*.py"):
-                shutil.copyfile(path, Path(workspace) / path.name)
-        else:
-            copy_sources(source, workspace)
+        copy_sources(source, workspace)
         return cls(workspace, versions, method)
 
     def reload(self, source=None, timeout_seconds=30):
@@ -118,12 +112,7 @@ class Programs:
                 "FEATURE_LAYERS = []\nHISTORY_LIMIT = 0\ndef analyze(ctx, memory):\n    return {}\n")
             (source / "updater.py").write_text(
                 "from reactive_samplers.context import SkipAction\n"
-                "def choose(observation, ctx, memory):\n    return SkipAction(False)\n"
-                if self.method == "grid_skip" or self.method in CACHE_METHODS else
-                "from reactive_samplers.context import Action\n"
-                "def choose(observation, ctx, memory):\n"
-                "    if ctx.remaining_nfe == 0:\n        return Action(ctx.terminal_sigma)\n"
-                "    return Action(next(s for s in ctx.reference_sigmas if s < ctx.sigma))\n")
+                "def choose(observation, ctx, memory):\n    return SkipAction(False)\n")
             self.reload(source)
         self.default_hash = self.version
         self.restore_workspace()
@@ -137,7 +126,7 @@ class Programs:
             shutil.copyfile(p, dest)
 
 
-def freeze(source, target, method="adaptive_sigma"):
+def freeze(source, target, method="grid_skip"):
     if method not in METHODS:
         raise ValueError(f"Unknown sampling method: {method}")
     source, target = Path(source), Path(target)

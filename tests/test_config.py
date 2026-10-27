@@ -20,13 +20,15 @@ class ConfigTests(unittest.TestCase):
     def test_defaults_and_step_override_resolve_for_all_entry_configs(self):
         with initialize_config_dir(version_base=None, config_dir=str(ROOT / "conf")):
             for name, model, method, steps in (
-                ("sd3_main", "sd3", "adaptive_sigma", 28),
+                ("sd3_main", "sd3", "grid_skip", 28),
                 ("sd3_grid_skip", "sd3", "grid_skip", 28),
                 ("sdxl_main", "sdxl", "grid_skip", 30),
             ):
                 cfg = OmegaConf.to_container(compose(config_name=name), resolve=True, throw_on_missing=True)
                 self.assertEqual((cfg["model"], cfg["method"], cfg["reference_steps"]), (model, method, steps))
                 self.assertEqual(cfg["max_nfe"], steps)
+                self.assertEqual(cfg["metrics"]["names"], ["clip_score", "image_reward"])
+                self.assertNotIn("hps_checkpoint", cfg["metrics"])
                 changed = OmegaConf.to_container(compose(config_name=name, overrides=["reference_steps=40"]),
                                                 resolve=True, throw_on_missing=True)
                 self.assertEqual(changed["max_nfe"], 40)

@@ -3,7 +3,7 @@ defaults:
   - _self_
 
 model: sdxl
-method: grid_skip                  # SDXL does not support adaptive_sigma.
+method: grid_skip
 model_path: models/sdxl-base-1.0
 dtype: float16
 guidance_scale: 5.0

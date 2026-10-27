@@ -54,9 +54,10 @@ def main():
                 'prompts': str(runtime / 'prompts.jsonl'), 'output_dir': str(runtime / f'{model}_{arm}'),
                 'policy': str(runtime / 'keep_all') if arm == 'default' else None,
                 'baseline_results': str(runtime / f'{model}_default/results.json') if arm == 'skip' else None,
-                'metrics': {'names': ['hps_v2_1', 'clip_score'],
+                'metrics': {'names': ['clip_score', 'image_reward'],
                     'clip_model': str(args.runtime_root / 'metrics/clip/checkpoints/ViT-B-32.pt'),
-                    'hps_checkpoint': str(args.runtime_root / 'benchmarks/hps/checkpoints/hpsv2/HPS_v2.1_compressed.pt')}}
+                    'image_reward_checkpoint': str(args.runtime_root / 'metrics/image_reward/checkpoints/ImageReward.pt'),
+                    'image_reward_config': str(args.runtime_root / 'metrics/image_reward/checkpoints/med_config.json')}}
             (output / f'{model}_{arm}.json').write_text(json.dumps(arm_config, indent=2) + '\n')
     print(output)
 
