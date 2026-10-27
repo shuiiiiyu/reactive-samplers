@@ -1,0 +1,8 @@
+{
+  "status": "cancelled_invalid_agent_runtime",
+  "reason": "Codex Code Mode host executable was missing; the Agent could not read or edit policy files.",
+  "original_engine_failure_counts_preserved": true,
+  "completed_images": 2,
+  "records_and_images_retained": true,
+  "invalid_job_id": "48093174"
+}

@@ -1,5 +1,0 @@
-At sigma 0.9601, the velocity still changes sharply between steps (relative RMS 0.699, cosine 0.767), while the latent change remains small. There are 10 default-schedule references and no completed candidate images.
-
-I inspected the paused state and kept `analysis.py` and `updater.py` unchanged. The rule should continue following the reference schedule here.
-
-**Prediction:** It will not skip during this early, unstable part of the trajectory; any later skips will require unusually similar predictions. Matched-prompt score declines or skips during similarly large velocity changes would refute the rule. No candidate quality results are available yet.

@@ -1,0 +1,13 @@
+{
+  "method": "grid_skip",
+  "completed_sample_final_versions": {
+    "coco10_00": "82d8b41c01fef043d04298e24027fc0367d3f13ca871038975699538874e286c",
+    "coco10_01": "82d8b41c01fef043d04298e24027fc0367d3f13ca871038975699538874e286c"
+  },
+  "latest_completed_sample_version": "82d8b41c01fef043d04298e24027fc0367d3f13ca871038975699538874e286c",
+  "retained_versions": [
+    "82d8b41c01fef043d04298e24027fc0367d3f13ca871038975699538874e286c"
+  ],
+  "scope": "Final strategies per completed image and last committed strategies for unfinished images; intermediate policy revisions removed.",
+  "replay_limit": "Exploration may change policy within an image. These final policies alone cannot exactly replay all intermediate revisions."
+}

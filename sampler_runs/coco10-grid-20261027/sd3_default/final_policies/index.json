@@ -1,0 +1,21 @@
+{
+  "method": "grid_skip",
+  "completed_sample_final_versions": {
+    "coco10_00": "c506188afc81c0b6438282282f3046e1b7ee10e95e2eb0411ef1b91b19094627",
+    "coco10_01": "c506188afc81c0b6438282282f3046e1b7ee10e95e2eb0411ef1b91b19094627",
+    "coco10_02": "c506188afc81c0b6438282282f3046e1b7ee10e95e2eb0411ef1b91b19094627",
+    "coco10_03": "c506188afc81c0b6438282282f3046e1b7ee10e95e2eb0411ef1b91b19094627",
+    "coco10_04": "c506188afc81c0b6438282282f3046e1b7ee10e95e2eb0411ef1b91b19094627",
+    "coco10_05": "c506188afc81c0b6438282282f3046e1b7ee10e95e2eb0411ef1b91b19094627",
+    "coco10_06": "c506188afc81c0b6438282282f3046e1b7ee10e95e2eb0411ef1b91b19094627",
+    "coco10_07": "c506188afc81c0b6438282282f3046e1b7ee10e95e2eb0411ef1b91b19094627",
+    "coco10_08": "c506188afc81c0b6438282282f3046e1b7ee10e95e2eb0411ef1b91b19094627",
+    "coco10_09": "c506188afc81c0b6438282282f3046e1b7ee10e95e2eb0411ef1b91b19094627"
+  },
+  "latest_completed_sample_version": "c506188afc81c0b6438282282f3046e1b7ee10e95e2eb0411ef1b91b19094627",
+  "retained_versions": [
+    "c506188afc81c0b6438282282f3046e1b7ee10e95e2eb0411ef1b91b19094627"
+  ],
+  "scope": "Final strategies per completed image and last committed strategies for unfinished images; intermediate policy revisions removed.",
+  "replay_limit": "Exploration may change policy within an image. These final policies alone cannot exactly replay all intermediate revisions."
+}

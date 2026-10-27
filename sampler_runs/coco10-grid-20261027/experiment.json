@@ -7,5 +7,7 @@
   "reasoning_effort": "low",
   "service_tier": "default",
   "fast_mode": false,
-  "previous_prompt_sets_excluded": true
+  "previous_prompt_sets_excluded": true,
+  "current_agent_attempt": 2,
+  "previous_agent_attempt": "invalid_missing_code_mode_host"
 }

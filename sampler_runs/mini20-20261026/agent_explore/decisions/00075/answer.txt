@@ -1,5 +1,0 @@
-At σ≈0.4649, predicted-clean change passes the stability check (relative RMS ≈0.094; cosine ≈0.9956). The updater skips the next reference sigma, 0.40929, and selects σ≈0.34739. The latent changed substantially across the previous larger step, but the predicted-clean estimate remained stable.
-
-I kept `analysis.py` and `updater.py` unchanged. The two paired image results are too limited and mixed to establish a quality effect.
-
-**Prediction:** the sampler takes this second consecutive larger step. A materially less stable predicted-clean estimate at the next observation, or consistent quality declines across more paired images, would argue against continuing to skip.

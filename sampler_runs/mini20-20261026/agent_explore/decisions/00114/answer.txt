@@ -1,5 +1,0 @@
-**Observation:** At σ=0.85769, predicted-clean change is high (relative RMS 0.205, cosine 0.979), so the updater’s stability rule does not trigger. The next reference sigma is 0.83672. Four completed images used 25–27 NFE versus 28 for their references, with close HPS and CLIP scores.
-
-**Edits:** Kept [updater.py](/workspace/home/shencanyu/.codex-opal/reactive-samplers/agent_explore/workspace/updater.py) and [analysis.py](/workspace/home/shencanyu/.codex-opal/reactive-samplers/agent_explore/workspace/analysis.py) unchanged.
-
-**Prediction:** This step follows the reference schedule. The rule may save a few NFE later when trajectory changes are stable, while keeping quality close to reference. Larger matched-score drops or no NFE savings would refute that prediction.

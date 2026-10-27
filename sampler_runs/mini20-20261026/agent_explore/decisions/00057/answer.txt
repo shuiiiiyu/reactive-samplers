@@ -1,5 +1,0 @@
-At σ≈0.9741, predicted-clean change is still large (relative RMS ≈0.614), and the skip rule only applies below σ=0.85. The updater therefore follows the reference schedule to σ≈0.96013.
-
-I kept `analysis.py` and `updater.py` unchanged. The two paired image results remain mixed and too limited to establish a quality effect.
-
-**Prediction:** sampling will continue on the reference schedule at high sigma; a skip may occur later only if the stability thresholds are met in the configured range. Consistent score declines across more paired images would argue against keeping the rule.

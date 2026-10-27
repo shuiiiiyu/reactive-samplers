@@ -1,5 +1,0 @@
-At sigma 0.8774, velocity change is easing (relative RMS 0.176, cosine 0.984), but the skip window starts below 0.85. Feedback has 10 references and no completed candidate images.
-
-I inspected the paused state and kept both permitted files unchanged. The rule should continue with the reference schedule at this step.
-
-**Prediction:** Any later skips should be rare and require exceptionally similar consecutive predictions. Lower matched-prompt scores or skips during unstable predictions would refute the rule. No candidate quality results are available yet.

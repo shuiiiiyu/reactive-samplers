@@ -1,3 +1,0 @@
-{"asset": "HPD_train_metadata", "status": "downloading"}
-Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files:  25%|██▌       | 1/4 [00:00<00:02,  1.31it/s]Fetching 4 files: 100%|██████████| 4/4 [00:02<00:00,  1.50it/s]Fetching 4 files: 100%|██████████| 4/4 [00:02<00:00,  1.50it/s]
-{"asset": "HPD_train_metadata", "repo_id": "ymhao/HPDv2", "repo_type": "dataset", "revision": "bb0f2563e451e11c3f376b2ba93615db00e042e1", "path": "/workspace/home/shencanyu/deepresearch/workspace/reactive-samplers/artifacts/datasets/hpdv2_training", "files": ["HPDv2.py", "README.md", "test.json", "train.json"], "bytes": 116492225, "status": "complete"}

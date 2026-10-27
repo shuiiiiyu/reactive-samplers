@@ -1,7 +1,0 @@
-Downloading hf-xet (4.0MiB)
- Downloading hf-xet
-Installed 13 packages in 860ms
-{"model": "sd3-medium", "status": "blocked", "error_type": "GatedRepoError"}
-{"model": "sdxl-base-1.0", "status": "downloading", "bytes": 13878864542}
-Fetching 18 files:   0%|          | 0/18 [00:00<?, ?it/s]Fetching 18 files:  22%|██▏       | 4/18 [00:00<00:02,  5.04it/s]Fetching 18 files:  44%|████▍     | 8/18 [00:01<00:01,  5.32it/s]Fetching 18 files:  67%|██████▋   | 12/18 [00:02<00:01,  5.53it/s]Fetching 18 files:  89%|████████▉ | 16/18 [00:06<00:00,  2.38it/s]Fetching 18 files: 100%|██████████| 18/18 [00:17<00:00,  1.03it/s]
-{"model": "sdxl-base-1.0", "status": "complete"}

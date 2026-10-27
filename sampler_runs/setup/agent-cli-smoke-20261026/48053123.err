@@ -1,49 +1,0 @@
-unload GCC/11.4.0 (PATH, LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
-CPLUS_INCLUDE_PATH, CC, FC, F90, F77, CXX, OMPI_FC, OMPI_F90, OMPI_F77,
-OMPI_CC, OMPI_CXX) 
-load GCC/11.4.0 (PATH, LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
-CPLUS_INCLUDE_PATH, CC, FC, F90, F77, CXX, OMPI_FC, OMPI_F90, OMPI_F77,
-OMPI_CC, OMPI_CXX) 
-remove mkl/2024.0 (LD_LIBRARY_PATH)
-load mkl/2024.0 (LD_LIBRARY_PATH)
-remove impi/2021.11 (PATH, MANPATH, LD_LIBRARY_PATH)
-load impi/2021.11 (PATH, MANPATH, LD_LIBRARY_PATH)
-unload HDF5/1.14.1-2 (PATH, LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
-CPLUS_INCLUDE_PATH, HDF5_DIR, HDF5_ROOT) 
-load HDF5/1.14.1-2 (PATH, LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
-CPLUS_INCLUDE_PATH, HDF5_DIR, HDF5_ROOT) 
-unload PYTHON/3.11.5 (PATH, MANPATH, LD_LIBRARY_PATH, LIBRARY_PATH,
-PKG_CONFIG_PATH, C_INCLUDE_PATH, CPLUS_INCLUDE_PATH, PYTHONHOME, PYTHONPATH) 
-load PYTHON/3.11.5 (PATH, MANPATH, LD_LIBRARY_PATH, LIBRARY_PATH,
-PKG_CONFIG_PATH, C_INCLUDE_PATH, CPLUS_INCLUDE_PATH, PYTHONHOME, PYTHONPATH) 
- ------------------------------------------------------------------------------------------ 
-|                                     WARNING                                              |
-|                                                                                          |
-| NVPCX uses its own implementation of MPI that does not offer srun support.               |
-| Programs compiled with NVPCX must use 'mpirun --bind-to none' instead of 'srun'.         |
-| Remember to also add 'export SLURM_CPU_BIND=none' in your job scripts.                   |
- ------------------------------------------------------------------------------------------ 
-unload OPENBLAS/0.3.27 (LD_LIBRARY_PATH, LIBRARY_PATH, PKG_CONFIG_PATH)
-load OPENBLAS/0.3.27 (LD_LIBRARY_PATH, LIBRARY_PATH, PKG_CONFIG_PATH)
-unload CUDNN/9.0.0/cuda11 (LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
-CPLUS_INCLUDE_PATH, CUDNN_LIB_DIR, CUDNN_LIBRARY, CUDNN_INCLUDE_DIR) 
-load CUDNN/9.0.0/cuda11 (LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
-CPLUS_INCLUDE_PATH, CUDNN_LIB_DIR, CUDNN_LIBRARY, CUDNN_INCLUDE_DIR) 
-unload TENSORRT/10.0.0/cuda11 (PATH, LD_LIBRARY_PATH, LIBRARY_PATH,
-C_INCLUDE_PATH, CPLUS_INCLUDE_PATH) 
-load TENSORRT/10.0.0/cuda11 (PATH, LD_LIBRARY_PATH, LIBRARY_PATH,
-C_INCLUDE_PATH, CPLUS_INCLUDE_PATH) 
-unload NCCL/2.19.4 (LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
-CPLUS_INCLUDE_PATH) 
-load NCCL/2.19.4 (LD_LIBRARY_PATH, LIBRARY_PATH, C_INCLUDE_PATH,
-CPLUS_INCLUDE_PATH) 
-unload UV/0.10.11 (PATH)
-load UV/0.10.11 (PATH)
-Using Python 3.11.5 environment at: /scratch/tmp/48053123/reactive-agent-smoke.LjR2Ca/env
-Checked 1 package in 84ms
-Loading pipeline components...:   0%|          | 0/9 [00:00<?, ?it/s]
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s][A
-Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.19it/s][A
-Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.24it/s][ALoading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.23it/s]
-Loading pipeline components...:  11%|█         | 1/9 [00:01<00:13,  1.66s/it]You set `add_prefix_space`. The tokenizer needs to be converted from the slow tokenizers
-Loading pipeline components...:  22%|██▏       | 2/9 [00:01<00:05,  1.29it/s]Loading pipeline components...:  56%|█████▌    | 5/9 [00:02<00:01,  2.29it/s]Loading pipeline components...:  67%|██████▋   | 6/9 [00:03<00:01,  2.33it/s]Loading pipeline components...:  78%|███████▊  | 7/9 [00:03<00:00,  2.81it/s]Loading pipeline components...: 100%|██████████| 9/9 [00:03<00:00,  4.46it/s]Loading pipeline components...: 100%|██████████| 9/9 [00:03<00:00,  2.66it/s]

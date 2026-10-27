@@ -1,3 +1,0 @@
-At σ=0.76468, predicted-clean change remains above the skip threshold (relative RMS 0.172; cosine 0.985), so the updater selects the next reference sigma, 0.73706. I kept `analysis.py` and `updater.py` unchanged.
-
-**Prediction:** This step follows the reference schedule; later skips may reduce NFE if the trajectory stabilizes. Matched quality drops or no NFE savings would refute that prediction.

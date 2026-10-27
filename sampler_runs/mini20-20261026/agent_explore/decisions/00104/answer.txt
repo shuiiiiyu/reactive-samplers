@@ -1,1 +1,0 @@
-At σ = 0.00893, the updater takes the terminal step to σ = 0.0; the skip rule is limited to the midrange. I kept both files unchanged. The predicted-clean estimate is very stable, but candidate-image feedback is not yet available to assess quality. Paired results showing quality loss from the earlier skips would challenge the rule’s safety.

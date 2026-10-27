@@ -1,5 +1,0 @@
-At sigma 0.00893, the predicted-clean estimate is nearly unchanged (relative RMS 0.0065, cosine 0.99998), while velocity change is large. The skip rule is inactive in this final region. Feedback has 10 references and no completed candidate image yet.
-
-I inspected the paused state and kept `analysis.py` and `updater.py` unchanged. With one NFE remaining, the next sigma should be terminal sigma 0.
-
-**Prediction:** Sampling completes without another skipped reference point. A lower matched-prompt score or visible quality loss versus the same-seed reference would refute the quality hypothesis behind the earlier skip.

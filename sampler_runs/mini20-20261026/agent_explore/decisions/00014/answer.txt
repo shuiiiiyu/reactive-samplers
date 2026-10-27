@@ -1,5 +1,0 @@
-At sigma 0.7647, velocity change still exceeds the skip threshold (relative RMS 0.144, cosine 0.990). Feedback has 10 references and no completed candidate results.
-
-I inspected the paused state and kept `analysis.py` and `updater.py` unchanged. The rule should follow the reference schedule here.
-
-**Prediction:** No skip at this step; later skips require much smaller velocity changes and higher cosine similarity. Lower matched-prompt scores or skips during similarly unstable predictions would refute the rule. No candidate quality results are available yet.

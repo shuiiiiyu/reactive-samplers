@@ -1,5 +1,0 @@
-At σ≈0.6022, predicted-clean change narrowly misses the stability thresholds (relative RMS ≈0.104; cosine ≈0.995), and velocity change also fails its threshold. The updater follows the reference schedule to σ≈0.56063.
-
-I kept `analysis.py` and `updater.py` unchanged. The two paired image results remain mixed and too limited to establish a quality effect.
-
-**Prediction:** no skip at this step; a later skip requires one stability check to pass. Consistent score declines across more paired images would argue against keeping the rule.

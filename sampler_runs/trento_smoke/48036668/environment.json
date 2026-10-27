@@ -1,1 +1,0 @@
-{"python": "3.11.5 (main, May 21 2024, 17:16:23) [GCC 11.3.1 20221121 (Red Hat 11.3.1-4)]", "torch": "2.5.1+cu121", "torch_path": "/scratch/tmp/48036668/reactive-samplers.wTf2ci/env/lib/python3.11/site-packages/torch/__init__.py", "cuda": "12.1", "gpu": "NVIDIA H100", "diffusers": "0.35.1", "transformers": "4.44.2"}

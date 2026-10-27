@@ -1,3 +1,0 @@
-I couldn’t read the instructions or inspect the paused state because the execution tool failed to start: `/tmp/codex-code-mode-host` is missing. No files were changed.
-
-Rationale: without the decision files and paused state, edits would be speculative. Prediction: the existing updater’s behavior remains unchanged.

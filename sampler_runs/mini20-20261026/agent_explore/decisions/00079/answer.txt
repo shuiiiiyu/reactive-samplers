@@ -1,3 +1,0 @@
-At σ≈0.00893, the skip rule is out of range, so the next action is the terminal sigma, 0. I added a guard in `updater.py` to return the terminal sigma when no lower reference sigma remains; `analysis.py` is unchanged.
-
-**Prediction:** sampling terminates after this update. A nonterminal next sigma would refute it.

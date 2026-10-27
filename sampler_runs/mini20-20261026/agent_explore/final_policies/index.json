@@ -1,0 +1,18 @@
+{
+  "method": "adaptive_sigma",
+  "completed_sample_final_versions": {
+    "coco_train2017_00": "13aacba5ec423d8086444d2ca8585a13a4e6a9d067ce0213f2664c6a143f9617",
+    "coco_train2017_01": "efd84524d9c7d0f11bf3d4484a6002647ecf343f35a6962e98288ce610bca2c7",
+    "coco_train2017_02": "6a414820d454f46301a6cedafc3ce36e3985a9eaef7ff66c47ee999ac76d3373",
+    "coco_train2017_03": "6a414820d454f46301a6cedafc3ce36e3985a9eaef7ff66c47ee999ac76d3373",
+    "coco_train2017_04": "6a414820d454f46301a6cedafc3ce36e3985a9eaef7ff66c47ee999ac76d3373"
+  },
+  "latest_completed_sample_version": "6a414820d454f46301a6cedafc3ce36e3985a9eaef7ff66c47ee999ac76d3373",
+  "retained_versions": [
+    "13aacba5ec423d8086444d2ca8585a13a4e6a9d067ce0213f2664c6a143f9617",
+    "6a414820d454f46301a6cedafc3ce36e3985a9eaef7ff66c47ee999ac76d3373",
+    "efd84524d9c7d0f11bf3d4484a6002647ecf343f35a6962e98288ce610bca2c7"
+  ],
+  "scope": "Final strategies per completed image and last committed strategies for unfinished images; intermediate policy revisions removed.",
+  "replay_limit": "Exploration may change policy within an image. These final policies alone cannot exactly replay all intermediate revisions."
+}

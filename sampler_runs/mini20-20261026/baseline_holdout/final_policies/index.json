@@ -1,0 +1,21 @@
+{
+  "method": "adaptive_sigma",
+  "completed_sample_final_versions": {
+    "coco_train2017_05": "ef5fa24824dc513b96e917bfb9041f771ad738ff24a2f41928ad6738287615c7",
+    "coco_train2017_06": "ef5fa24824dc513b96e917bfb9041f771ad738ff24a2f41928ad6738287615c7",
+    "coco_train2017_07": "ef5fa24824dc513b96e917bfb9041f771ad738ff24a2f41928ad6738287615c7",
+    "coco_train2017_08": "ef5fa24824dc513b96e917bfb9041f771ad738ff24a2f41928ad6738287615c7",
+    "coco_train2017_09": "ef5fa24824dc513b96e917bfb9041f771ad738ff24a2f41928ad6738287615c7",
+    "hpd_v2_train_05": "ef5fa24824dc513b96e917bfb9041f771ad738ff24a2f41928ad6738287615c7",
+    "hpd_v2_train_06": "ef5fa24824dc513b96e917bfb9041f771ad738ff24a2f41928ad6738287615c7",
+    "hpd_v2_train_07": "ef5fa24824dc513b96e917bfb9041f771ad738ff24a2f41928ad6738287615c7",
+    "hpd_v2_train_08": "ef5fa24824dc513b96e917bfb9041f771ad738ff24a2f41928ad6738287615c7",
+    "hpd_v2_train_09": "ef5fa24824dc513b96e917bfb9041f771ad738ff24a2f41928ad6738287615c7"
+  },
+  "latest_completed_sample_version": "ef5fa24824dc513b96e917bfb9041f771ad738ff24a2f41928ad6738287615c7",
+  "retained_versions": [
+    "ef5fa24824dc513b96e917bfb9041f771ad738ff24a2f41928ad6738287615c7"
+  ],
+  "scope": "Final strategies per completed image and last committed strategies for unfinished images; intermediate policy revisions removed.",
+  "replay_limit": "Exploration may change policy within an image. These final policies alone cannot exactly replay all intermediate revisions."
+}

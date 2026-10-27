@@ -1,5 +1,0 @@
-At sigma 0.4093, the predicted-clean estimate changed by relative RMS 0.095 with cosine 0.996, even as velocity change remained larger. Feedback has 10 reference images and no completed candidate results.
-
-I updated `updater.py` to allow one reference-point skip in the mid-sigma range when the predicted-clean estimate is stable, while retaining the stricter velocity-based condition. `analysis.py` is unchanged.
-
-**Prediction:** This state will trigger a skip and save one denoiser evaluation. Lower matched-prompt HPS/CLIP scores or a noticeably less stable final image would refute the quality hypothesis; no candidate quality results are available yet.

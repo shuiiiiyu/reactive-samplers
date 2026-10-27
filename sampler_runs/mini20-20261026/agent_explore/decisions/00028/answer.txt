@@ -1,5 +1,0 @@
-For the completed same-prompt, same-seed image, the candidate used 27 NFEs versus 28 for the reference. HPS matched exactly (0.26196); CLIP was 30.8024 versus 30.8660, a small decrease. One image is limited evidence, but it supports keeping the rule provisionally.
-
-I inspected the new image’s initial state and kept `analysis.py` and `updater.py` unchanged. With no trajectory history yet, the rule should take the next reference sigma.
-
-**Prediction:** The rule will follow the reference schedule until the predicted-clean estimate meets the skip condition. Repeated matched-seed quality drops would refute the hypothesis that the skip preserves quality.

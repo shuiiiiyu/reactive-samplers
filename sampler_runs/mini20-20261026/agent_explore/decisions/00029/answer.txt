@@ -1,5 +1,0 @@
-The completed matched-prompt, matched-seed image used 27 NFEs versus the reference’s 28. HPS matched exactly at 0.26196; CLIP was 30.8024 versus 30.8660, a small decrease. This single comparison supports keeping the rule provisionally, but doesn’t establish a general quality effect.
-
-At the current sigma 0.9874, velocity and predicted-clean changes are large. I inspected the paused state and kept `analysis.py` and `updater.py` unchanged; the next choice should follow the reference schedule.
-
-**Prediction:** The rule will wait for a stable predicted-clean estimate in its mid-sigma window before skipping. Repeated matched-seed score drops would refute the quality hypothesis.

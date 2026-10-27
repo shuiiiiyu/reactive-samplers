@@ -1,5 +1,0 @@
-At σ≈0.9874, the predicted-clean estimate has changed substantially since the previous step (relative RMS ≈0.996). The skip rule is also limited to σ≤0.85, so it does not trigger here. The next sigma remains the reference value, ≈0.97411.
-
-I kept `analysis.py` and `updater.py` unchanged. The two paired image results remain mixed and too few to establish a quality effect.
-
-**Prediction:** this image follows the reference schedule at high sigma; a skip may occur later only if the stability thresholds are met in the configured range. A skip outside that range, or consistent quality declines across more paired images, would refute the rule’s intended behavior.

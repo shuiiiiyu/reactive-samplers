@@ -1,5 +1,0 @@
-**Observation:** At σ=0.0089, predicted-clean change is nearly zero (relative RMS 0.0067; cosine 0.99998), though velocity change is large. This is the final reference sigma and lies outside the skip window.
-
-**Keep** the policy unchanged. It should take the terminal step to σ=0. The earlier skip reached σ=0.1998 as predicted; its quality impact remains unmeasured.
-
-The prediction would be refuted if the policy skips the terminal step or if matched results show a consistent quality cost from the earlier skip.

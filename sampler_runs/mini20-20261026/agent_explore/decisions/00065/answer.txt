@@ -1,5 +1,0 @@
-At σ≈0.8367, the skip rule is in range, but neither stability check passes: predicted-clean relative RMS is ≈0.234 with cosine ≈0.972, and velocity relative RMS is ≈0.227 with cosine ≈0.974. The updater follows the reference schedule to σ≈0.81432.
-
-I kept `analysis.py` and `updater.py` unchanged. The two paired image results remain mixed and too limited to establish a quality effect.
-
-**Prediction:** no skip at this step; a later skip requires one of the stability checks to pass. More paired images showing consistent score declines would argue against keeping the rule.

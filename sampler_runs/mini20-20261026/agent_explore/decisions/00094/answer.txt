@@ -1,3 +1,0 @@
-At σ = 0.73706, the step is inside the skip window, but predicted-clean change misses the stability thresholds (relative RMS 0.114; cosine 0.994); velocity change also remains high. The updater follows the reference schedule to σ = 0.70728. I kept both files unchanged; feedback has no candidate-image results.
-
-Prediction: this step matches the reference trajectory. Later stable midrange steps may reduce NFE, but quality effects remain unmeasured. Paired results showing quality loss or no NFE savings would refute that prediction.

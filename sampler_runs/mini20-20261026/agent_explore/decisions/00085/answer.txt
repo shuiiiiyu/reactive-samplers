@@ -1,3 +1,0 @@
-At σ = 0.9298, predicted-clean and velocity changes are large, and the step is outside the skip window. The updater therefore follows the reference schedule to σ = 0.91335. I kept `analysis.py` and `updater.py` unchanged.
-
-Prediction: this step should match the reference trajectory; later stable midrange steps may save a few evaluations, with quality near baseline. Paired results showing quality loss or no NFE savings would refute that prediction.
