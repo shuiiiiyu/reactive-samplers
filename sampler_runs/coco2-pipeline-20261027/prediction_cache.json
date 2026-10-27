@@ -1,0 +1,39 @@
+{
+  "mode": "explore",
+  "method": "prediction_cache",
+  "model": "sd3",
+  "max_consecutive_skips": 4,
+  "model_path": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/models/sd3-medium",
+  "device": "cuda",
+  "dtype": "bfloat16",
+  "height": 1024,
+  "width": 1024,
+  "guidance_scale": 7.0,
+  "max_sequence_length": 256,
+  "reference_steps": 40,
+  "max_nfe": 40,
+  "prompts": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/coco2-pipeline-20261027/prompts.jsonl",
+  "expected_count": 2,
+  "output_dir": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/sampler_runs/coco2-pipeline-20261027/prediction_cache",
+  "policy": null,
+  "baseline_results": null,
+  "verify_pipeline": false,
+  "policy_timeout_seconds": 30,
+  "agent": {
+    "backend": "mailbox",
+    "command": [],
+    "timeout_seconds": 1800,
+    "poll_seconds": 1,
+    "schedule": "every_step",
+    "checkpoints": []
+  },
+  "metrics": {
+    "names": [
+      "clip_score",
+      "image_reward"
+    ],
+    "clip_model": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/metrics/clip/checkpoints/ViT-B-32.pt",
+    "image_reward_checkpoint": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/metrics/image_reward/checkpoints/ImageReward.pt",
+    "image_reward_config": "/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers/metrics/image_reward/checkpoints/med_config.json"
+  }
+}
