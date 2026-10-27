@@ -2,8 +2,8 @@
 
 Exploration uses the OPAL-style coding-agent CLI, not a raw model API. Trento pauses
 at Agent decision points; the RunPod bridge resumes one Codex conversation per run.
-The CLI sandbox can write only to its local policy workspace and has no network
-access. The bridge transfers only the JSON request/feedback and policy Python files;
+The current experiment explicitly uses `danger-full-access`. Workspace restrictions
+are the research contract and mailbox validation, not OS sandbox isolation. The bridge transfers only the JSON request/feedback and policy Python files;
 `state.pt`, latent history, images and model weights stay on Trento. Repeated
 inspection requests are served by the paused Trento process against its in-memory
 state and an isolated diagnostic workspace.
@@ -17,7 +17,7 @@ login; do not copy an existing auth file into it.
 project=/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers
 mkdir -p "$HOME/.codex-opal"
 ssh trento "cat '$project/scripts/bootstrap_runpod_codex.sh'" | bash
-CODEX_HOME="$HOME/.codex-opal" /tmp/codex-v0.160.1 login --device-auth
+CODEX_HOME="$HOME/.codex-opal" $HOME/.codex-opal/reactive-samplers-tools/bin/codex-v0.160.1 login --device-auth
 ```
 
 Complete the displayed device login. The bootstrap installs the pinned Codex CLI
@@ -36,9 +36,9 @@ Copy the two small bridge scripts from the persistent Trento project to RunPod:
 
 ```bash
 project=/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers
-mkdir -p /tmp/reactive-samplers-bridge/scripts
-ssh trento "cat '$project/scripts/runpod_codex_bridge.py'" > /tmp/reactive-samplers-bridge/scripts/runpod_codex_bridge.py
-ssh trento "cat '$project/scripts/agent_inspect_helper.py'" > /tmp/reactive-samplers-bridge/scripts/agent_inspect_helper.py
+mkdir -p $HOME/.codex-opal/reactive-samplers-tools/scripts
+ssh trento "cat '$project/scripts/runpod_codex_bridge.py'" > $HOME/.codex-opal/reactive-samplers-tools/scripts/runpod_codex_bridge.py
+ssh trento "cat '$project/scripts/agent_inspect_helper.py'" > $HOME/.codex-opal/reactive-samplers-tools/scripts/agent_inspect_helper.py
 ```
 
 Start one bridge for the exploration output directory **before** submitting its
@@ -48,7 +48,7 @@ Run it inside a tmux session so it stays attached while the local SSH window clo
 ```bash
 project=/gpfs/scratch/ehpc1056/TengLong/deepresearch/workspace/reactive-samplers
 run="$project/sampler_runs/<run-name>"
-tmux new -s reactive-samplers-agent "CODEX_HOME='$HOME/.codex-opal' python3 /tmp/reactive-samplers-bridge/scripts/runpod_codex_bridge.py --project-root '$project' --run-dir '$run'"
+tmux new -s reactive-samplers-agent "CODEX_HOME='$HOME/.codex-opal' python3 $HOME/.codex-opal/reactive-samplers-tools/scripts/runpod_codex_bridge.py --project-root '$project' --run-dir '$run'"
 ```
 
 Detach with `Ctrl-B`, then `D`; keep this bridge running for the whole exploration. Configure `mode: explore`,

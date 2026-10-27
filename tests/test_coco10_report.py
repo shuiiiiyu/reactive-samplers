@@ -13,7 +13,9 @@ class CocoReportTests(unittest.TestCase):
             root = Path(temporary)
             for model in ('sd3', 'sdxl'):
                 for arm in ('default', 'skip'):
-                    folder = root / f'{model}_{arm}'
+                    folder = root / (f'{model}_{arm}_r2' if arm == 'skip' else f'{model}_{arm}')
+                    (root / f'{model}_{arm}.json').write_text(json.dumps({
+                        'output_dir': '/remote/project/sampler_runs/experiment/' + folder.name}))
                     trace = folder / 'trajectories/p/events.jsonl'
                     trace.parent.mkdir(parents=True)
                     skip = arm == 'skip'

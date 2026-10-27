@@ -10,7 +10,7 @@ import types
 import uuid
 
 from .recovery import policy_deadline
-from .context import METHODS
+from .context import CACHE_METHODS, METHODS
 
 
 def source_files(path):
@@ -49,8 +49,8 @@ class Programs:
             raise ValueError(f"Unknown sampling method: {method}")
         starting = source is None
         source = Path(source) if source else Path(__file__).parent / "prompts"
-        if starting and method == "grid_skip":
-            source = source / "grid_skip"
+        if starting and method != "adaptive_sigma":
+            source = source / method
         if (source / "manifest.json").exists():
             manifest = json.loads((source / "manifest.json").read_text())
             expected = manifest["sha256"]
@@ -119,7 +119,7 @@ class Programs:
             (source / "updater.py").write_text(
                 "from reactive_samplers.context import SkipAction\n"
                 "def choose(observation, ctx, memory):\n    return SkipAction(False)\n"
-                if self.method == "grid_skip" else
+                if self.method == "grid_skip" or self.method in CACHE_METHODS else
                 "from reactive_samplers.context import Action\n"
                 "def choose(observation, ctx, memory):\n"
                 "    if ctx.remaining_nfe == 0:\n        return Action(ctx.terminal_sigma)\n"

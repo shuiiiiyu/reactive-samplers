@@ -67,6 +67,8 @@ def parse_turn(path, previous_thread=None):
             thread_id = incoming
         completed |= event.get("type") == "turn.completed"
         item = event.get("item", {})
+        if item.get("type") == "error":
+            raise RuntimeError(f"Codex tool runtime failed: {item.get('message', '')}; see {path}")
         if event.get("type") == "item.completed" and item.get("type") == "agent_message":
             message = item.get("text", message)
     if not thread_id or not completed:
@@ -144,6 +146,9 @@ def process_decision(args, request_path):
     run(["rsync", "-a", "-e", "ssh", f"{host}:{decision_dir}/request.json", str(local_decision / "request.json")])
     request_file = local_decision / "request.json"
     request = json.loads(request_file.read_text(encoding="utf-8"))
+    host_executable = Path(args.codex).with_name("codex-code-mode-host")
+    if not host_executable.is_file() or not os.access(host_executable, os.X_OK):
+        raise FileNotFoundError(f"Codex tool host is missing or not executable: {host_executable}")
     remote_workspace = args.run_dir + "/workspace"
     remote_diagnostic = decision_dir + "/diagnostic_workspace"
     if request.get("workspace") != remote_workspace or request.get("diagnostic_workspace") != remote_diagnostic:
@@ -152,7 +157,11 @@ def process_decision(args, request_path):
     model = request.get("model", "sd3")
     prompt_name = {("sd3", "adaptive_sigma"): "sampling_agent.md",
                    ("sd3", "grid_skip"): "grid_skip/sampling_agent.md",
-                   ("sdxl", "grid_skip"): "sdxl_grid_skip/sampling_agent.md"}.get((model, method))
+                   ("sdxl", "grid_skip"): "sdxl_grid_skip/sampling_agent.md",
+                   ("sd3", "prediction_cache"): "prediction_cache/sampling_agent.md",
+                   ("sdxl", "prediction_cache"): "prediction_cache/sampling_agent.md",
+                   ("sd3", "residual_cache"): "residual_cache/sampling_agent.md",
+                   ("sdxl", "residual_cache"): "residual_cache/sampling_agent.md"}.get((model, method))
     if prompt_name is None or request.get("instructions") != args.project_root + "/reactive_samplers/prompts/" + prompt_name:
         raise ValueError("Unexpected Agent instruction path")
     if request.get("feedback") != args.run_dir + "/feedback.json":
@@ -252,7 +261,7 @@ def main():
     parser.add_argument("--run-dir", required=True)
     parser.add_argument("--project-root", required=True)
     parser.add_argument("--trento-host", default="trento")
-    parser.add_argument("--codex", default="/tmp/codex-v0.160.1")
+    parser.add_argument("--codex", default=str(Path.home() / ".codex-opal/reactive-samplers-tools/bin/codex-v0.160.1"))
     parser.add_argument("--codex-home", default=str(Path.home() / ".codex-opal"))
     parser.add_argument("--bridge-root", default=str(Path(__file__).resolve().parents[1]))
     parser.add_argument("--poll-seconds", type=float, default=1)

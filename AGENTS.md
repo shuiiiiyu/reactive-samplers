@@ -20,10 +20,13 @@ Reference: https://github.com/xingjian-bai/opal
   project code and preserve upstream version metadata.
 
 ## Research contract
-- Current method scope: SD3-Medium + official FlowMatch Euler; SDXL Base + official
-  Euler supports fixed-grid skipping only. Continuous SDXL scheduling remains future work.
+- Four methods: adaptive_sigma, grid_skip, prediction_cache and residual_cache.
+  SD3-Medium uses official FlowMatch Euler; SDXL Base uses official epsilon Euler
+  with grid_skip or cache methods. Continuous SDXL scheduling remains future work.
 - Freeze base weights; do not train a timestep network or modify solver formulas, CFG,
-  caching, data, evaluation or precision to improve method results.
+  data, evaluation or precision to improve method results. Cache methods use only the
+  framework-owned final-prediction or whole-backbone-residual cache; Agent code must
+  not alter the cache boundary, CFG or cache payload to improve results.
 - The Agent may repeatedly modify/run analysis and modify updater inside ONE image.
   Support both every-step checks and fixed checkpoints.
 - Explore on 10 images; evaluate a frozen policy without LLM calls on 40 disjoint images.

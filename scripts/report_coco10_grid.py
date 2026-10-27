@@ -11,7 +11,8 @@ def report(root):
     arms, traces, pairs = {}, [], []
     for model in ('sd3', 'sdxl'):
         for arm in ('default', 'skip'):
-            folder = root / f'{model}_{arm}'
+            config = root / f'{model}_{arm}.json'
+            folder = root / Path(json.loads(config.read_text())['output_dir']).name if config.exists() else root / f'{model}_{arm}'
             path = folder / 'results.json'
             arms[f'{model}_{arm}'] = json.loads(path.read_text())['images'] if path.exists() else []
             for row in arms[f'{model}_{arm}']:

@@ -1,6 +1,7 @@
 # Required experiment settings are intentionally unresolved until the environment is chosen.
 mode: ???                         # default | explore | evaluate
-method: adaptive_sigma             # adaptive_sigma | grid_skip
+method: adaptive_sigma             # adaptive_sigma | grid_skip | prediction_cache | residual_cache
+max_consecutive_skips: 4            # cache methods only; trusted maximum consecutive reuse nodes
 model_path: models/sd3-medium           # downloaded local Diffusers checkpoint
 device: ???
 dtype: ???

@@ -1,0 +1,102 @@
+[
+  {
+    "path": "AGENTS.md",
+    "before": "6154e2a8593523091f248bde84e8bea891c3a6bfc47b5125d965243db0209001",
+    "after": "0ec66ef5fce0f7a85fe8af63aa16585147f674595f1bcc40d4aea9623767e4f4"
+  },
+  {
+    "path": "README.md",
+    "before": "bdd4996ed9877e78a6c7951ab548740d04a097de13736c078c0f8ba5add19e02",
+    "after": "77158b3bff4fdbdd748178cddcf2123ff04265836b78a8674bae15e790079c95"
+  },
+  {
+    "path": "conf/sd3_main.yaml",
+    "before": "54aa6dba4f16dbab232d1286f1ca6dc38dd7694b1e978b93671d054dc8c901bb",
+    "after": "ca6f6fa9784e023b75340d003b68f9d50c5fc4ca344e0164311ca0687a097000"
+  },
+  {
+    "path": "docs/four-methods.md",
+    "before": null,
+    "after": "38a5a1d59b1c7784e62232c5895058501a29d9323e9c78e8ab9d3511e53d9f49"
+  },
+  {
+    "path": "pyproject.toml",
+    "before": "79ba340bdea674a90ea82e73d3fe660efeba6fc0212abc5b5a4dab211789a8fd",
+    "after": "09eb740284d7be137018b9479acc6e3d0a4023e125addb789351f63c49303411"
+  },
+  {
+    "path": "reactive_samplers/agent.py",
+    "before": "e26120638e1283cd9bdaae7f6864d65e639c480b72107f8f7349f881b835e713",
+    "after": "29993230ff5fb1beb1b28bc2e959060baedd17d16c74803afecd8a4b823ac38b"
+  },
+  {
+    "path": "reactive_samplers/cache_sampling.py",
+    "before": null,
+    "after": "94a8f53572c25819dfee11f5a345444c059d3e908415c8b2f91c33b0e07a703f"
+  },
+  {
+    "path": "reactive_samplers/cli.py",
+    "before": "02bc795ac6362b7265c80e379397ab131d8f374b17f87ac184d85017a51050db",
+    "after": "0da64b2bf43ffbffb605dbe95e4ce69842f44c3ac5f49d58094b616ee3b92da0"
+  },
+  {
+    "path": "reactive_samplers/context.py",
+    "before": "2521413699d4f42a1b951fce3bf80a07d1d7c66bd04d8f9212ced2b14b436e1f",
+    "after": "a9a20ebc748f3e99292457a788e022a2247c5d3c6a5d9495646473a529a263cb"
+  },
+  {
+    "path": "reactive_samplers/models/cache.py",
+    "before": null,
+    "after": "1fc3df51e3e1fe2e8130102bb02045e06006c4eb026d299570c40662c878f588"
+  },
+  {
+    "path": "reactive_samplers/programs.py",
+    "before": "232cdcbac906ae13721341c95e256f59fc3f55d9c1626e64fe8114569a557cd6",
+    "after": "61217fdbcc17a042a798d9236e699113aaf5f5487a7679b5fe2788199397771a"
+  },
+  {
+    "path": "reactive_samplers/prompts/prediction_cache/analysis.py",
+    "before": null,
+    "after": "8a90baf46d70cebefac93fe71516a44eff685c1fda80beb2b047cafea1b0c8e1"
+  },
+  {
+    "path": "reactive_samplers/prompts/prediction_cache/sampling_agent.md",
+    "before": null,
+    "after": "121214b44f24fd92d8c78853e9333080b8dce414b262e4580a4634bd44d27889"
+  },
+  {
+    "path": "reactive_samplers/prompts/prediction_cache/updater.py",
+    "before": null,
+    "after": "79feb8350fa26072452534c9593e6c58058a2169986171909ea80c4daacde05a"
+  },
+  {
+    "path": "reactive_samplers/prompts/residual_cache/analysis.py",
+    "before": null,
+    "after": "b1910e580dc13acb0b5f33874c2e81116dd19e50971e129ac09d65ff2a2ad45c"
+  },
+  {
+    "path": "reactive_samplers/prompts/residual_cache/sampling_agent.md",
+    "before": null,
+    "after": "75b183d006af426512402df4963728a6363b922a72a309a6e1580bacd77ac16b"
+  },
+  {
+    "path": "reactive_samplers/prompts/residual_cache/updater.py",
+    "before": null,
+    "after": "b3eb6fdd81e690754ba93a51cd8db8c7802ae067313677d8cec9dd38cd06d8ce"
+  },
+  {
+    "path": "reactive_samplers/wrapper.py",
+    "before": "e7786b686a558ad3dc9ada0493b3c353e5280074b7266b57548eae0e4002d54c",
+    "after": "4ee97ce6733dd48119c4dc22dd256de7893f722c8a0d13365ea539f9636a1aba"
+  },
+  {
+    "path": "scripts/runpod_codex_bridge.py",
+    "before": "fa09c4b26ee2ed0f84cf80373e9f433df029430dde9551d202db53b055f9c225",
+    "after": "8508d608bbae4060ff85048d354222bf4e74027257e8ed2d717fe94d2e5afd4c"
+  },
+  {
+    "path": "tests/test_cache_methods.py",
+    "before": null,
+    "after": "f0ea8cc1d3c98d858f0069472f5de00973bf0f343c3b7a7d04cd04c01e466fad"
+  }
+]

@@ -4,6 +4,12 @@ Agent-in-the-loop discovery of training-free, adaptive diffusion sampling rules.
 Code organization follows [OPAL](https://github.com/xingjian-bai/opal): a small wrapper,
 an Agent session, editable programs, context, decision schedules and per-run records.
 
+Four distinct mechanisms are available: `adaptive_sigma` (arbitrary next sigma),
+`grid_skip` (remove grid nodes), `prediction_cache` (reuse final prediction), and
+`residual_cache` (reuse whole-backbone hidden residual). The cache methods decide
+before prediction and update every original grid node. See [four-methods.md](docs/four-methods.md)
+for function locations, model boundaries, observation, configuration and accounting.
+
 ## Directory layout
 
 ```text
@@ -65,7 +71,8 @@ Rules receive only current/past information and must not mutate model state.
 
 Actions choose the next physical sigma after scheduler shifting. The adapter calls the
 unchanged official FlowMatch Euler update. It never reapplies shift to an action.
-No model training, learned timestep network, CFG tuning or cache optimization is included.
+No model training, learned timestep network or CFG tuning is included. The two
+cache methods use explicit framework-owned cache payloads; Agent code controls reuse decisions.
 
 ## Run and verify
 

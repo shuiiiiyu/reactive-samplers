@@ -7,7 +7,7 @@ from pathlib import Path
 from .programs import Programs
 from .report import write_json
 from .recovery import clone_state, policy_deadline, rng_state, restore_rng
-from .context import METHODS
+from .context import CACHE_METHODS, METHODS
 
 
 class AgentSession:
@@ -17,6 +17,7 @@ class AgentSession:
         self.method = method
         self.model = model
         self.instructions = Path(__file__).parent / "prompts" / (
+            f"{method}/sampling_agent.md" if method in CACHE_METHODS else
             "sdxl_grid_skip/sampling_agent.md" if model == "sdxl" else
             "grid_skip/sampling_agent.md" if method == "grid_skip" else "sampling_agent.md")
         self.backend = backend

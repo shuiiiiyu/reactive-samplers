@@ -37,7 +37,7 @@ function framework(row){
  const name=({default:'官方默认',adaptive_sigma:'自动步长',grid_skip:'原表跳点'})[method]||method;
  const phase=c.mode==='explore'?' · 探索':c.mode==='evaluate'?' · 冻结评测':'';
  const check=c.mode==='explore'?(schedule==='every_step'?' · 每步介入':schedule==='checkpoints'?' · 固定检查点':''):'';
- return `${modelName(c.model)} · ${name}${phase}${check}`;
+ return `${modelName(c.model)} · ${name}${phase}${check}${c.valid_for_benchmark===false?' · 运行无效':''}`;
 }
 function groupExperiments(list){
  const groups=new Map();

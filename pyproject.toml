@@ -21,4 +21,4 @@ reactive-samplers = "reactive_samplers.cli:main"
 include = ["reactive_samplers*"]
 
 [tool.setuptools.package-data]
-reactive_samplers = ["prompts/*.py", "prompts/*.md", "prompts/grid_skip/*.py", "prompts/grid_skip/*.md", "prompts/sdxl_grid_skip/*.py", "prompts/sdxl_grid_skip/*.md", "web/*.html"]
+reactive_samplers = ["prompts/*.py", "prompts/*.md", "prompts/grid_skip/*.py", "prompts/grid_skip/*.md", "prompts/sdxl_grid_skip/*.py", "prompts/sdxl_grid_skip/*.md", "prompts/prediction_cache/*.py", "prompts/prediction_cache/*.md", "prompts/residual_cache/*.py", "prompts/residual_cache/*.md", "web/*.html"]

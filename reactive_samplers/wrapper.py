@@ -59,6 +59,32 @@ def _choose(programs, ctx, analyzed, adapter, timeout):
 
 
 def sample(adapter, programs, prompt, seed, reference_steps, max_nfe, schedule, recorder, agent=None,
+           policy_timeout_seconds=30, method="adaptive_sigma", max_consecutive_skips=4):
+    """Four explicit mechanisms; changing one never changes another method's solver path."""
+    if method not in METHODS or getattr(programs, "method", "adaptive_sigma") != method:
+        raise ValueError("Sampling method and policy method must match")
+    args = (adapter, programs, prompt, seed, reference_steps, max_nfe, schedule, recorder, agent)
+    if method == "adaptive_sigma":
+        return sample_adaptive_sigma(*args, policy_timeout_seconds=policy_timeout_seconds)
+    if method == "grid_skip":
+        return sample_grid_skip(*args, policy_timeout_seconds=policy_timeout_seconds)
+    from .cache_sampling import sample_prediction_cache, sample_residual_cache
+    run = sample_prediction_cache if method == "prediction_cache" else sample_residual_cache
+    return run(*args, policy_timeout_seconds=policy_timeout_seconds,
+               max_consecutive_skips=max_consecutive_skips)
+
+
+def sample_adaptive_sigma(*args, **kwargs):
+    """1. Predict now, then choose an arbitrary next physical sigma (SD3 only)."""
+    return _sample_postprediction(*args, method="adaptive_sigma", **kwargs)
+
+
+def sample_grid_skip(*args, **kwargs):
+    """2. Predict now, then remove later grid nodes; integrate across removed nodes."""
+    return _sample_postprediction(*args, method="grid_skip", **kwargs)
+
+
+def _sample_postprediction(adapter, programs, prompt, seed, reference_steps, max_nfe, schedule, recorder, agent=None,
            policy_timeout_seconds=30, method="adaptive_sigma"):
     if method not in METHODS or getattr(programs, "method", "adaptive_sigma") != method:
         raise ValueError("Sampling method and policy method must match")

@@ -363,7 +363,10 @@ class MailboxRecoveryTests(unittest.TestCase):
             path = Path(tmp) / "cli.jsonl"
             start = {"type": "thread.started", "thread_id": "session"}
             for events in ([start], [start, {"type": "turn.failed"}],
-                           [start, {"type": "turn.completed"}, {"type": "error"}]):
+                           [start, {"type": "turn.completed"}, {"type": "error"}],
+                           [start, {"type": "item.completed", "item": {"type": "error",
+                            "message": "Code Mode unavailable: host executable was not found"}},
+                            {"type": "turn.completed"}]):
                 path.write_text("\n".join(json.dumps(event) for event in events))
                 with self.assertRaises(RuntimeError):
                     parse_turn(path)

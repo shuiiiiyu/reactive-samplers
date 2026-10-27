@@ -33,8 +33,8 @@ def run_config(cfg):
         raise ValueError(f"Unknown sampling method: {method}")
     cfg = {**cfg, "method": method}
     model = cfg.get("model", "sd3")
-    if model not in {"sd3", "sdxl"} or (model == "sdxl" and method != "grid_skip"):
-        raise ValueError("Supported models: SD3; SDXL with grid_skip")
+    if model not in {"sd3", "sdxl"} or (model == "sdxl" and method == "adaptive_sigma"):
+        raise ValueError("Supported models: SD3; SDXL with grid_skip or either cache method")
     cfg["model"] = model
     if mode not in {"default", "explore", "evaluate"}:
         raise ValueError("mode must be default, explore or evaluate")
@@ -74,7 +74,7 @@ def run_config(cfg):
         metrics = QualityMetrics(cfg["metrics"]["names"], cfg["metrics"].get("clip_model"),
                                  cfg["metrics"].get("hps_checkpoint"))
         source = cfg.get("policy") if mode in {"default", "evaluate"} else None
-        if source is None and model == "sdxl":
+        if source is None and model == "sdxl" and method == "grid_skip":
             source = Path(__file__).parent / "prompts/sdxl_grid_skip"
         programs = Programs.create(root / "workspace", root / "programs", source, method=method)
         pipeline_class = StableDiffusion3Pipeline if model == "sd3" else StableDiffusionXLPipeline
@@ -106,7 +106,8 @@ def run_config(cfg):
         try:
             image, stats, history = sample(adapter, programs, row["prompt"], row["seed"], cfg["reference_steps"],
                                            cfg["max_nfe"], schedule, recorder, agent,
-                                           policy_timeout_seconds=cfg.get("policy_timeout_seconds", 30), method=method)
+                                           policy_timeout_seconds=cfg.get("policy_timeout_seconds", 30), method=method,
+                                           max_consecutive_skips=cfg.get("max_consecutive_skips", 4))
             stage = "image_save"
             image_path = image_dir / (row["id"] + ".png")
             image.save(image_path)

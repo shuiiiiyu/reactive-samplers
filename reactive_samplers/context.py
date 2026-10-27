@@ -2,7 +2,8 @@ from dataclasses import dataclass, field
 from typing import Any
 import math
 
-METHODS = ("adaptive_sigma", "grid_skip")
+CACHE_METHODS = ("prediction_cache", "residual_cache")
+METHODS = ("adaptive_sigma", "grid_skip", *CACHE_METHODS)
 
 
 @dataclass
@@ -17,8 +18,8 @@ class Prediction:
 class Context:
     prompt: str
     seed: int
-    step: int                       # zero-based; this step's prediction already exists
-    nfe: int                        # includes the current prediction
+    step: int                       # zero-based; cache methods pause BEFORE prediction
+    nfe: int                        # completed real predictions; includes current only in methods 1/2
     max_nfe: int
     sigma: float                    # physical sigma after scheduler shifting
     terminal_sigma: float
@@ -33,6 +34,11 @@ class Context:
     model_index: int | None = None
     candidate_index: int | None = None
     candidate_timestep: float | None = None
+    # Methods 3/4 expose only shallow current features and past cache metadata.
+    # prediction.guided is None during analysis/Agent inspection in these methods.
+    input_feature: Any = None
+    reference_feature: Any = None
+    cache_observation: dict = field(default_factory=dict)
 
     @property
     def candidate_sigma(self):

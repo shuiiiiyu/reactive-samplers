@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "check": "bash scripts/check_environment.sh",
+  "unit_tests": 53,
+  "models": [
+    "sd3",
+    "sdxl"
+  ],
+  "checks": [
+    "all-keep parity",
+    "backbone reuse",
+    "CFG",
+    "cache reset",
+    "pre-prediction inspect",
+    "policy recovery",
+    "existing methods regression"
+  ],
+  "gpu_checkpoint_quality": "not_run",
+  "paid_agent_calls": 0,
+  "concurrent_upstream_files_preserved": 69
+}
