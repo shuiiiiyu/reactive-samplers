@@ -1,0 +1,122 @@
+Resolved 93 packages in 5ms
+Audited 6 packages in 0.21ms
+usage: reactive-samplers [-h] {freeze,inspect,report} ...
+
+Reactive Samplers framework utilities
+
+positional arguments:
+  {freeze,inspect,report}
+    freeze              Export a complete immutable-by-hash strategy
+    inspect             Run edited analysis against a paused trusted state
+                        snapshot
+    report              Print existing recorded results; makes no model calls
+
+options:
+  -h, --help            show this help message and exit
+mode: default
+method: adaptive_sigma
+model: sd3
+max_consecutive_skips: 4
+model_path: models/sd3-medium
+device: cuda
+dtype: bfloat16
+height: 1024
+width: 1024
+guidance_scale: 7.0
+max_sequence_length: 256
+reference_steps: 28
+max_nfe: 28
+prompts: sampler_runs/coco10-grid-20261027/prompts.jsonl
+expected_count: 10
+output_dir: sampler_runs/sd3-adaptive_sigma-20261027-074034
+policy: null
+baseline_results: null
+verify_pipeline: false
+policy_timeout_seconds: 30
+agent:
+  backend: mailbox
+  command: []
+  timeout_seconds: 1800
+  poll_seconds: 1
+  schedule: every_step
+  checkpoints: []
+metrics:
+  names: []
+  clip_model: null
+  hps_checkpoint: null
+test_flow_clean_spatial_cfg_and_layer_signals (test_analysis.AnalysisTests.test_flow_clean_spatial_cfg_and_layer_signals) ... ok
+test_transport_retry_resumes_polling_and_preserves_interrupt (test_bridge_watch.BridgeWatchTests.test_transport_retry_resumes_polling_and_preserves_interrupt) ... Watching /project/sampler_runs/test; one Codex session is reused for this run.
+Bridge transport failed; retrying in 5 seconds: Command '['ssh']' returned non-zero exit status 255.
+Watching /project/sampler_runs/test; one Codex session is reused for this run.
+Watching /project/sampler_runs/test; one Codex session is reused for this run.
+Bridge transport failed; retrying in 5 seconds: Command '['ssh']' timed out after 60 seconds
+Watching /project/sampler_runs/test; one Codex session is reused for this run.
+ok
+test_budget_reserves_mandatory_refresh_and_rejects_impossible_limit (test_cache_methods.CacheMethodTests.test_budget_reserves_mandatory_refresh_and_rejects_impossible_limit) ... ok
+test_entry_override_and_capture_hook_are_restored_after_failed_forward (test_cache_methods.CacheMethodTests.test_entry_override_and_capture_hook_are_restored_after_failed_forward) ... /workspace/home/shencanyu/.cache/uv/archive-v0/-lDtoKnfu9ld8h9dfwhnj/lib/python3.12/site-packages/diffusers/schedulers/scheduling_euler_discrete.py:405: DeprecationWarning: __array__ implementation doesn't accept a copy keyword, so passing copy=False failed. __array__ must implement 'dtype' and 'copy' keyword arguments.
+  sigmas = np.array(((1 - self.alphas_cumprod) / self.alphas_cumprod) ** 0.5)
+ok
+test_final_prediction_cache_matches_manual_scheduler_reuse (test_cache_methods.CacheMethodTests.test_final_prediction_cache_matches_manual_scheduler_reuse) ... ok
+test_frozen_methods_and_feature_reference_are_separate (test_cache_methods.CacheMethodTests.test_frozen_methods_and_feature_reference_are_separate) ... ok
+test_keep_all_parity_and_no_extra_backbone_calls_both_models_cfg_modes (test_cache_methods.CacheMethodTests.test_keep_all_parity_and_no_extra_backbone_calls_both_models_cfg_modes) ... ok
+test_old_prediction_and_current_input_plus_old_residual_are_distinct (test_cache_methods.CacheMethodTests.test_old_prediction_and_current_input_plus_old_residual_are_distinct) ... ok
+test_pre_prediction_inspect_agent_reload_and_invalid_policy_recovery (test_cache_methods.CacheMethodTests.test_pre_prediction_inspect_agent_reload_and_invalid_policy_recovery) ... ok
+test_reuse_skips_real_backbone_but_updates_every_grid_node_and_resets (test_cache_methods.CacheMethodTests.test_reuse_skips_real_backbone_but_updates_every_grid_node_and_resets) ... ok
+test_pairs_keep_real_outputs_timesteps_and_recovery_status (test_coco10_report.CocoReportTests.test_pairs_keep_real_outputs_timesteps_and_recovery_status) ... ok
+test_coco_generator_reads_yaml_steps_and_preserves_existing_experiment (test_config.ConfigTests.test_coco_generator_reads_yaml_steps_and_preserves_existing_experiment) ... ok
+test_defaults_and_step_override_resolve_for_all_entry_configs (test_config.ConfigTests.test_defaults_and_step_override_resolve_for_all_entry_configs) ... ok
+test_action_boundaries_and_final_budget (test_core.CoreTests.test_action_boundaries_and_final_budget) ... ok
+test_agent_modifies_current_image_and_repeated_diagnostics (test_core.CoreTests.test_agent_modifies_current_image_and_repeated_diagnostics) ... ok
+test_both_agent_schedules (test_core.CoreTests.test_both_agent_schedules) ... ok
+test_changed_updater_is_called_once (test_core.CoreTests.test_changed_updater_is_called_once) ... ok
+test_default_rule_and_per_image_reset (test_core.CoreTests.test_default_rule_and_per_image_reset) ... ok
+test_freeze_verification_and_no_agent_replay (test_core.CoreTests.test_freeze_verification_and_no_agent_replay) ... ok
+test_illegal_candidate_action_rejected_before_update (test_core.CoreTests.test_illegal_candidate_action_rejected_before_update) ... ok
+test_invalid_edit_restores_old_program (test_core.CoreTests.test_invalid_edit_restores_old_program) ... ok
+test_prompt_manifest_validation (test_core.CoreTests.test_prompt_manifest_validation) ... ok
+test_relative_helpers_reloaded_and_scratch_excluded (test_core.CoreTests.test_relative_helpers_reloaded_and_scratch_excluded) ... ok
+test_experiment_groups_keep_variants_and_other_experiments_separate (test_gallery.GalleryTests.test_experiment_groups_keep_variants_and_other_experiments_separate) ... ok
+test_http_submission_safe_paths_and_automatic_discovery (test_gallery.GalleryTests.test_http_submission_safe_paths_and_automatic_discovery) ... 127.0.0.1 - - [27/Oct/2026 07:40:46] "POST /api/generate HTTP/1.1" 202 -
+127.0.0.1 - - [27/Oct/2026 07:40:46] "GET /images/..%2Fsecret.png HTTP/1.1" 404 -
+127.0.0.1 - - [27/Oct/2026 07:40:46] "GET /images/%2Fetc%2Fpasswd HTTP/1.1" 404 -
+127.0.0.1 - - [27/Oct/2026 07:40:46] "POST /api/generate HTTP/1.1" 403 -
+ok
+test_legacy_smoke_paths_and_main_experiment_configs (test_gallery.GalleryTests.test_legacy_smoke_paths_and_main_experiment_configs) ... ok
+test_validation_rejects_invalid_values_and_unknown_actions (test_gallery.GalleryTests.test_validation_rejects_invalid_values_and_unknown_actions) ... ok
+test_agent_switch_and_later_failure_keep_committed_skips (test_grid_skip.GridSkipTests.test_agent_switch_and_later_failure_keep_committed_skips) ... ok
+test_existing_hooks_and_temporal_features_need_no_probe_forward (test_grid_skip.GridSkipTests.test_existing_hooks_and_temporal_features_need_no_probe_forward) ... ok
+test_fixed_grid_control_and_recovery (test_grid_skip.GridSkipTests.test_fixed_grid_control_and_recovery) ... ok
+test_keep_all_matches_official_shifted_euler (test_grid_skip.GridSkipTests.test_keep_all_matches_official_shifted_euler) ... ok
+test_templates_freeze_and_sessions_are_separate (test_grid_skip.GridSkipTests.test_templates_freeze_and_sessions_are_separate) ... ok
+test_bridge_hash_matches_sampler_hash (test_recovery.MailboxRecoveryTests.test_bridge_hash_matches_sampler_hash) ... ok
+test_command_timeout_terminates_child_process_group (test_recovery.MailboxRecoveryTests.test_command_timeout_terminates_child_process_group) ... ok
+test_incomplete_and_failed_cli_turns_are_not_successes (test_recovery.MailboxRecoveryTests.test_incomplete_and_failed_cli_turns_are_not_successes) ... ok
+test_protocol_two_mailbox_commits_a_valid_candidate_at_the_same_step (test_recovery.MailboxRecoveryTests.test_protocol_two_mailbox_commits_a_valid_candidate_at_the_same_step) ... ok
+test_staged_candidate_is_returned_without_touching_active_workspace (test_recovery.MailboxRecoveryTests.test_staged_candidate_is_returned_without_touching_active_workspace) ... ok
+test_wrong_request_hash_and_late_response_are_rejected (test_recovery.MailboxRecoveryTests.test_wrong_request_hash_and_late_response_are_rejected) ... ok
+test_corrupt_stable_version_is_skipped_with_an_explicit_failure (test_recovery.RecoveryTests.test_corrupt_stable_version_is_skipped_with_an_explicit_failure) ... ok
+test_cuda_failure_aborts_with_snapshot_without_policy_retry (test_recovery.RecoveryTests.test_cuda_failure_aborts_with_snapshot_without_policy_retry) ... ok
+test_diagnostic_failure_keeps_the_active_rule_and_is_reported_next_time (test_recovery.RecoveryTests.test_diagnostic_failure_keeps_the_active_rule_and_is_reported_next_time) ... ok
+test_fallback_that_also_raises_reaches_earlier_stable_rule (test_recovery.RecoveryTests.test_fallback_that_also_raises_reaches_earlier_stable_rule) ... ok
+test_frozen_failure_is_labeled_when_default_takes_over (test_recovery.RecoveryTests.test_frozen_failure_is_labeled_when_default_takes_over) ... ok
+test_invalid_candidate_import_observation_and_coordinates (test_recovery.RecoveryTests.test_invalid_candidate_import_observation_and_coordinates) ... ok
+test_late_runtime_failure_is_sent_to_next_agent_request (test_recovery.RecoveryTests.test_late_runtime_failure_is_sent_to_next_agent_request) ... ok
+test_pending_trial_is_not_promoted_to_fallback (test_recovery.RecoveryTests.test_pending_trial_is_not_promoted_to_fallback) ... ok
+test_policy_cannot_mutate_authoritative_latent_prediction_or_history (test_recovery.RecoveryTests.test_policy_cannot_mutate_authoritative_latent_prediction_or_history) ... ok
+test_python_import_loop_does_not_replace_the_active_program (test_recovery.RecoveryTests.test_python_import_loop_does_not_replace_the_active_program) ... ok
+test_python_policy_loop_times_out_and_reuses_the_prediction (test_recovery.RecoveryTests.test_python_policy_loop_times_out_and_reuses_the_prediction) ... ok
+test_running_analysis_systemexit_and_rng_changes_are_recovered (test_recovery.RecoveryTests.test_running_analysis_systemexit_and_rng_changes_are_recovered) ... ok
+test_solver_partial_state_and_nan_do_not_commit_or_add_nfe (test_recovery.RecoveryTests.test_solver_partial_state_and_nan_do_not_commit_or_add_nfe) ... ok
+test_scheduler_snapshot_restores_indices_and_sigma_coordinates (test_sd3_scheduler.SchedulerParity.test_scheduler_snapshot_restores_indices_and_sigma_coordinates) ... ok
+test_stock_euler_and_dynamic_adapter_match (test_sd3_scheduler.SchedulerParity.test_stock_euler_and_dynamic_adapter_match) ... ok
+test_official_unet_euler_scaling_skips_features_and_restoration (test_sdxl_grid.SDXLGridTests.test_official_unet_euler_scaling_skips_features_and_restoration) ... /workspace/home/shencanyu/.cache/uv/archive-v0/-lDtoKnfu9ld8h9dfwhnj/lib/python3.12/site-packages/diffusers/schedulers/scheduling_euler_discrete.py:405: DeprecationWarning: __array__ implementation doesn't accept a copy keyword, so passing copy=False failed. __array__ must implement 'dtype' and 'copy' keyword arguments.
+  sigmas = np.array(((1 - self.alphas_cumprod) / self.alphas_cumprod) ** 0.5)
+ok
+test_sdxl_gets_its_own_agent_contract (test_sdxl_grid.SDXLGridTests.test_sdxl_gets_its_own_agent_contract) ... ok
+
+----------------------------------------------------------------------
+Ran 55 tests in 4.081s
+
+OK
+{"sd3_default": 1, "sd3_skip": 1, "sdxl_default": 1, "sdxl_skip": 1}
+/tmp/tmp4hw41ng9/sampler_runs/fixture

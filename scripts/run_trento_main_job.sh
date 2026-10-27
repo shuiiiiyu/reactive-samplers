@@ -18,6 +18,3 @@ export LD_LIBRARY_PATH="${cuda_libs}${LD_LIBRARY_PATH:-}"
 export PYTHONPATH="$PWD"
 export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 OMP_NUM_THREADS=8
 "$env/bin/python" scripts/run_config_json.py "$config"
-if [[ "$config" == "$PWD/sampler_runs/mini20-20261026/frozen_holdout.json" ]]; then
-    "$env/bin/python" scripts/compare_mini20.py
-fi

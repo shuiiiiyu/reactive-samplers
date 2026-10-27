@@ -30,7 +30,7 @@ reactive_samplers/           Our framework implementation
   cli.py                    inspect / freeze / report utilities
 conf/                       Main-experiment Hydra configuration
 scripts/                    Entry points, checks and resumable resource downloads
-tests/                      CPU checks and opt-in two-model GPU smoke script
+tests/                      CPU regression checks and opt-in GPU smoke tools
 models/                     Base SD3-Medium and SDXL weight directories
 baselines/                  TPDM / AYS / OYS source, schedules and baseline weights
 benchmarks/                 COCO / HPS / GenEval code, inputs and evaluator weights
@@ -62,7 +62,7 @@ The initial updater follows the official reference schedule. A check pauses samp
 after the current model prediction and before its latent update. The Agent may repeatedly
 edit analysis, run `inspect`, view the diagnostic and then edit updater before returning.
 It does not need to wait for a finished image or a batch. The Agent bridge must preserve
-its provider/CLI conversation across the run. The real provider bridge is not configured yet.
+its provider/CLI conversation across the run; see docs/agent-cli.md for the RunPod bridge.
 
 Observation fields are open-ended. `FEATURE_LAYERS` requests captures on future model
 forwards; uncaptured past features require explicit replay. `HISTORY_LIMIT` controls
@@ -83,10 +83,32 @@ uv run python scripts/run_main.py --cfg job
 bash scripts/check_environment.sh
 ```
 
-`conf/sd3_main.yaml` is the main-experiment template. `???` means a required experimental
-setting; it must be supplied before a real run. The downloaded local SD3 model path is
-already filled. Prompt JSONL rows require `id`, `prompt` and integer `seed`.
-The initial research plan uses 10 exploration images and 40 disjoint evaluation images.
+`conf/sd3_main.yaml` holds concrete SD3 defaults; `sd3_grid_skip.yaml` inherits them
+and changes only the method. `conf/sdxl_main.yaml` inherits shared settings and sets
+SDXL's model path, dtype, guidance and schedule length.
+
+Change SD3's original step count at `reference_steps` in `conf/sd3_main.yaml`.
+`max_nfe: ${reference_steps}` follows automatically; override max_nfe separately
+to impose a smaller real-model-call budget. SD3 defaults to 28 steps, SDXL to 30.
+Run these commands from the project root on the host holding the model weights:
+
+```bash
+# Print the resolved configuration without loading a model or calling an Agent.
+uv run python scripts/run_main.py --cfg job --resolve reference_steps=40
+
+# Run one of the four mechanisms; default mode has no Agent calls.
+uv run python scripts/run_main.py method=prediction_cache reference_steps=40
+uv run python scripts/run_main.py --config-name sdxl_main method=residual_cache
+
+# Prepare a NEW paired COCO-10 experiment using the same YAML defaults.
+uv run python scripts/prepare_coco10_grid.py --name coco10-next --runtime-root /path/to/runtime/project
+```
+
+Previously generated `sampler_runs/<experiment>/<arm>.json` files are fixed
+experiment snapshots. Editing YAML does not change them. To change an existing,
+not-yet-run JSON job, edit its `reference_steps` and `max_nfe` directly and choose
+a fresh `output_dir`; completed experiment records retain their original settings.
+Prompt JSONL rows require `id`, `prompt` and integer `seed`.
 
 Run modes are default / explore / evaluate. Exploration requires an explicitly configured
 Agent command; evaluation verifies a frozen manifest and makes no LLM calls.
@@ -112,7 +134,7 @@ CUDA stack. All model components remain present.
 
 ## Validation scope
 
-Eleven CPU checks pass, including exact tested scheduler-interval parity at shift 1 and 3.
+CPU checks cover scheduler-interval parity, all four methods, cache behavior and configuration.
 SD3 and SDXL each generated a valid 1024x1024 smoke image. These facts do not establish
 full adaptive-Pipeline parity, baseline reproduction, quality preservation or acceleration.
 The full SD3 Pipeline parity harness is `scripts/check_sd3_parity.py` and remains unrun.

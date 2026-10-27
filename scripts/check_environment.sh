@@ -9,12 +9,10 @@ uv sync || status=$?
 if test "$status" -eq 0; then
   uv run python -m compileall -q reactive_samplers scripts tests || status=$?
   uv run reactive-samplers --help || status=$?
-  uv run python scripts/run_main.py --cfg job || status=$?
+  uv run python scripts/run_main.py --cfg job --resolve || status=$?
   # Query the unactivated host interpreter: Ubuntu uses dist-packages, not site-packages.
   system_packages=$(python -c 'import sysconfig; print(sysconfig.get_path("purelib"))')
-  PYTHONPATH="$PWD:$system_packages" uv run --no-project --with diffusers==0.35.1 \
-    python -c 'import torch, diffusers; print("Scheduler test dependencies:", torch.__version__, diffusers.__version__)' || status=$?
-  PYTHONPATH="$PWD:$system_packages" uv run --no-project --with diffusers==0.35.1 \
+  PYTHONPATH="$PWD:$system_packages" uv run --no-project --with diffusers==0.35.1 --with hydra-core==1.3.2 \
     python -m unittest discover -s tests -v || status=$?
 fi
 printf '%s\n' "$status" > sampler_runs/setup/logs/environment-check.exit-code

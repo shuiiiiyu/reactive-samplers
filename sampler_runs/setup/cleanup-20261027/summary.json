@@ -1,0 +1,25 @@
+{
+  "changed_files": [
+    "README.md",
+    "conf/sd3_main.yaml",
+    "conf/sdxl_main.yaml",
+    "scripts/check_environment.sh",
+    "scripts/check_framework.sh",
+    "scripts/compare_mini20.py",
+    "scripts/make_coco_hpd_20.py",
+    "scripts/prepare_coco10_grid.py",
+    "scripts/prepare_mini20.py",
+    "scripts/run_trento_main_job.sh",
+    "tests/test_config.py"
+  ],
+  "removed_empty_directories": [
+    "sampler_runs/agent-cli-smoke-20261026-r2/trajectories/red_panda",
+    "sampler_runs/agent-cli-smoke-20261026-r2/images"
+  ],
+  "unit_tests_passed": 55,
+  "sd3_reference_steps": 28,
+  "sdxl_reference_steps": 30,
+  "max_nfe_follows_reference_steps": true,
+  "integrity_checks": "retained: removal rejected by automatic approval review",
+  "gpu_smoke_and_parity_tools": "retained"
+}

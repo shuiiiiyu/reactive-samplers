@@ -4,14 +4,18 @@ import json
 from pathlib import Path
 import random
 
+from hydra import compose, initialize_config_dir
+from omegaconf import OmegaConf
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--runtime-root', type=Path, default=ROOT)
+    parser.add_argument('--name', default='coco10-grid-20261027', help='New directory name under sampler_runs/')
     args = parser.parse_args()
-    relative = Path('sampler_runs/coco10-grid-20261027')
+    relative = Path('sampler_runs') / args.name
     output, runtime = ROOT / relative, args.runtime_root / relative
     output.mkdir(parents=True, exist_ok=False)
     old = set()
@@ -40,23 +44,20 @@ def main():
     policy.mkdir()
     (policy / 'analysis.py').write_text('FEATURE_LAYERS=[]\nHISTORY_LIMIT=0\ndef analyze(ctx,memory): return {}\n')
     (policy / 'updater.py').write_text('from reactive_samplers.context import SkipAction\ndef choose(obs,ctx,memory): return SkipAction(False)\n')
-    for model, folder, dtype, steps, cfg in (('sd3', 'sd3-medium', 'bfloat16', 28, 7.),
-                                           ('sdxl', 'sdxl-base-1.0', 'float16', 30, 5.)):
+    for model in ('sd3', 'sdxl'):
+        with initialize_config_dir(version_base=None, config_dir=str(ROOT / 'conf')):
+            config = OmegaConf.to_container(compose(config_name=f'{model}_main'), resolve=True)
+        config['model_path'] = str(args.runtime_root / config['model_path'])
         for arm in ('default', 'skip'):
-            config = {'model': model, 'method': 'grid_skip', 'mode': 'default' if arm == 'default' else 'explore',
-                'model_path': str(args.runtime_root / 'models' / folder), 'device': 'cuda', 'dtype': dtype,
-                'height': 1024, 'width': 1024, 'guidance_scale': cfg, 'max_sequence_length': 256,
-                'reference_steps': steps, 'max_nfe': steps, 'expected_count': 10,
+            arm_config = {**config, 'method': 'grid_skip', 'mode': 'default' if arm == 'default' else 'explore',
+                'expected_count': 10,
                 'prompts': str(runtime / 'prompts.jsonl'), 'output_dir': str(runtime / f'{model}_{arm}'),
                 'policy': str(runtime / 'keep_all') if arm == 'default' else None,
-                'verify_pipeline': model == 'sdxl', 'policy_timeout_seconds': 30,
                 'baseline_results': str(runtime / f'{model}_default/results.json') if arm == 'skip' else None,
-                'agent': {'backend': 'mailbox', 'command': [], 'timeout_seconds': 300,
-                          'poll_seconds': 1, 'schedule': 'every_step', 'checkpoints': []},
                 'metrics': {'names': ['hps_v2_1', 'clip_score'],
                     'clip_model': str(args.runtime_root / 'metrics/clip/checkpoints/ViT-B-32.pt'),
                     'hps_checkpoint': str(args.runtime_root / 'benchmarks/hps/checkpoints/hpsv2/HPS_v2.1_compressed.pt')}}
-            (output / f'{model}_{arm}.json').write_text(json.dumps(config, indent=2) + '\n')
+            (output / f'{model}_{arm}.json').write_text(json.dumps(arm_config, indent=2) + '\n')
     print(output)
 
 

@@ -1,21 +1,24 @@
-# Required experiment settings are intentionally unresolved until the environment is chosen.
-mode: ???                         # default | explore | evaluate
+# SD3 defaults. CLI overrides take precedence; --cfg job only prints the config.
+mode: default                     # default | explore | evaluate
 method: adaptive_sigma             # adaptive_sigma | grid_skip | prediction_cache | residual_cache
+model: sd3
 max_consecutive_skips: 4            # cache methods only; trusted maximum consecutive reuse nodes
 model_path: models/sd3-medium           # downloaded local Diffusers checkpoint
-device: ???
-dtype: ???
-height: ???
-width: ???
-guidance_scale: ???
-max_sequence_length: ???
-reference_steps: ???
-max_nfe: ???
-prompts: ???                      # JSONL: {id, prompt, seed, source}
-expected_count: ???               # initial plan: 10 explore / 40 evaluate
-output_dir: ???                   # fresh directory; never silently resume/overwrite
+device: cuda
+dtype: bfloat16
+height: 1024
+width: 1024
+guidance_scale: 7.0
+max_sequence_length: 256
+reference_steps: 28                # Original official schedule length: change SD3 steps here.
+max_nfe: ${reference_steps}        # Real backbone budget; can be reduced separately.
+prompts: sampler_runs/coco10-grid-20261027/prompts.jsonl
+expected_count: 10
+output_dir: sampler_runs/${model}-${method}-${now:%Y%m%d-%H%M%S}
 policy: null                      # required frozen directory in evaluate mode
 baseline_results: null            # optional paired reference feedback for exploration
+verify_pipeline: false
+policy_timeout_seconds: 30
 agent:
   backend: mailbox             # RunPod Codex CLI bridge; start bridge before Slurm job
   command: []                     # trusted bridge argv; {request}, {workspace} placeholders
